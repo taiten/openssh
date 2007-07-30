@@ -22,6 +22,12 @@ Description-bg: Създаване на нов файл с настройки за OpenSSH?
  Новият файл ще съдържа 'PermitRootLogin yes' (разрешавайки отдалечен достъп през ssh за административния потребител root). Подробности за причините за тази настройка има във файла README.Debian.
  .
  Препоръчва се да изберете създаването на нов файл с настройки.
+Description-ca: Voleu generar un nou fitxer de configuraciу per a l'OpenSSH?
+ Els fitxers de configuraciу de l'OpenSSH s'han modificat considerablement respecte als de Debian «Potato», versiу des de la qual sembla que esteu actualitzant. Aquest paquet pot generar ara un nou fitxer de configuraciу (/etc/sshd/sshd.config), que funcionarа amb la nova versiу del servidor perт no contindrа els parаmetres de configuraciу personalitzats de la versiу anterior.
+ .
+ Tingueu en compte que el nou fitxer de configuraciу establirа el valor de «PermitRootLogin» a «yes» (йs a dir, qualsevol que conegui la contrasenya de root podrа connectar-se directament mitjanзant ssh). Si us plau, llegiu el fitxer README.Debian per a mйs detalls sobre aquesta opciу.
+ .
+ Йs molt recomanable que trieu generar el nou fitxer de configuraciу ara.
 Description-cs: Vytvoшit novэ konfiguraиnн soubor OpenSSH?
  Tato verze OpenSSH mб oproti verzi dodбvanй s Debianem 2.2, kterou nynн pravdмpodobnм aktualizujete, znaиnм odli№nэ konfiguraиnн soubor. Balнk nynн mщѕe vytvoшit novэ konfiguraиnн soubor (/etc/ssh/sshd.config), kterэ bude fungovat s novou verzн serveru, ale nebude obsahovat ѕбdnй ъpravy, kterй jste provedli ve starй verzi.
  .
@@ -140,6 +146,10 @@ Description-bg: Да се прекъснат ли текущите връзки по SSH?
  Версията на /etc/init.d/ssh, която е инсталирана в момента е много вероятно да прекъсне активните връзки. Ако извършвате обновяването отдалечено има опасност връзката да се разпадне и процесът да не завърши нормално.
  .
  Това може да бъде поправено ръчно с добавянето на „--pidfile /var/run/sshd.pid“ към командата start-stop-daemon в раздела „stop“ на файла.
+Description-ca: Voleu arriscar-vos a aturar les sessions SSH actives?
+ Йs possible que la versiу de «/etc/init.d/ssh» que teniu instal·lada actualment aturi les instаncies de l'sshd que s'estan executant. Si esteu actualitzant des d'una sessiу SSH, йs possible que es talli la connexiу i quedi el procйs d'actualitzaciу a mitges.
+ .
+ Ho podeu arreglar afegint «--pidfile /var/run/sshd.pid» a la lнnia «start-stop-daemon» de la secciу «stop» del mateix fitxer.
 Description-cs: Chcete riskovat ukonиenн aktivnнch SSH spojenн?
  Stбvajнcн verze /etc/init.d/ssh pravdмpodobnм pozabнjн v№echny bмѕнcн instance sshd. Pokud tuto aktualizaci provбdнte pшes SSH, budete nejspн№e odpojeni a aktualizace skonин na pщli cesty.
  .
@@ -222,6 +232,10 @@ Description-bg: Необходим е нов ключ за хоста
  В момента ключа на хоста в /etc/ssh/ssh_host_key е шифриран с алгоритъма IDEA. OpenSSH не може да работи с този файл, а програмата ssh-keygen от старата инсталация не е налична.
  .
  Необходимо е да се генерира ръчно нов ключ за хоста.
+Description-ca: Nova clau obligatтria
+ L'actual clau de la mаquina, a /etc/ssh/ssh_host_key, estа xifrada amb l'algorisme IDEA. OpenSSH no pot gestionar aquest fitxer de clau, i no es pot trobar l'eina ssh-keygen de la instal·laciу d'SSH anterior (non-free).
+ .
+ Haureu de generar manualment una nova clau per a la mаquina.
 Description-cs: Nutnэ novэ serverovэ klни
  Aktuбlnн serverovэ klни v /etc/ssh/ssh_host_key je №ifrovanэ algoritmem IDEA. OpenSSH neumн tento soubor zpracovat a zdб se, ѕe utilita ssh-keygen ze starй (nesvobodnй) instalace SSH nenн k dispozici.
  .
@@ -310,6 +324,10 @@ Description-bg: Забрана на удостоверяването challenge-response?
  Изглежда че удостоверяването с парола е забранено в настройката на OpenSSH сървъра. За пълна забрана на използването на пароли за удостоверяване (вероятно оставяйки само удостоверяването с публичен ключ) е необходимо да бъде забранено удостоверяването „challenge-response“. В противен случай е нужно да се настрои PAM да не позволява удостоверяване чрез файловете с пароли стил Unix.
  .
  Ако удостоверяването chalenge-response е забрането, потребителите няма да могат да използват пароли за удостоверяване. Ако е разрешено (по подразбиране), настройката 'PasswordAuthentication no' няма да има ефект, освен ако не промените настройките за PAM в /etc/pam.d/ssh.
+Description-ca: Voleu desactivar l'autenticaciу «challenge-response»?
+ Sembla que l'autenticaciу per contrasenya estа desactivada en l'actual configuraciу del servidor OpenSSH. Per tal d'evitar que els usuaris entrin al sistema utilitzant contrasenyes (i utilitzin nomйs autenticaciу basada en clau pъblica), en les darreres versions d'OpenSSH heu de desactivar l'autenticaciу «challenge-response», o altrament assegurar-vos que la configuraciу de PAM no permet autenticar mitjanзant el fitxer de contrasenyes de Unix.
+ .
+ Si desactiveu l'autenticaciу «challenge-response», aleshores els usuaris no podran entrar utilitzant contrasenyes. Si la deixeu activada (que йs l'opciу predeterminada), aleshores «PasswordAuthentication no» no tindrа cap valor a menys que ajusteu la configuraciу de PAM a /etc/pam.d/ssh.
 Description-cs: Zakбzat autentizaci challenge-response?
  Zdб se, ѕe autentizace pomocн hesel je ve va№н stбvajнcн konfiguraci OpenSSH serveru zakбzбna. Abyste zabrбnili uѕivatelщm v pшihlб№enн pouze pomocн hesla, musнte v poslednнch verzнch OpenSSH zakбzat autentizaci challenge-response, nebo jinak zajistit, aby PAM nepovolilo autentizaci vщиi unixovйmu souboru hesel.
  .
