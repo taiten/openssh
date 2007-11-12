@@ -1,4 +1,3 @@
-
 Template: ssh/new_config
 Type: boolean
 Default: true
@@ -106,6 +105,12 @@ Description-pt: Gerar um ficheiro de configuraГЦo novo para o OpenSSH?
  Por favor note que este novo ficheiro de configuraГЦo terА 'PermitRootLogin' definido para 'yes' (o que significa que qualquer pessoa que saiba a palavra-chave de root pode ligar-se directamente como root a partir do ssh). Por favor leia o ficheiro README.Debian para mais detalhes sobre esta escolha.
  .
  и fortemente recomendado que escolha gerar um novo ficheiro de configuraГЦo agora.
+Description-pt_BR: Gerar um novo arquivo de configuraГЦo para o OpenSSH?
+ Esta versЦo do OpenSSH possui um arquivo de configuraГЦo consideravelmente diferente da versЦo fornecida com o Debian 'Potato', a versЦo do Debian a partir da qual vocЙ parece estar atualizando. Este pacote pode agora gerar um novo arquivo de configuraГЦo (/etc/ssh/sshd_config), o qual irА funcionar com a nova versЦo do servidor sshd mas nЦo irА conter nenhuma personalizaГЦo que vocЙ possa ter feito na versЦo anterior.
+ .
+ Por favor, note que este novo arquivo de configuraГЦo irА definir o valor da opГЦo 'PermitRootLogin' para 'yes' (o que significa que qualquer pessoa que conheГa a senha do root poderА conectar via ssh diretamente como root). Por favor, leia os arquivos README.Debian para maiores detalhes sobre essa escolha de design.
+ .
+ и fortemente recomendado que vocЙ escolha gerar um novo arquivo de configuraГЦo agora.
 Description-ru: Создать новый файл настроек для OpenSSH?
  Файл настроек этой версии OpenSSH значительно отличается от файла версии, которая поставлялась с Debian 'Potato', и которую вы, кажется, обновляете. Этот пакет может сейчас создать новый файл настроек (/etc/ssh/sshd.config), который будет работать с сервером новой версии, но не будет содержать настроек, которые вы сделали в старой версии.
  .
@@ -202,6 +207,10 @@ Description-pt: Quer arriscar matar sessУes activas de SSH?
  A versЦo do /etc/init.d/ssh que tem instalado provavelmente terminarА todas as instБncias de sshd. Se vai actualizar atravИs de uma sessЦo ssh, И possМvel que a sua sessЦo seja terminada e que deixe o procedimento de actualizaГЦo por terminar.
  .
  Isto pode ser arranjado adicionando "--pidfile /var/run/sshd.pid" Ю linha start-stop-daemon na secГЦo stop do ficheiro.
+Description-pt_BR: VocЙ deseja arriscar matar ("kill") as sessУes SSH ativas?
+ A versЦo instalada atualmente de /etc/init.d/ssh estА prestes a derrubar todas as instБncias sshd em execuГЦo. Se vocЙ estiver fazendo esta atualizaГЦo atravИs de uma sessЦo SSH, vocЙ provavelmente serА desconectado e deixarА este processo de atualizaГЦo incompleto.
+ .
+ VocЙ pode corrigir isto adicionando "--pidfile /var/run/sshd.pid" na linha start-stop-daemon na seГЦo stop deste arquivo.
 Description-ru: Вы хотите пойти на риск потерять активные SSH соединения?
  Установленная в настоящее время версия /etc/init.d/ssh, вероятно, уничтожит все запущенные экземпляры sshd. Если вы выполняете это обновление через SSH соединение, то скорее всего вы будете отключены и процедура обновления останется не завершенной.
  .
@@ -288,6 +297,10 @@ Description-pt: Uma nova chave de anfitriЦo И obrigatСria
  A chave actual, em /etc/ssh/ssh_host_key, estА cifrada com o algoritmo IDEA. O OpenSSH nЦo consegue usar este ficheiro, e o utilitАrio ssh-keygen da antiga (e nЦo livre) instalaГЦo do SSH nЦo parece estar disponМvel.
  .
  TerА de gerar manualmente uma nova chave para o host.
+Description-pt_BR: Nova chave de mАquina obrigatСria
+ A chave de mАquina atual, em /etc/ssh/ssh_host_key, И criptografada utilizando o algoritmo IDEA. O OpenSSH nЦo pode gerenciar esse arquivo de chave de mАquina, e o utilitАrio ssh-keygen da antiga (e nЦo livre) instalaГЦo SSH nЦo parece estar disponМvel.
+ .
+ VocЙ precisa gerar manualmente uma chave de mАquina.
 Description-ru: Необходим новый хост-ключ
  Текущий хост-ключ, /etc/ssh/ssh_host_key, зашифрован алгоритмом IDEA. OpenSSH не может работать с этим файлом хост-ключа, и утилита создания ssh-ключа (ssh-keygen) из прежней (не свободной) инсталляции SSH, кажется, недоступна.
  .
@@ -380,6 +393,10 @@ Description-pt: Desactivar autenticaГЦo por desafio-resposta?
  AutenticaГЦo por palavra-chave aparenta estar desactivada na sua configuraГЦo actual do servidor OpenSSH. De forma a impedir que os utilizadores se liguem usando palavras-chave (talvez usando apenas autenticaГЦo por chave pЗblica) com versУes recentes do OpenSSH, tem de desactivar a autenticaГЦo por desafio-resposta, ou assegurar-se que a sua configuraГЦo do PAM nЦo permite autenticaГЦo pelo ficheiro password de Unix.
  .
  Se desactivar autenticaГЦo por pedido-resposta, os utilizadores nЦo serЦo capazes de se ligar usando palavras-chave. Se deixar activado (a resposta por omissЦo), entЦo a opГЦo 'PasswordAuthentication no' nЦo terА efeito a nЦo ser que tambИm ajuste a configuraГЦo do PAM em /etc/pam.d/ssh.
+Description-pt_BR: Desabilitar autenticaГЦo desafio-resposta ("challenge-response")?
+ A autenticaГЦo atravИs de senha parece estar desabilitada em sua configuraГЦo atual do servidor OpenSSH. Para que seja possМvel evitar que usuАrios se autentiquem utilizando senhas (talvez utilizando somente autenticaГЦo atravИs de chaves pЗblicas) em versУes recentes do OpenSSH vocЙ deve desabilitar a autenticaГЦo desafio-resposta ("challenge-response") ou entЦo se certificar que sua configuraГЦo PAM nЦo permita autenticaГЦo atravИs do arquivos de senhas Unix ("password").
+ .
+ Caso vocЙ desabilite a autenticaГЦo desafio-resposta ("challenge-response"), os usuАrios nЦo poderЦo se autenticar utilizando suas senhas. Se vocЙ deixА-la habilitada (a resposta padrЦo), entЦo a opГЦo 'PasswordAuthentication no' nЦo terА efeito Зtil a menos que vocЙ tambИm ajuste sua configuraГЦo PAM em /etc/pam.d/ssh.
 Description-ru: Отключить аутентификацию запрос-ответ?
  Парольная аутентификация, кажется, отключена в текущей настройке сервера OpenSSH. Чтобы запретить пользователям вход с использованием паролей (возможно, использовав вместо этого только аутентификацию по публичному ключу) в новых версиях OpenSSH, вы должны отключить аутентификацию запрос-ответ, либо убедиться, что ваша настройка PAM не разрешает аутентификацию по файлу паролей Unix.
  .

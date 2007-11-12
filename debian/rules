@@ -73,7 +73,7 @@ endif
 # Change the version string to include the Debian version
 SSH_EXTRAVERSION := Debian-$(shell dpkg-parsechangelog | sed -n -e '/^Version:/s/Version: //p' | sed -e 's/[^-]*-//')
 
-DISTRIBUTOR := $(shell lsb_release -is || echo Debian)
+DISTRIBUTOR := $(shell lsb_release -is 2>/dev/null || echo Debian)
 ifeq ($(DISTRIBUTOR),Ubuntu)
 DEFAULT_PATH := /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/bin/X11:/usr/games
 else
@@ -123,7 +123,7 @@ clean:
 	dh_testdir
 	rm -f build-deb-stamp build-udeb-stamp
 	rm -rf build-deb build-udeb
-	-$(MAKE) -C contrib clean
+	$(MAKE) -C contrib clean
 	rm -f config.log
 ifeq ($(PO2DEBCONF),yes)
 	# Hack for woody compatibility. This makes sure that the
@@ -160,6 +160,7 @@ install: build
 	# Split off the server.
 	mv debian/openssh-client/usr/sbin/sshd debian/openssh-server/usr/sbin/
 	mv debian/openssh-client/usr/lib/openssh/sftp-server debian/openssh-server/usr/lib/openssh/
+	mv debian/openssh-client/usr/share/man/man5/authorized_keys.5 debian/openssh-server/usr/share/man/man5/
 	mv debian/openssh-client/usr/share/man/man5/sshd_config.5 debian/openssh-server/usr/share/man/man5/
 	mv debian/openssh-client/usr/share/man/man8/sshd.8 debian/openssh-server/usr/share/man/man8/
 	mv debian/openssh-client/usr/share/man/man8/sftp-server.8 debian/openssh-server/usr/share/man/man8/

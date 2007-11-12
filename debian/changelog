@@ -1,3 +1,25 @@
+openssh (1:4.6p1-6) unstable; urgency=low
+
+  * Remove blank line between head comment and first template in
+    debian/openssh-server.templates.master; apparently it confuses some
+    versions of debconf.
+  * Install authorized_keys(5) as a symlink to sshd(8) (thanks, Tomas
+    Pospisek; closes: #441817).
+  * Discard error output from dpkg-query in preinsts, in case the ssh
+    metapackage is not installed.
+  * Fix sshd/inittab advice in README.Debian to account for rc.d movement
+    (closes: #450632).
+  * Suppress error from debian/rules if lsb-release is not installed.
+  * Don't ignore errors from 'make -C contrib clean'.
+  * Adjust categories in ssh-askpass-gnome.desktop to comply with the
+    Desktop Menu Specification.
+  * debconf template translations:
+    - Add Slovak (thanks, Ivan Masár; closes: #441690).
+    - Update Brazilian Portuguese (thanks, Eder L. Marques;
+      closes: #447145).
+
+ -- Colin Watson <cjwatson@debian.org>  Mon, 12 Nov 2007 11:47:28 +0000
+
 openssh (1:4.6p1-5) unstable; urgency=low
 
   * Identify ssh as a metapackage rather than a transitional package. It's
