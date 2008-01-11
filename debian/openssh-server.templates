@@ -1,7 +1,16 @@
+# These templates have been reviewed by the debian-l10n-english
+# team
+#
+# If modifications/additions/rewording are needed, please ask
+# for an advice to debian-l10n-english@lists.debian.org
+#
+# Even minor modifications require translation updates and such
+# changes should be coordinated with translators and reviewers.
+#
 Template: ssh/new_config
 Type: boolean
 Default: true
-Description: Generate a new configuration file for OpenSSH?
+_Description: Generate a new configuration file for OpenSSH?
  This version of OpenSSH has a considerably changed configuration file from
  the version shipped in Debian 'Potato', which you appear to be upgrading
  from. This package can now generate a new configuration file
@@ -15,131 +24,11 @@ Description: Generate a new configuration file for OpenSSH?
  .
  It is strongly recommended that you choose to generate a new
  configuration file now.
-Description-bg: Ñúçäàâàíå íà íîâ ôàéë ñ íàñòğîéêè çà OpenSSH?
- Ôàéëúò ñ íàñòğîéêè â òàçè âåğñèÿ íà OpenSSH å ñèëíî ïğîìåíåí â ñğàâíåíèå ñ âåğñèÿòà â Debian 'Potato', êîÿòî èçãëåæäà ñå îáíîâÿâà. Ìîæå äà áúäå ñúçäàäåí íîâ ôàéë ñ íàñòğîéêè (/etc/ssh/sshd.config), êîéòî ùå ğàáîòè ñ íîâàòà âåğñèÿ, íî íÿìà äà ñúäúğæà åâåíòóàëíè ïğîìåíè îò ñòàğèÿ ôàéë.
- .
- Íîâèÿò ôàéë ùå ñúäúğæà 'PermitRootLogin yes' (ğàçğåøàâàéêè îòäàëå÷åí äîñòúï ïğåç ssh çà àäìèíèñòğàòèâíèÿ ïîòğåáèòåë root). Ïîäğîáíîñòè çà ïğè÷èíèòå çà òàçè íàñòğîéêà èìà âúâ ôàéëà README.Debian.
- .
- Ïğåïîğú÷âà ñå äà èçáåğåòå ñúçäàâàíåòî íà íîâ ôàéë ñ íàñòğîéêè.
-Description-ca: Voleu generar un nou fitxer de configuració per a l'OpenSSH?
- Els fitxers de configuració de l'OpenSSH s'han modificat considerablement respecte als de Debian «Potato», versió des de la qual sembla que esteu actualitzant. Aquest paquet pot generar ara un nou fitxer de configuració (/etc/sshd/sshd.config), que funcionarà amb la nova versió del servidor però no contindrà els paràmetres de configuració personalitzats de la versió anterior.
- .
- Tingueu en compte que el nou fitxer de configuració establirà el valor de «PermitRootLogin» a «yes» (és a dir, qualsevol que conegui la contrasenya de root podrà connectar-se directament mitjançant ssh). Si us plau, llegiu el fitxer README.Debian per a més detalls sobre aquesta opció.
- .
- És molt recomanable que trieu generar el nou fitxer de configuració ara.
-Description-cs: Vytvoøit novı konfiguraèní soubor OpenSSH?
- Tato verze OpenSSH má oproti verzi dodávané s Debianem 2.2, kterou nyní pravdìpodobnì aktualizujete, znaènì odli¹nı konfiguraèní soubor. Balík nyní mù¾e vytvoøit novı konfiguraèní soubor (/etc/ssh/sshd.config), kterı bude fungovat s novou verzí serveru, ale nebude obsahovat ¾ádné úpravy, které jste provedli ve staré verzi.
- .
- V novém konfiguraèním souboru bude parametr PermitRootLogin nastaven na hodnotu 'yes'. To znamená, ¾e se kdokoliv se znalostí rootova hesla mù¾e pøihlásit rovnou jako root. Více o tomto rozhodnutí se dozvíte v souboru README.Debian.
- .
- Je vøele doporuèeno nechat si nyní vytvoøit novı konfiguraèní soubor.
-Description-de: Eine neue Konfigurationsdatei für OpenSSH erzeugen?
- Diese Version von OpenSSH hat eine deutlich geänderte Konfigurationsdatei gegenüber der in »Potato« ausgelieferten Version, von der Sie anscheinend ein Upgrade durchführen. Dieses Paket kann jetzt eine neue Konfigurationsdatei (/etc/ssh/sshd.config) erzeugen, die mit der neuen Server-Version zusammenarbeitet, aber keine Anpassungen aus der alten Version enthält.
- .
- Bitte beachten Sie, dass die neue Konfigurationsdatei »PermitRootLogin« auf »yes« setzt (was bedeutet, dass jeder, der das Root-Passwort kennt, sich direkt via ssh als root anmelden kann). Bitte lesen Sie die Datei README.Debian für weitergehende Informationen über diese Design-Entscheidung.
- .
- Es wird nachdrücklich empfohlen, dass Sie jetzt eine neue Konfigurationsdatei erzeugen.
-Description-es: ¿Desea generar un nuevo fichero de configuración para OpenSSH?
- Esta versión de OpenSSH aha cambiado considerablemente el fichero de configuración del incluido en Debian 'Potato', que es la versión desde la que parece estar actualizando. Puede crear automáticamente un nuevo fichero de configuración (/etc/ssh/sshd.config), que funcionará con la nueva versión del servidor, pero no incuirá las modificaciones que hiciera en la versión antigua.
- .
- Además, recuerde que este nuevo fichero de configuración dirá sí en la opción «PermitRootLogin», por lo que cualquiera que conozca la contraseña de root podrá entrar mediante ssh directamente como root. Puede leer README.Debian si quiere conocer más información sobre esta elección de diseño.
- .
- Es muy recomendable que eliga generar un nuevo fichero de configuración ahora.
-Description-eu: OpenSSH-rentzat konfigurazio fitxategi berri bat sortu?
- OpenSSH bertsio honek konfigurazio  fitxategia nahiko aldatu du Debian 'Potato' bertsioak banatu zuenetik, dirudienez zu bertsio horretatik eguneratzen ari zara. Pakete honek konfigurazio fitxategi berri bat sortu dezake (/etc/ssh/sshd.config) bertsio honetarako funtziona dezan baina ez ditu zuk bertsio zaharrari egin ahal izan diezazkiokezun pertsonalizazioak edukiko.
- .
- Kontutan izan konfigurazio fitxategi berri honek 'PermitRootLogin' parametroan balioa 'yes' bezala ezarriko duela (honek root erabiltzaileak ssh bidez sartzeko aukera emango du). Mesedez irakurri README.Debian fitxategia ezarpen honen xehetasun gehiagorako.
- .
- Gomendagarria da konfigurazio fitxategi berri bat orain sortzea.
-Description-fr: Faut-il créer un nouveau fichier de configuration pour OpenSSH ?
- Cette version d'OpenSSH utilise un fichier de configuration qui a fortement changé depuis la version contenue dans la distribution Debian « Potato », depuis laquelle vous semblez faire une mise à jour. Un nouveau fichier de configuration (/etc/ssh/sshd.config) qui fonctionnera avec la nouvelle version du serveur peut être créé, mais ne contiendra aucun des réglages que vous aviez faits avec la version précédente.
- .
- Veuillez noter que ce nouveau fichier de configuration positionnera la valeur de « PermitRootLogin » à « yes » (ce qui signifie que quiconque connaissant le mot de passe du superutilisateur peut se connecter en tant que tel sur la machine). Veuillez consulter le fichier README.Debian pour plus d'informations à propos de ce choix.
- .
- Il est fortement recommandé de créer un nouveau fichier de configuration.
-Description-gl: ¿Xerar un novo ficheiro de configuración para OpenSSH?
- Esta versión de OpenSSH ten un ficheiro de configuración que cambiou moito con respecto á versión que se subministrou con Debian "Potato", desde a que semella que se está a actualizar. Este paquete pode xerar agora un novo ficheiro de configuración (/etc/ssh/sshd.config) que ha funcionar coa nova versión do servidor, pero que non ha conter ningunha personalización que teña feito na versión antiga.
- .
- Teña en conta que este novo ficheiro de configuración ha establecer o valor de de "PermitRootLogin" a "yes" (o que significa que calquera que coñeza o contrasinal do administrador ha poder conectarse directamente coma "root" mediante ssh). Consulte o ficheiro README.Debian para ter máis detalles sobre esta decisión de deseño.
- .
- Recoméndase encarecidamente que xere agora un novo ficheiro de configuración.
-Description-it: Generare un nuovo file di configurazione per OpenSSH?
- Questa versione di OpenSSH contiene un file di configurazione decisamente diverso da quello distribuito in Debian "Potato", che sembra essere quello che si sta aggiornando. Questo pacchetto è in grado di generare automaticamente un nuovo file di configurazione (/etc/ssh/sshd.config) adatto alla nuova versione del server, ma che non contiene nessuna delle personalizzazioni apportate nella precedente versione.
- .
- Notare che nel nuovo file di configurazione il valore di «PermitRootLogin» è impostato a «yes» (quindi chiunque conosca la password di root può collegarsi tramite ssh direttamente come root). Per ulteriori dettagli su questa scelta si veda il file README.Debian.
- .
- È vivamente raccomandata la scelta di far generare automaticamente un nuovo file di configurazione.
-Description-ja: OpenSSH ¤Î¿·¤·¤¤ÀßÄê¥Õ¥¡¥¤¥ë¤òºî¤ê¤Ş¤¹¤«?
- OpenSSH ¤Î¤³¤Î¥Ğ¡¼¥¸¥ç¥ó¤Ï¡¢Debian 'Potato' ¤ÇÄó¶¡¤·¤Æ¤¤¤¿¥Ğ¡¼¥¸¥ç¥ó (¤¤¤Ş¡¢¤½¤Î¥Ğ¡¼¥¸¥ç¥ó¤«¤é¤Î¥Ğ¡¼¥¸¥ç¥ó¥¢¥Ã¥×¤ò»î¤ß¤Æ¤¤¤ë¤È¤³¤í) ¤«¤é¡¢ÀßÄê¥Õ¥¡¥¤¥ë¤¬ÂçÉı¤ËÊÑ²½¤·¤Æ¤¤¤Ş¤¹¡£¤³¤Î¥Ñ¥Ã¥±¡¼¥¸¤Ï¡¢¿·¤·¤¤¥Ğ¡¼¥¸¥ç¥ó¤Î¥µ¡¼¥Ğ¤Ç»È¤¦¤³¤È¤¬¤Ç¤­¤ë¿·¤·¤¤ÀßÄê¥Õ¥¡¥¤¥ë (/etc/ssh/sshd.config) ¤òº£À¸À®¤¹¤ë¤³¤È¤¬¤Ç¤­¤Ş¤¹¤¬¡¢¸Å¤¤¥Ğ¡¼¥¸¥ç¥ó¤ÎÀßÄê¥Õ¥¡¥¤¥ë¤Ë²Ã¤¨¤Æ¤¤¤¿¥«¥¹¥¿¥Ş¥¤¥º¤Ï¤¤¤º¤ì¤â´Ş¤Ş¤ì¤Ş¤»¤ó¡£
- .
- ¤³¤Î¿·¤·¤¤ÀßÄê¥Õ¥¡¥¤¥ë¤Ï¡¢¡ÖPermitRootLogin¡×¤ò¡Öyes¡×¤ËÀßÄê¤·¤Ş¤¹ (¤Ä¤Ş¤ê¡¢root ¤Î¥Ñ¥¹¥ï¡¼¥É¤òÃÎ¤Ã¤Æ¤¤¤ë¿Í¤Ê¤éÃ¯¤Ç¤âÄ¾ÀÜ¥í¥°¥¤¥ó¤Ç¤­¤Ş¤¹)¡£¤³¤Î¤è¤¦¤ÊÀß·×¤òÁª¤ó¤Ç¤¤¤ëÍıÍ³¤Î¾ÜºÙ¤Ë¤Ä¤¤¤Æ¤Ï¡¢README.Debian ¤òÆÉ¤ó¤Ç¤¯¤À¤µ¤¤¡£
- .
- ¿·¤·¤¤ÀßÄê¥Õ¥¡¥¤¥ë¤òº£À¸À®¤¹¤ë¤³¤È¤ò¶¯¤¯¤ª´«¤á¤·¤Ş¤¹¡£
-Description-ko: OpenSSH ¼³Á¤ ÆÄÀÏÀ» »õ·Î ¸¸µé±î¿ä?
- ÀÌ¹ø OpenSSH ¹öÀüÀº Áö±İ »ç¿ëÇÏ°í °è½Ã´Â µíÇÑ µ¥ºñ¾È 'Potato'ÀÇ OpenSSH ¹öÀü°ú´Â Å©°Ô ´Ù¸¥ ¼³Á¤ ÆÄÀÏÀ» »ç¿ëÇÕ´Ï´Ù. ÀÌ ²Ù·¯¹Ì´Â »õ·Î ¼³Ä¡µÇ´Â ¼­¹ö ¹öÀü¿¡ ¸Â´Â ¼³Á¤ ÆÄÀÏ(/etc/ssh/sshd.config)À» »õ·Î ¸¸µé ¼ö ÀÖ½À´Ï´Ù¸¸, ÀÌÀü ¹öÀü¿¡¼­ º¯°æÇÑ ³»¿ªÀº Àû¿ëµÇÁö ¾Ê½À´Ï´Ù.
- .
- Âü°í·Î »õ·Î ¼³Ä¡µÇ´Â ¼³Á¤ÆÄÀÏÀº 'PermitRootLogin'ÀÇ °ªÀ» 'yes'·Î ¼³Á¤ÇÕ´Ï´Ù(µû¶ó¼­ root ºñ¹Ğ¹øÈ£¸¦ ¾Ë°í ÀÖ´Â »ç¶÷Àº ´©±¸³ª root·Î Á÷Á¢ ssh ·Î±×ÀÎÇÒ ¼ö ÀÖ½À´Ï´Ù). ÀÌ·¸°Ô °áÁ¤ÇÑ ÀÌÀ¯¿¡ ´ëÇØ¼­ ÀÚ¼¼È÷ ¾Ë°íÀÚ ÇÏ½Å´Ù¸é README.Debian ÆÄÀÏÀ» ÂüÁ¶ÇÏ½Ã±â ¹Ù¶ø´Ï´Ù.
- .
- ¼³Á¤ ÆÄÀÏÀ» Áö±İ »õ·Î ¸¸µå½Ã±æ °­·ÂÈ÷ ±ÇÀåÇÕ´Ï´Ù.
-Description-nb: Skal ny oppsettsfil for OpenSSH lages?
- Det ser ut til at du oppgraderer fra Debian «Potato», og denne versjonen av OpenSSH har ganske store endringer i oppsettsfila. Denne pakka kan nå lage en ny oppsettsfil (/etc/ssh/sshd.config) som fungerer med den nye tjenerversjonen, men ikke inneholder noen tilpasninger som kan være gjort lokalt i den gamle versjonen.
- .
- Merk at denne nye oppsettsfila setter verdien av «PermitRootLogin» til «yes» (slik at alle som kjenner root-passordet kan logge inn direkte med ssh som root). Les README.Debian-fila for å finne ut mer om dette oppsettsvalget.
- .
- Det anbefales sterkt at denne pakka får lov til å lage en ny oppsettsfil nå.
-Description-nl: Wilt u dat er een nieuw configuratiebestand aangemaakt wordt voor OpenSSH?
- Deze versie van OpenSSH gebruikt een configuratiebestand dat sterk veranderd is ten opzichte van dat in Debian 'Potato' (waarvan u lijkt op te waarderen). Het pakket kan nu een nieuw configuratiebestand (/etc/ssh/sshd.config) genereren dat met de nieuwe versie werkt. Dit gegenereerde bestand zal echter de door u gemaakte aanpassingen in het oude configuratiebestand niet overnemen.
- .
- Merk op dat dit nieuwe configuratiebestand de waarde van 'PermitRootLogin' op 'yes' zet (wat betekent dat iedereen die het root-wachtwoord kent via ssh rechtstreeks als root kan aanmelden). Meer informatie over deze ontwerpkeuze vindt u in het bestand README.Debian.
- .
- Het wordt ten sterkste aangeraden om nu het nieuwe configuratiebestand te laten genereren.
-Description-no: Skal ny oppsettsfil for OpenSSH lages?
- Det ser ut til at du oppgraderer fra Debian «Potato», og denne versjonen av OpenSSH har ganske store endringer i oppsettsfila. Denne pakka kan nå lage en ny oppsettsfil (/etc/ssh/sshd.config) som fungerer med den nye tjenerversjonen, men ikke inneholder noen tilpasninger som kan være gjort lokalt i den gamle versjonen.
- .
- Merk at denne nye oppsettsfila setter verdien av «PermitRootLogin» til «yes» (slik at alle som kjenner root-passordet kan logge inn direkte med ssh som root). Les README.Debian-fila for å finne ut mer om dette oppsettsvalget.
- .
- Det anbefales sterkt at denne pakka får lov til å lage en ny oppsettsfil nå.
-Description-pt: Gerar um ficheiro de configuração novo para o OpenSSH?
- Esta versão do OpenSSH tem um ficheiro de configuração bastante diferente da versão que vinha com o Debian 'Potato', que parece ser de onde está a actualizar. Este pacote pode agora gerar um novo ficheiro de configuração (/etc/ssh/sshd.config), que irá funcionar com a nova versão do servidor, mas não conterá nenhuma alteração que tenha feito à versão antiga.
- .
- Por favor note que este novo ficheiro de configuração terá 'PermitRootLogin' definido para 'yes' (o que significa que qualquer pessoa que saiba a palavra-chave de root pode ligar-se directamente como root a partir do ssh). Por favor leia o ficheiro README.Debian para mais detalhes sobre esta escolha.
- .
- É fortemente recomendado que escolha gerar um novo ficheiro de configuração agora.
-Description-pt_BR: Gerar um novo arquivo de configuração para o OpenSSH?
- Esta versão do OpenSSH possui um arquivo de configuração consideravelmente diferente da versão fornecida com o Debian 'Potato', a versão do Debian a partir da qual você parece estar atualizando. Este pacote pode agora gerar um novo arquivo de configuração (/etc/ssh/sshd_config), o qual irá funcionar com a nova versão do servidor sshd mas não irá conter nenhuma personalização que você possa ter feito na versão anterior.
- .
- Por favor, note que este novo arquivo de configuração irá definir o valor da opção 'PermitRootLogin' para 'yes' (o que significa que qualquer pessoa que conheça a senha do root poderá conectar via ssh diretamente como root). Por favor, leia os arquivos README.Debian para maiores detalhes sobre essa escolha de design.
- .
- É fortemente recomendado que você escolha gerar um novo arquivo de configuração agora.
-Description-ru: óÏÚÄÁÔØ ÎÏ×ÙÊ ÆÁÊÌ ÎÁÓÔÒÏÅË ÄÌÑ OpenSSH?
- æÁÊÌ ÎÁÓÔÒÏÅË ÜÔÏÊ ×ÅÒÓÉÉ OpenSSH ÚÎÁŞÉÔÅÌØÎÏ ÏÔÌÉŞÁÅÔÓÑ ÏÔ ÆÁÊÌÁ ×ÅÒÓÉÉ, ËÏÔÏÒÁÑ ĞÏÓÔÁ×ÌÑÌÁÓØ Ó Debian 'Potato', É ËÏÔÏÒÕÀ ×Ù, ËÁÖÅÔÓÑ, ÏÂÎÏ×ÌÑÅÔÅ. üÔÏÔ ĞÁËÅÔ ÍÏÖÅÔ ÓÅÊŞÁÓ ÓÏÚÄÁÔØ ÎÏ×ÙÊ ÆÁÊÌ ÎÁÓÔÒÏÅË (/etc/ssh/sshd.config), ËÏÔÏÒÙÊ ÂÕÄÅÔ ÒÁÂÏÔÁÔØ Ó ÓÅÒ×ÅÒÏÍ ÎÏ×ÏÊ ×ÅÒÓÉÉ, ÎÏ ÎÅ ÂÕÄÅÔ ÓÏÄÅÒÖÁÔØ ÎÁÓÔÒÏÅË, ËÏÔÏÒÙÅ ×Ù ÓÄÅÌÁÌÉ × ÓÔÁÒÏÊ ×ÅÒÓÉÉ.
- .
- ïÂÒÁÔÉÔÅ ×ÎÉÍÁÎÉÅ, ŞÔÏ ÜÔÏÔ ÎÏ×ÙÊ ÆÁÊÌ ÎÁÓÔÒÏÅË ÕÓÔÁÎÏ×ÉÔ ÚÎÁŞÅÎÉÅ ĞÁÒÁÍÅÔÒÁ 'PermitRootLogin' × 'yes' (ÜÔÏ ÏÚÎÁŞÁÅÔ, ŞÔÏ ËÁÖÄÙÊ ÚÎÁÀİÉÊ ĞÁÒÏÌØ ÓÕĞÅÒĞÏÌØÚÏ×ÁÔÅÌÑ ÍÏÖÅÔ ×ÏÊÔÉ × ÓÉÓÔÅÍÕ ĞÏ ssh ËÁË ÓÕĞÅÒĞÏÌØÚÏ×ÁÔÅÌØ). ğÏÖÁÌÕÊÓÔÁ, ĞÒÏŞÔÉÔÅ ÆÁÊÌ README.Debian ÄÌÑ ÒÁÚßÑÓÎÅÎÉÑ ÄÅÔÁÌÅÊ ÜÔÏÇÏ ×ÙÂÏÒÁ.
- .
- îÁÓÔÏÑÔÅÌØÎÏ ÒÅËÏÍÅÎÄÕÅÔÓÑ ×ÙÂÒÁÔØ ÓÅÊŞÁÓ ÓÏÚÄÁÎÉÅ ÎÏ×ÏÇÏ ÆÁÊÌÁ ÎÁÓÔÒÏÅË.
-Description-sv: Generera en ny konfigurationsfil för OpenSSH?
- Denna version av OpenSSH har ändrat konfigurationsfilen ansenligt från den version som skickades med i Debians "Potato"-utgåva som du verkar uppgradera från. Detta paket kan nu generera en ny konfigurationsfil (/etc/ssh/sshd.config) som kommer att fungera med den nya serverversionen men kommer inte att innehålla några anpassningar som du gjorde med den gamla versionen.
- .
- Observera att den nya konfigurationsfilen kommer att ställa in värdet för "PermitRootLogin" till "yes" (vilket betyder att vem som helst som kan root-lösenordet kan logga in direkt som root). Läs filen README.Debian för mer information om det här designvalet.
- .
- Det rekommenderas starkt att du väljer att generera en ny konfigurationsfil nu.
-Description-ta: à®“à®ªà®©à¯ à®à®¸à¯à®à®¸à¯à®¹à¯†à®šà¯ à®•à¯à®•à¯ à®ªà¯à®¤à®¿à®¯ à®µà®Ÿà®¿à®µà®®à¯ˆà®ªà¯à®ªà¯ à®•à¯‹à®ªà¯à®ªà¯ˆ à®‰à®°à¯à®µà®¾à®•à¯à®•à®µà®¾?
- à®‡à®¨à¯à®¤ à®ªà®¤à®¿à®ªà¯à®ªà¯ à®“à®ªà®©à¯ à®à®¸à¯à®à®¸à¯à®¹à¯†à®šà¯ à®¨à¯€à®™à¯à®•à®³à¯ à®®à¯‡à®®à¯à®ªà®Ÿà¯à®¤à¯à®¤à¯à®®à¯ à®Ÿà¯†à®ªà®¿à®¯à®©à¯ à®ªà¯Šà®Ÿà®¾à®Ÿà¯‹à®µà®¿à®²à¯ à®…à®®à¯ˆà®¨à¯à®¤ à®ªà®¤à®¿à®ªà¯à®ªà¯ˆ à®•à®¾à®Ÿà¯à®Ÿà®¿à®²à¯à®®à¯ à®®à®¿à®• à®®à®¾à®±à®¿à®¯ à®µà®Ÿà®¿à®µà®®à¯ à®‰à®Ÿà¯ˆà®¯à®¤à¯. à®‡à®¨à¯à®¤ à®ªà¯Šà®¤à®¿ à®‡à®ªà¯à®ªà¯‹à®¤à¯ à®ªà¯à®¤à®¿à®¯ à®µà®Ÿà®¿à®µà®®à¯ˆà®ªà¯à®ªà¯ à®•à¯‹à®ªà¯à®ªà¯ˆ à®‰à®°à¯à®µà®¾à®•à¯à®•à¯à®®à¯. (/etc/ssh/sshd.config). à®‡à®¤à¯ à®ªà¯à®¤à®¿à®¯ à®šà¯‡à®µà¯ˆà®¯à®• à®ªà®¤à®¿à®ªà¯à®ªà®¿à®²à¯ à®µà¯‡à®²à¯ˆ à®šà¯†à®¯à¯à®¯à¯à®®à¯. à®†à®©à®¾à®²à¯ à®¨à¯€à®™à¯à®•à®³à¯ à®ªà®´à¯ˆà®¯ à®ªà®¤à®¿à®ªà¯à®ªà®¿à®²à¯ à®šà¯†à®¯à¯à®¤ à®¤à®©à®¿à®ªà¯à®ªà®Ÿà¯à®¤à¯à®¤à®²à¯ à®‡à®¯à®²à®¾à®¤à¯.
- .
- à®‡à®¨à¯à®¤ à®ªà¯à®¤à®¿à®¯ à®µà®Ÿà®¿à®µà®®à¯ˆà®ªà¯à®ªà¯ à®•à¯‹à®ªà¯à®ªà¯ 'PermitRootLogin à®®à®¤à®¿à®ªà¯à®ªà¯ˆ à®†à®®à¯ à®à®© à®…à®®à¯ˆà®•à¯à®•à¯à®®à¯ à®à®© à®…à®±à®¿à®¯à®µà¯à®®à¯. à®…à®¤à®¾à®µà®¤à¯ à®°à¯‚à®Ÿà¯ à®•à®Ÿà®µà¯à®šà¯à®šà¯Šà®²à¯ à®…à®±à®¿à®¨à¯à®¤ à®¯à®¾à®°à¯à®®à¯ à®°à¯‚à®Ÿà¯à®Ÿà®¾à®• à®“à®ªà®©à¯ à®à®¸à¯à®à®¸à¯à®¹à¯†à®šà¯ à®µà®´à®¿à®¯à¯‡ à®‰à®³à¯à®¨à¯à®´à¯ˆà®¯à®²à®¾à®®à¯. à®‡à®¨à¯à®¤ à®µà®Ÿà®¿à®µà®®à¯ˆà®ªà¯à®ªà¯ à®•à¯à®±à®¿à®¤à¯à®¤à¯ à®®à¯‡à®²à¯à®®à¯ README.Debian à®•à¯‹à®ªà¯à®ªà®¿à®²à¯ à®•à®¾à®£à®µà¯à®®à¯.
- .
- à®¨à¯€à®™à¯à®•à®³à¯ à®‡à®ªà¯à®ªà¯‹à®¤à¯ à®ªà¯à®¤à®¿à®¯ à®µà®Ÿà®¿à®µà®®à¯ˆà®ªà¯à®ªà¯ à®•à¯‹à®ªà¯à®ªà¯ˆ à®‰à®°à¯à®µà®¾à®•à¯à®• à®¤à¯‡à®°à¯à®µà¯ à®šà¯†à®¯à¯à®¯ à®ªà®²à®®à®¾à®• à®ªà®°à®¿à®¨à¯à®¤à¯à®°à¯ˆà®•à¯à®•à®ªà¯à®ªà®Ÿà¯à®•à®¿à®±à®¤à¯.
-Description-vi: Tao ra táº­p tin cáº¥u hÃ¬nh má»›i cho OpenSSH khÃ´ng?
- PhiÃªn báº£n OpenSSH nÃ y cÃ³ má»™t táº­p tin cáº¥u hÃ¬nh Ä‘Ã£ thay Ä‘á»•i nhiá»u so vá»›i phiÃªn báº£n cÃ³ sáºµn trong báº£n phÃ¡t hÃ nh Â« Potato Â» cá»§a Debian, trong Ä‘Ã³ cÃ³ váº» lÃ  báº¡n Ä‘ang cáº­p nháº­t. GÃ³i nÃ y giá» cÃ³ kháº£ nÄƒng táº¡o ra má»™t táº­p tin cáº¥u hÃ¬nh má»›i (/etc/ssh/sshd.config), mÃ  sáº½ hoáº¡t Ä‘á»™ng Ä‘Æ°á»£c vá»›i phiÃªn báº£n trÃ¬nh phá»¥c vá»¥ má»›i, nhÆ°ng khÃ´ng cÃ²n chá»©a má»¥c sá»­a Ä‘á»•i nÃ o báº¡n Ä‘Ã£ táº¡o trong phiÃªn báº£n cÅ©.
- .
- Ghi chÃº ráº±ng táº­p tin cáº¥u hÃ¬nh má»›i nÃ y sáº½ Ä‘áº·t giÃ¡ trá»‹ cá»§a Â« PermitRootLogin Â» thÃ nh Â« yes Â» (cÃ³ : nghÄ©a lÃ  ngÆ°á»i nÃ o biáº¿t máº­t kháº©u ngÆ°á»i chá»§ thÃ¬ cÃ³ kháº£ nÄƒng truy cáº­p trá»±c tiáº¿p  qua ssh vá»›i tÆ° cÃ¡ch lÃ  ngÆ°á»i chá»§). Xem táº­p tin Äá»c Äi Â« README.Debian Â» Ä‘á»ƒ tÃ¬m thÃªm chi tiáº¿t vá» sá»± chá»n thiáº¿t káº¿ nÃ y.
- .
- Ráº¥t khuyÃªn báº¡n chá»n táº¡o ra táº­p tin cáº¥u hÃ¬nh má»›i ngay bÃ¢y giá».
 
 Template: ssh/use_old_init_script
 Type: boolean
 Default: false
-Description: Do you want to risk killing active SSH sessions?
+_Description: Do you want to risk killing active SSH sessions?
  The currently installed version of /etc/init.d/ssh is likely to kill
  all running sshd instances. If you are doing this upgrade via an SSH
  session, you're likely to be disconnected and leave the upgrade
@@ -147,181 +36,21 @@ Description: Do you want to risk killing active SSH sessions?
  .
  This can be fixed by manually adding "--pidfile /var/run/sshd.pid" to
  the start-stop-daemon line in the stop section of the file.
-Description-bg: Äà ñå ïğåêúñíàò ëè òåêóùèòå âğúçêè ïî SSH?
- Âåğñèÿòà íà /etc/init.d/ssh, êîÿòî å èíñòàëèğàíà â ìîìåíòà å ìíîãî âåğîÿòíî äà ïğåêúñíå àêòèâíèòå âğúçêè. Àêî èçâúğøâàòå îáíîâÿâàíåòî îòäàëå÷åíî èìà îïàñíîñò âğúçêàòà äà ñå ğàçïàäíå è ïğîöåñúò äà íå çàâúğøè íîğìàëíî.
- .
- Òîâà ìîæå äà áúäå ïîïğàâåíî ğú÷íî ñ äîáàâÿíåòî íà „--pidfile /var/run/sshd.pid“ êúì êîìàíäàòà start-stop-daemon â ğàçäåëà „stop“ íà ôàéëà.
-Description-ca: Voleu arriscar-vos a aturar les sessions SSH actives?
- És possible que la versió de «/etc/init.d/ssh» que teniu instal·lada actualment aturi les instàncies de l'sshd que s'estan executant. Si esteu actualitzant des d'una sessió SSH, és possible que es talli la connexió i quedi el procés d'actualització a mitges.
- .
- Ho podeu arreglar afegint «--pidfile /var/run/sshd.pid» a la línia «start-stop-daemon» de la secció «stop» del mateix fitxer.
-Description-cs: Chcete riskovat ukonèení aktivních SSH spojení?
- Stávající verze /etc/init.d/ssh pravdìpodobnì pozabíjí v¹echny bì¾ící instance sshd. Pokud tuto aktualizaci provádíte pøes SSH, budete nejspí¹e odpojeni a aktualizace skonèí na pùli cesty.
- .
- Mù¾ete to spravit ruèním pøidáním "--pidfile /var/run/sshd.pid" na øádek start-stop-daemon v sekci stop.
-Description-de: Wollen Sie das Beenden aktiver SSH-Sitzungen riskieren?
- Die derzeit installierte Version von /etc/init.d/ssh wird vermutlich Ihre aktiven ssh-Instanzen beenden. Falls Sie dieses Upgrade über eine SSH-Sitzung durchführen, dann wird die Verbindung wahrscheinlich getrennt und der Upgrade-Vorgang nicht beendet.
- .
- Dieses Problem kann behoben werden, indem »--pidfile /var/run/sshd.pid« an die start-stop-daemon-Zeile in dem Abschnitt »stop« der Datei /etc/init.d/ssh manuell hinzugefügt wird.
-Description-es: ¿Desea correr el riesgo de matar las sesiones SSH activas?
- La versión de /etc/init.d/ssh que tiene instalada es muy probable que mate todas las estancias que están ejecutándose de sshd. Es muy probable que se le desconecte y el procedimiento de actualización quede a medidas si continúa y está realizando esta actualizando.
- .
- Puede arreglarlo añadiendo manualmente «--pidfile /var/run/sshd.pid» a la línea «start-stop-daemon», en la sección «stop» del fichero.
-Description-eu: Irekirik dauden SSH saioak ixteko arriskua artu nahi duzu?
- Instalaturik dagoen /etc/init.d/ssh bertsioak martxan dauden sshd instantziak hilko ditu. Bertsio berritze hau SSH bidez egiten ari bazara, ziurrenik deskonektatu egingo zara eta bertsio berritze prozedura ez da behar bezala amaituko.
- .
- Hu eskuz konpondu daiteke  "--pidfile /var/run/sshd.pid" gehituaz start-stop-daemon lerroan fitxategiaren "stop" atalean.
-Description-fr: Voulez-vous risquer de rompre les sessions SSH actives ?
- La version de /etc/init.d/ssh actuellement installée va vraisemblablement interrompre toutes les instances de sshd en cours. Si vous êtes en train de faire cette mise à niveau à l'aide de SSH, la connexion sera probablement coupée et la mise à jour sera interrompue.
- .
- Cela peut être corrigé en ajoutant « --pidfile /var/run/sshd.pid » à la ligne « start-stop-daemon » dans /etc/init.d/ssh, dans la section « stop » du fichier.
-Description-gl: ¿Quere arriscarse a matar as sesións de SSH activas?
- É posible que a versión de /etc/init.d/ssh que instalou vaia matar tódalas instancias de sshd en execución. Se está a facer esta actualización mediante unha sesión SSH, é probable que se desconecte e este procedemento de actualización quede sen rematar.
- .
- Isto pode arranxarse engadindo "--pidfile /var/run/sshd.pid" á liña start-stop-daemon da sección stop do ficheiro.
-Description-it: Si vuole rischiare di terminare le sessioni SSH attive?
- È probabile che la versione di /etc/init.d/ssh attualmente installata termini tutte le istanze di sshd attive. Se si sta effettuando questo aggiornamento tramite una sessione SSH, è possibile che la sessione venga chiusa e che la procedura di aggiornamento rimanga incompleta.
- .
- È possibile evitare ciò aggiungendo manualmente «--pidfile /var/run/sshd.pid» alla riga start-stop-daemon nella sezione stop del file.
-Description-ja: ÀÜÂ³Ãæ¤Î SSH ¥»¥Ã¥·¥ç¥ó¤¬ÀÚ¤ì¤ë¤«¤â¤·¤ì¤Ş¤»¤ó¤¬¤è¤¤¤Ç¤¹¤«?
- ¸½ºß¥¤¥ó¥¹¥È¡¼¥ë¤µ¤ì¤¿¥Ğ¡¼¥¸¥ç¥ó¤Î /etc/init.d/ssh ¤Ï¡¢¤ª¤½¤é¤¯¼Â¹ÔÃæ¤Î sshd ¥¤¥ó¥¹¥¿¥ó¥¹¤ò¤¹¤Ù¤Æ»¦¤·¤Ş¤¹¡£¤³¤Î¥¢¥Ã¥×¥°¥ì¡¼¥É¤ò SSH ¥»¥Ã¥·¥ç¥ó·ĞÍ³¤Ç¹Ô¤Ã¤Æ¤¤¤ë¾ì¹ç¡¢¤¢¤Ê¤¿¤ÏÀÚÃÇ¤µ¤ì¡¢¥¢¥Ã¥×¥°¥ì¡¼¥É½èÍı¤ÏÉÔ´°Á´¤Ê¤Ş¤Ş¤Ë¤Ê¤ë¤Ç¤·¤ç¤¦¡£
- .
- ¤³¤Î¾õ¶·¤ò½¤Àµ¤¹¤ë¤Ë¤Ï¡¢¥Õ¥¡¥¤¥ë¤Î stop ¥»¥¯¥·¥ç¥ó¤Î start-stop-daemon ¤Î¹Ô¤Ë¡Ö--pidfile /var/run/sshd.pid¡×¤È¼êÆ°¤ÇÄÉ²Ã¤·¤Ş¤¹¡£
-Description-ko: ÇöÀç »ç¿ëÁßÀÎ SSH ¼¼¼ÇÀ» Á×¿©µµ ±¦Âú½À´Ï±î?
- ÇöÀç ¼³Ä¡µÈ /etc/init.d/ssh ¹öÀüÀº »ç¿ëÁßÀÎ sshd ÀÎ½ºÅÏ½º¸¦ ¸ğµÎ Á×ÀÏ °ÍÀÔ´Ï´Ù. ¸¸¾à SSH ¼¼¼ÇÀ» ÅëÇØ ÀÌ ¾÷±×·¹ÀÌµå¸¦ ÇÏ°í ÀÖ´Ù¸é µµÁß¿¡ ¿¬°áÀÌ ÇØÁ¦µÇ¾î ¾÷±×·¹ÀÌµå ÀÛ¾÷ÀÌ µµÁß¿¡ Áß´ÜµÉ ¼ö ÀÖ½À´Ï´Ù.
- .
- ÆÄÀÏÀÇ stop ±¸¿ª¿¡ ÀÖ´Â start-stop-daemon¿¡ "--pidfile /var/run/sshd.pid"À» Ãß°¡ÇÏ½Ã¸é ÀÌ ¹®Á¦¸¦ ÇØ°áÇÒ ¼ö ÀÖ½À´Ï´Ù.
-Description-nb: Vil du risikere å avbryte aktive SSH-økter?
- Den versjonen av /etc/init.d/ssh som nå er installert vil antakelig stoppe alle sshd-instanser som kjører. Hvis denne oppgraderingen gjøres over en SSH-økt, så risikerer du å bli frakoblet og oppgraderingen blir ikke fullført.
- .
- Dette kan rettes på ved å legge til manuelt «--pidfile /var/run/sshd.pid» til start-stop-daemon linja i stopp-delen av fila.
-Description-nl: Wilt u het afsluiten van actieve SSH-sessies riskeren?
- De /etc/init.d/ssh versie die u geïnstalleerd hebt sluit waarschijnlijk alle lopende sshd-instanties af. Als u deze opwaardering via een SSH-sessie uitvoert verliest u waarschijnlijk de verbinding waardoor de opwaarderingsprocedure onafgemaakt blijft.
- .
- U kunt dit handmatig repareren door "--pidfile /var/run/sshd.pid" toe te voegen aan de start-stop-daemon regel in de stop-sectie van het bestand.
-Description-no: Vil du risikere å avbryte aktive SSH-økter?
- Den versjonen av /etc/init.d/ssh som nå er installert vil antakelig stoppe alle sshd-instanser som kjører. Hvis denne oppgraderingen gjøres over en SSH-økt, så risikerer du å bli frakoblet og oppgraderingen blir ikke fullført.
- .
- Dette kan rettes på ved å legge til manuelt «--pidfile /var/run/sshd.pid» til start-stop-daemon linja i stopp-delen av fila.
-Description-pt: Quer arriscar matar sessões activas de SSH?
- A versão do /etc/init.d/ssh que tem instalado provavelmente terminará todas as instâncias de sshd. Se vai actualizar através de uma sessão ssh, é possível que a sua sessão seja terminada e que deixe o procedimento de actualização por terminar.
- .
- Isto pode ser arranjado adicionando "--pidfile /var/run/sshd.pid" à linha start-stop-daemon na secção stop do ficheiro.
-Description-pt_BR: Você deseja arriscar matar ("kill") as sessões SSH ativas?
- A versão instalada atualmente de /etc/init.d/ssh está prestes a derrubar todas as instâncias sshd em execução. Se você estiver fazendo esta atualização através de uma sessão SSH, você provavelmente será desconectado e deixará este processo de atualização incompleto.
- .
- Você pode corrigir isto adicionando "--pidfile /var/run/sshd.pid" na linha start-stop-daemon na seção stop deste arquivo.
-Description-ru: ÷Ù ÈÏÔÉÔÅ ĞÏÊÔÉ ÎÁ ÒÉÓË ĞÏÔÅÒÑÔØ ÁËÔÉ×ÎÙÅ SSH ÓÏÅÄÉÎÅÎÉÑ?
- õÓÔÁÎÏ×ÌÅÎÎÁÑ × ÎÁÓÔÏÑİÅÅ ×ÒÅÍÑ ×ÅÒÓÉÑ /etc/init.d/ssh, ×ÅÒÏÑÔÎÏ, ÕÎÉŞÔÏÖÉÔ ×ÓÅ ÚÁĞÕİÅÎÎÙÅ ÜËÚÅÍĞÌÑÒÙ sshd. åÓÌÉ ×Ù ×ÙĞÏÌÎÑÅÔÅ ÜÔÏ ÏÂÎÏ×ÌÅÎÉÅ ŞÅÒÅÚ SSH ÓÏÅÄÉÎÅÎÉÅ, ÔÏ ÓËÏÒÅÅ ×ÓÅÇÏ ×Ù ÂÕÄÅÔÅ ÏÔËÌÀŞÅÎÙ É ĞÒÏÃÅÄÕÒÁ ÏÂÎÏ×ÌÅÎÉÑ ÏÓÔÁÎÅÔÓÑ ÎÅ ÚÁ×ÅÒÛÅÎÎÏÊ.
- .
- üÔÏ ÍÏÖÅÔ ÂÙÔØ ÉÓĞÒÁ×ÌÅÎÏ ×ÒÕŞÎÕÀ ÄÏÂÁ×ÌÅÎÉÅÍ "--pidfile /var/run/sshd.pid" × ÓÔÒÏËÕ start-stop-daemon × ÒÁÚÄÅÌÅ stop ÜÔÏÇÏ ÆÁÊÌÁ.
-Description-sv: Vill du riskera att döda aktiva SSH-sessioner?
- Den för närvarande installerade versionen av /etc/init.d/ssh kommer antagligen döda alla körande instanser av sshd.  Om du gör denna uppgradering via en SSH-session kommer du sannolikt att kopplas ner och uppgraderingsprocessen lämnas ofärdig.
- .
- Det här kan rättas till genom att manuellt lägga till "--pidfile /var/run/sshd.pid" till raden "start-stop-daemon" i sektionen "stop" i filen.
-Description-ta: à®šà¯†à®¯à®²à®¿à®²à¯ à®‡à®°à¯à®•à¯à®•à¯à®®à¯ à®à®¸à¯à®à®¸à¯à®¹à¯†à®šà¯ à®…à®®à®°à¯à®µà¯à®•à®³à¯ˆ à®šà¯†à®¯à®²à¯ à®¨à¯€à®•à¯à®•à®®à¯ à®šà¯†à®¯à¯à®µà®¤à¯ˆ à®…à®©à¯à®®à®¤à®¿à®•à¯à®• à®µà®¿à®°à¯à®®à¯à®ªà¯à®•à®¿à®±à¯€à®•à®³à®¾?
- à®‡à®ªà¯à®ªà¯‹à®¤à¯ à®¨à®¿à®±à¯à®µà®¿à®¯à¯à®³à¯à®³ /etc/init.d/ssh à®ªà®¤à®¿à®ªà¯à®ªà¯ à®à®²à¯à®²à®¾ à®šà¯†à®¯à®²à®¿à®²à¯ à®‡à®°à¯à®•à¯à®•à¯à®®à¯ à®à®¸à¯à®à®¸à¯à®¹à¯†à®šà¯ à®…à®®à®°à¯à®µà¯à®•à®³à¯ˆ à®šà¯†à®¯à®²à¯ à®¨à¯€à®•à¯à®•à®®à¯ à®šà¯†à®¯à¯à®¯à¯à®®à¯. à®¨à¯€à®™à¯à®•à®³à¯ à®‡à®¨à¯à®¤ à®®à¯‡à®®à¯à®ªà®Ÿà¯à®¤à¯à®¤à®²à¯ˆ à®à®¸à¯à®à®¸à¯à®¹à¯†à®šà¯ à®…à®®à®°à¯à®µà¯ à®µà®´à®¿à®¯à®¾à®• à®šà¯†à®¯à¯à®¤à¯ à®•à¯Šà®£à¯à®Ÿà®¿à®°à¯à®¨à¯à®¤à®¾à®²à¯ à®µà®²à¯ˆ à®‡à®£à®ªà¯à®ªà¯ à®¤à¯à®£à¯à®Ÿà®¿à®•à¯à®•à®ªà¯à®ªà®Ÿà¯à®Ÿà¯ à®®à¯‡à®®à¯à®ªà®Ÿà¯à®¤à¯à®¤à®²à¯ à®¨à®¿à®±à¯ˆà®µà¯à®±à®¾à®¤à¯.
- .
- à®‡à®¤à¯ à®•à¯ˆà®®à¯à®±à¯ˆà®¯à®¾à®• à®•à¯‹à®ªà¯à®ªà®¿à®©à¯ à®¨à®¿à®±à¯à®¤à¯à®¤à¯ à®ªà®•à¯à®¤à®¿à®¯à®¿à®²à¯ à®†à®°à®®à¯à®ªà®¿-à®¨à®¿à®±à¯à®¤à¯à®¤à¯-à®•à®¿à®™à¯à®•à®°à®©à¯ à®µà®°à®¿à®¯à®¿à®²à¯ "--pidfile /var/run/sshd.pid" à®à®© à®šà¯‡à®°à¯à®ªà¯à®ªà®¤à®¾à®²à¯ à®šà®°à®¿ à®šà¯†à®¯à¯à®¯à®ªà¯à®ªà®Ÿà¯à®®à¯.
-Description-vi: Báº¡n cÃ³ muá»‘n rá»§i ro giáº¿t phiÃªn báº£n SSH cÃ²n hoáº¡t Ä‘á»™ng khÃ´ng?
- PhiÃªn báº£n Â« /etc/init.d/ssh Â» Ä‘Æ°á»£c cÃ i Ä‘áº·t hiá»‡n thá»i ráº¥t cÃ³ thá»ƒ sáº½ giáº¿t má»i tiáº¿n trÃ¬nh sshd Ä‘ang cháº¡y. Náº¿u báº¡n cÃ³ nÃ¢ng cáº¥p qua phiÃªn cháº¡y SSH, ráº¥t cÃ³ thá»ƒ báº¡n bá»‹ ngáº¯t káº¿t ná»‘i, Ä‘á»ƒ láº¡i tiáº¿n trÃ¬nh nÃ¢ng cáº¥p chÆ°a hoÃ n táº¥t.
- .
- Váº«n cÃ²n cÃ³ thá»ƒ sá»­a chá»¯a váº¥n Ä‘á» nÃ y, báº±ng cÃ¡ch thÃªm chuá»—i Â« --pidfile /var/run/sshd.pid Â» vÃ o dÃ²ng Â« start-stop-daemon Â» (khá»Ÿi/ngá»«ng cháº¡y trÃ¬nh ná»n) trong pháº§n Â« stop Â» (ngá»«ng cháº¡y) cá»§a táº­p tin Ä‘Ã³.
 
 Template: ssh/encrypted_host_key_but_no_keygen
 Type: note
-Description: New host key mandatory
+_Description: New host key mandatory
  The current host key, in /etc/ssh/ssh_host_key, is encrypted with the
  IDEA algorithm. OpenSSH can not handle this host key file, and the
  ssh-keygen utility from the old (non-free) SSH installation does not
  appear to be available.
  .
  You need to manually generate a new host key.
-Description-bg: Íåîáõîäèì å íîâ êëş÷ çà õîñòà
- Â ìîìåíòà êëş÷à íà õîñòà â /etc/ssh/ssh_host_key å øèôğèğàí ñ àëãîğèòúìà IDEA. OpenSSH íå ìîæå äà ğàáîòè ñ òîçè ôàéë, à ïğîãğàìàòà ssh-keygen îò ñòàğàòà èíñòàëàöèÿ íå å íàëè÷íà.
- .
- Íåîáõîäèìî å äà ñå ãåíåğèğà ğú÷íî íîâ êëş÷ çà õîñòà.
-Description-ca: Nova clau obligatòria
- L'actual clau de la màquina, a /etc/ssh/ssh_host_key, està xifrada amb l'algorisme IDEA. OpenSSH no pot gestionar aquest fitxer de clau, i no es pot trobar l'eina ssh-keygen de la instal·lació d'SSH anterior (non-free).
- .
- Haureu de generar manualment una nova clau per a la màquina.
-Description-cs: Nutnı novı serverovı klíè
- Aktuální serverovı klíè v /etc/ssh/ssh_host_key je ¹ifrovanı algoritmem IDEA. OpenSSH neumí tento soubor zpracovat a zdá se, ¾e utilita ssh-keygen ze staré (nesvobodné) instalace SSH není k dispozici.
- .
- Musíte ruènì vygenerovat novı serverovı klíè
-Description-de: Neuer Host-Schlüssel verpflichtend
- Der aktuelle Host-Schlüssel in /etc/ssh/ssh_host_key ist mit dem IDEA-Algorithmus verschlüsselt. OpenSSH kann diese Host-Schlüssel-Datei nicht verarbeiten und das ssh-keygen-Hilfswerkzeug von der alten (nicht-freien) SSH-Installation scheint nicht verfügbar zu sein.
- .
- Sie müssen manuell einen neuen Host-Schlüssel erzeugen.
-Description-es: Nueva clave de sistema obligatoria
- La clave actual de su sistema, en /etc/ssh/ssh_host_key, está cifrada con el algoritmo IDEA. OpenSSH no puede manejar este fichero de clave y tampoco parece estar disponible la utilidad «ssh-keygen» de la instalación antigua de SSH (no libre).
- .
- Debe generar manualmente una nueva clave de sistema.
-Description-eu: Ostalari gako berria beharrezkoa
- /etc/ssh/ssh_host_key-ko ostalari gakoa DEA algoritmoaren bidez enkriptaturik dago. OpenSSH ez da ostalari gako mota hau kudeatzeko gai eta SSH instalazio zaharreko (ez-librea) ssh-keygen lanabesa dirudienez ez dago erabilgarri.
- .
- Ostalari gako berri bat eskuz sortu behar duzu.
-Description-fr: Nouvelle clé d'hôte obligatoire
- La clé d'hôte actuelle, /etc/ssh/ssh_host_key, est chiffrée avec IDEA. OpenSSH ne peut utiliser ce fichier de clé, et l'utilitaire ssh-keygen de l'installation précédente (non libre) de SSH n'a pas été trouvé.
- .
- Vous devez générer une nouvelle clé d'hôte vous-même.
-Description-gl: É obrigatorio ter unha nova clave de servidor
- A clave de servidor actual, armacenada en /etc/ssh/ssh_host_key, está cifrada mediante o algoritmo IDEA. OpenSSH non pode xestionar este ficheiro de clave de servidor, e non semella que estea dispoñible a utilidade ssh-keygen da anterior instalación de SSH (non libre).
- .
- Ten que xerar unha nova clave de servidor.
-Description-it: Necessaria una nuova chiave host
- L'attuale chiave host, contenuta in /etc/ssh/ssh_host_key, è cifrata con l'algoritmo IDEA. OpenSSH non è in grado di gestire questa chiave host e non è disponibile il programma (non-free) ssh-keygen dalla precedente installazione di SSH.
- .
- È necessario generare manualmente una nuova chiave host.
-Description-ja: ¿·¤·¤¤¥Û¥¹¥È¥­¡¼¤¬É¬Í×¤Ç¤¹
- /etc/ssh/ssh_host_key ¤Ë¤¢¤ë¸½ºß¤Î¥Û¥¹¥È¥­¡¼¤Ï IDEA ¤Ç°Å¹æ²½¤µ¤ì¤Æ¤¤¤¢¤¹¡£OpenSSH ¤Ï¤³¤Î¥Û¥¹¥È¥­¡¼¥Õ¥¡¥¤¥ë¤ò°·¤¨¤º¡¢¸Å¤¤ (¥Õ¥ê¡¼¤Ç¤Ï¤Ê¤¤) SSH ¤Î ssh-keygen ¥æ¡¼¥Æ¥£¥ê¥Æ¥£¤Ï¤â¤¦ÍøÍÑ¤Ç¤­¤Ş¤»¤ó¡£
- .
- ¿·¤·¤¤¥Û¥¹¥È¥­¡¼¤ò¼êÆ°¤ÇÀ¸À®¤¹¤ëÉ¬Í×¤¬¤¢¤ê¤Ş¤¹¡£
-Description-ko: È£½ºÆ®Å° »õ·Î ¸¸µé¾î¾ß ÇÔ
- /etc/ssh/ssh_host_key¿¡ ÀÖ´Â ÇöÀç È£½ºÆ®Å°´Ã IDEA ¾Ë°í¸®ÁòÀ¸·Î ¾ÏÈ£È­µÇ¾îÀÖ½À´Ï´Ù. OpenSSH´Â ÀÌ È£½ºÆ®Å° ÆÄÀÏÀ» ´Ù·çÁö ¸øÇÏ¸ç, ÀÌÀü¿¡ ¼³Ä¡µÇ¾ú´ø (ºñÀÚÀ¯) SSH ÇÁ·Î±×·¥ÀÇ ssh-keygen ÀÀ¿ëÇÁ·Î±×·¥ÀÌ ¾ø´Â °Í °°½À´Ï´Ù.
- .
- È£½ºÆ®Å°¸¦ Á÷Á¢ »õ·Î »ı¼ºÇÏ¼Å¾ß ÇÕ´Ï´Ù.
-Description-nb: Ny vertsnøkkel obligatorisk
- Den gjeldende vertsnøkkelen, i /etc/ssh/ssh_host_key, er kryptert med IDEA-algoritmen. OpenSSH kan ikke håndtere denne vertsnøkkelfila, og det ser ikke ut til at verktøyet ssh-keygen fra den gamle (ikke-frie) SSH-installasjonen er tilgjengelig.
- .
- En ny vertsnøkkel må lages manuelt.
-Description-nl: Een nieuwe computersleutel is verplicht
- De huidige computersleutel in /etc/ssh/ssh_host_key is versleuteld met het IDEA-algoritme. OpenSSH kan dit computer-sleutelbestand niet aan, en het ssh-keygen programma van de oude (niet-vrije) SSH-installatie is niet beschikbaar.
- .
- U dient bijgevolg handmatig een nieuwe computersleutel te genereren.
-Description-no: Ny vertsnøkkel obligatorisk
- Den gjeldende vertsnøkkelen, i /etc/ssh/ssh_host_key, er kryptert med IDEA-algoritmen. OpenSSH kan ikke håndtere denne vertsnøkkelfila, og det ser ikke ut til at verktøyet ssh-keygen fra den gamle (ikke-frie) SSH-installasjonen er tilgjengelig.
- .
- En ny vertsnøkkel må lages manuelt.
-Description-pt: Uma nova chave de anfitrião é obrigatória
- A chave actual, em /etc/ssh/ssh_host_key, está cifrada com o algoritmo IDEA. O OpenSSH não consegue usar este ficheiro, e o utilitário ssh-keygen da antiga (e não livre) instalação do SSH não parece estar disponível.
- .
- Terá de gerar manualmente uma nova chave para o host.
-Description-pt_BR: Nova chave de máquina obrigatória
- A chave de máquina atual, em /etc/ssh/ssh_host_key, é criptografada utilizando o algoritmo IDEA. O OpenSSH não pode gerenciar esse arquivo de chave de máquina, e o utilitário ssh-keygen da antiga (e não livre) instalação SSH não parece estar disponível.
- .
- Você precisa gerar manualmente uma chave de máquina.
-Description-ru: îÅÏÂÈÏÄÉÍ ÎÏ×ÙÊ ÈÏÓÔ-ËÌÀŞ
- ôÅËÕİÉÊ ÈÏÓÔ-ËÌÀŞ, /etc/ssh/ssh_host_key, ÚÁÛÉÆÒÏ×ÁÎ ÁÌÇÏÒÉÔÍÏÍ IDEA. OpenSSH ÎÅ ÍÏÖÅÔ ÒÁÂÏÔÁÔØ Ó ÜÔÉÍ ÆÁÊÌÏÍ ÈÏÓÔ-ËÌÀŞÁ, É ÕÔÉÌÉÔÁ ÓÏÚÄÁÎÉÑ ssh-ËÌÀŞÁ (ssh-keygen) ÉÚ ĞÒÅÖÎÅÊ (ÎÅ Ó×ÏÂÏÄÎÏÊ) ÉÎÓÔÁÌÌÑÃÉÉ SSH, ËÁÖÅÔÓÑ, ÎÅÄÏÓÔÕĞÎÁ.
- .
- ÷ÁÍ ÎÕÖÎÏ ×ÒÕŞÎÕÀ ÓÏÚÄÁÔØ ÎÏ×ÙÊ ÈÏÓÔ-ËÌÀŞ.
-Description-sv: Ny värdnyckel är obligatorisk
- Den aktuella värdnyckel, i /etc/ssh/ssh_host_key, är krypterad med IDEA-algoritmen. OpenSSH kan inte hantera den här värdnyckelfilen och verktyget ssh-keygen från den gamla (ickefria) SSH-installationen verkar inte finnas tillgänglig.
- .
- Du behöver manuellt generera en ny värdnyckel.
-Description-ta: à®ªà¯à®¤à®¿à®¯ à®ªà¯à®°à®µà®²à®©à¯ à®µà®¿à®šà¯ˆ à®•à®Ÿà¯à®Ÿà®¾à®¯à®®à®¾à®•à¯à®®à¯
- à®‡à®ªà¯à®ªà¯‹à®¤à¯ˆà®¯ /etc/ssh/ssh_host_key à®‡à®²à¯ à®‰à®³à¯à®³ à®ªà¯à®°à®µà®²à®©à¯ à®µà®¿à®šà¯ˆ IDEA à®…à®²à¯à®•à®¾à®°à®¿à®¤à®¤à¯à®¤à®¿à®²à¯ à®•à¯à®±à®¿à®¯à¯€à®Ÿà¯ à®šà¯†à®¯à¯à®¯à®ªà¯à®ªà®Ÿà¯à®Ÿà®¤à¯. à®‡à®¨à¯à®¤ à®ªà¯à®°à®µà®²à®©à¯ à®µà®¿à®šà¯ˆà®¯à¯ˆ à®“à®ªà®©à¯ à®à®¸à¯à®à®¸à¯à®¹à¯†à®šà¯ à®•à¯ˆà®¯à®¾à®³ à®‡à®¯à®²à®¾à®¤à¯. à®ªà®´à¯ˆà®¯ à®ªà®¤à®¿à®ªà¯à®ªà®¿à®²à®¿à®°à¯à®¨à¯à®¤à¯ ssh-keygen à®ªà®¯à®©à¯à®ªà®¾à®Ÿà¯ à®‡à®°à¯à®ªà¯à®ªà®¿à®²à¯ à®‡à®²à¯à®²à¯ˆ.
- .
- à®¨à¯€à®™à¯à®•à®³à¯ à®•à¯ˆà®®à¯à®±à¯ˆà®¯à®¾à®• à®ªà¯à®¤à®¿à®¯ à®ªà¯à®°à®µà®²à®©à¯ à®µà®¿à®šà¯ˆà®¯à¯ˆ à®‰à®°à¯à®µà®¾à®•à¯à®• à®µà¯‡à®£à¯à®Ÿà¯à®®à¯.
-Description-vi: Báº¯t buá»™c pháº£i cÃ³ khoÃ¡ mÃ¡y má»›i
- KhÃ³a mÃ¡y hiá»‡n thá»i Â« /etc/ssh/ssh_host_key Â» Ä‘Æ°á»£c máº·t mÃ£ báº±ng thuáº­t toÃ¡n IDEA. OpenSSH khÃ´ng thá»ƒ quáº£n lÃ½ táº­p tin khoÃ¡ mÃ¡y kiá»ƒu nÃ y; cÅ©ng cÃ³ váº» lÃ  tiá»‡n Ã­ch Â« ssh-keygen Â» (táº¡o ra khoÃ¡ SSH) thuá»™c vá» báº£n cÃ i Ä‘áº·t SSH cÅ© (khÃ¡c tá»± do) khÃ´ng sáºµn sÃ ng.
- .
- Váº­y báº¡n cáº§n pháº£i tá»± táº¡o má»™t khÃ³a mÃ¡y má»›i.
 
 Template: ssh/disable_cr_auth
 Type: boolean
 Default: false
-Description: Disable challenge-response authentication?
+_Description: Disable challenge-response authentication?
  Password authentication appears to be disabled in the current OpenSSH
  server configuration. In order to prevent users from logging in using
  passwords (perhaps using only public key authentication instead) with
@@ -333,83 +62,3 @@ Description: Disable challenge-response authentication?
  able to log in using passwords. If you leave it enabled (the default
  answer), then the 'PasswordAuthentication no' option will have no useful
  effect unless you also adjust your PAM configuration in /etc/pam.d/ssh.
-Description-bg: Çàáğàíà íà óäîñòîâåğÿâàíåòî challenge-response?
- Èçãëåæäà ÷å óäîñòîâåğÿâàíåòî ñ ïàğîëà å çàáğàíåíî â íàñòğîéêàòà íà OpenSSH ñúğâúğà. Çà ïúëíà çàáğàíà íà èçïîëçâàíåòî íà ïàğîëè çà óäîñòîâåğÿâàíå (âåğîÿòíî îñòàâÿéêè ñàìî óäîñòîâåğÿâàíåòî ñ ïóáëè÷åí êëş÷) å íåîáõîäèìî äà áúäå çàáğàíåíî óäîñòîâåğÿâàíåòî „challenge-response“. Â ïğîòèâåí ñëó÷àé å íóæíî äà ñå íàñòğîè PAM äà íå ïîçâîëÿâà óäîñòîâåğÿâàíå ÷ğåç ôàéëîâåòå ñ ïàğîëè ñòèë Unix.
- .
- Àêî óäîñòîâåğÿâàíåòî chalenge-response å çàáğàíåòî, ïîòğåáèòåëèòå íÿìà äà ìîãàò äà èçïîëçâàò ïàğîëè çà óäîñòîâåğÿâàíå. Àêî å ğàçğåøåíî (ïî ïîäğàçáèğàíå), íàñòğîéêàòà 'PasswordAuthentication no' íÿìà äà èìà åôåêò, îñâåí àêî íå ïğîìåíèòå íàñòğîéêèòå çà PAM â /etc/pam.d/ssh.
-Description-ca: Voleu desactivar l'autenticació «challenge-response»?
- Sembla que l'autenticació per contrasenya està desactivada en l'actual configuració del servidor OpenSSH. Per tal d'evitar que els usuaris entrin al sistema utilitzant contrasenyes (i utilitzin només autenticació basada en clau pública), en les darreres versions d'OpenSSH heu de desactivar l'autenticació «challenge-response», o altrament assegurar-vos que la configuració de PAM no permet autenticar mitjançant el fitxer de contrasenyes de Unix.
- .
- Si desactiveu l'autenticació «challenge-response», aleshores els usuaris no podran entrar utilitzant contrasenyes. Si la deixeu activada (que és l'opció predeterminada), aleshores «PasswordAuthentication no» no tindrà cap valor a menys que ajusteu la configuració de PAM a /etc/pam.d/ssh.
-Description-cs: Zakázat autentizaci challenge-response?
- Zdá se, ¾e autentizace pomocí hesel je ve va¹í stávající konfiguraci OpenSSH serveru zakázána. Abyste zabránili u¾ivatelùm v pøihlá¹ení pouze pomocí hesla, musíte v posledních verzích OpenSSH zakázat autentizaci challenge-response, nebo jinak zajistit, aby PAM nepovolilo autentizaci vùèi unixovému souboru hesel.
- .
- Zaká¾ete-li autentizaci challenge-response, u¾ivatelé se nebudou moci pøihlásit pomocí hesel. Necháte-li ji povolenu (pøednastavená odpovìï), pak nebude mít volba 'PasswordAuthentication no' ¾ádnı efekt, pokud ov¹em neupravíte nastavení PAM v /etc/pam.d/ssh.
-Description-de: Challenge-response-Authentifizierung deaktivieren?
- Passwort-Authentifizierung scheint in der aktuellen OpenSSH-Server-Konfiguration deaktiviert zu sein. Um in neueren Versionen von OpenSSH zu verhindern, dass Benutzer sich unter Verwendung von Passwörtern anmelden (möglicherweise stattdessen nur unter Verwendung von Public-Key-Authentifizierung), müssen Sie Challenge-response-Authentifizierung deaktivieren oder ansonsten sicherstellen, dass Ihre PAM-Konfiguration keine Authentifizierung über Unix-Password-Dateien erlaubt.
- .
- Falls Sie Challenge-response-Authentifizierung deaktivieren, werden Benutzer nicht in der Lage sein, sich mit Passwörtern anzumelden. Falls Sie es aktiviert lassen (die Standard-Antwort) wird die »PasswordAuthentication no«-Einstellung keinen nützlichen Effekt haben, es sei denn, sie passen auch Ihre PAM-Konfiguration in /etc/pam.d/ssh an.
-Description-es: ¿Desea deshabilitar la autenticación basada en desafío-respuesta?
- Parece que la configuración actual de su servidor de OpenSSH tiene deshabilitada la autenticación mediante contraseñas. En las versiones recientes de OpenSSH para impedir que los usuarios se puedan conectar con contraseñas (y obligar la utilización de sistemas de autenticación con clave pública) debe deshabilitar la autenticación basada en desafío-respuesta o asegurarse de que su configuración PAM no permite autenticación basada en el fichero de contraseñas Unix.
- .
- Si deshabilita la autenticación mediante desafío-respuesta los usuarios no podrán acceder con contraseñas. Si la deja habilitada (respuesta por omisión) entonces la opción «PasswordAuthentication no» no tendrá ninguna utilidad a menos que ajuste su configuración de PAM en «/etc/pam.d/ssh».
-Description-eu: erronka-erantzun autentifikazioa ezgaitu?
- Pasahitz egiaztapena dirudienez ezgaiturik dago instalaturik dagoen OpenSSH konfigurazioan. Pasahitzak erabiliaz OpenSSH bertsio berrietan saio hastea ezintzeko (agian gako publiko autentifikazioa bakarrik erabiliaz), erronka-erantzun (challenge-response) autentifikazioa ezgaitu edo zure PAM konfigurazioak UNIX pasahitz fitxategi autentifikazioa onartzen ez duela ziurtatu beharko duzu.
- .
- Erronka-erantzun autentifikazioa ezgaituaz gero erabiltzaileak ez dira pasahitza erabiliaz saio hasteko gai izango. Berau gaiturik utziaz gero (lehentsiriko erantzuna), 'PasswordAuthentication no' aukerak ez du ondoriorik izango /etc/pam.d/ssh-eko PAM konfigurazioa doitzen ez baduzu.
-Description-fr: Faut-il désactiver l'authentification par défi-réponse ?
- L'authentification par mots de passe semble être désactivée dans la configuration actuelle du serveur OpenSSH. Afin d'empêcher les utilisateurs de se connecter avec un mot de passe (pour, par exemple n'autoriser que l'authentification par clé publique) avec les versions récentes d'OpenSSH, vous devez aussi désactiver l'authentification par défi-réponse, ou alors vous assurer que votre configuration de PAM n'autorise pas l'authentification avec le fichier de mots de passe Unix.
- .
- Si vous désactivez l'authentification par défi-réponse, alors les utilisateurs ne pourront pas se connecter en entrant un mot de passe. Si vous la laissez active (ce qui est la valeur par défaut), alors l'option « PasswordAuthentication no » n'aura d'effet que si vous ajustez aussi la configuration de PAM dans /etc/pam.d/ssh.
-Description-gl: ¿Desactivar a autenticación por desafío-resposta?
- Semella que a autenticación por contrasinal está desactivada na configuración actual do servidor de OpenSSH. Para impedir que os usuarios se conecten empregando contrasinais (empregando no seu canto, por exemplo, autenticación mediante clave pública), nas versións recentes de OpenSSH ten que desactivar a autenticación por desafío-resposta ou asegurarse de que a súa configuración de PAM non permita a autenticación por ficheiro de contrasinais de Unix.
- .
- Se desactiva a autenticación por desafío-resposta, os usuarios non han poder conectarse empregando contrasinais. Se a deixa activada (a resposta por defecto) a opción "PasswordAuthentication no" non ha ter ningún efecto útil a menos que tamén axuste a súa configuración de PAM en /etc/pam.d/ssh.
-Description-it: Disabilitare l'autenticazione interattiva?
- Nell'attuale configurazione del server OpenSSH è disabilitata l'autenticazione tramite password. Con le versioni più recenti di OpenSSH per impedire l'accesso degli utenti al sistema con la password (per esempio l'accesso deve essere possibile solo tramite chiavi pubbliche) si deve disabilitare l'autenticazione interattiva oppure si deve verificare che PAM sia configurato in modo da non consentire l'autenticazione tramite il file delle password Unix.
- .
- Se l'autenticazione interattiva è disabilitata gli utenti non possono effettuare l'accesso al sistema con la password. Invece se, come previsto dalla configurazione predefinita, è abilitata allora l'opzione «PasswordAuthentication no» non ha effetto fino a quando non si interviene anche sulla configurazione di PAM in /etc/pam.d/ssh.
-Description-ja: ¥Á¥ã¥ì¥ó¥¸-¥ì¥¹¥İ¥ó¥¹Ç§¾Ú¤òÌµ¸ú¤Ë¤·¤Ş¤¹¤«?
- ¸½ºß¤Î OpenSSH ¥µ¡¼¥Ğ¤ÎÀßÄê¤Ç¤Ï¥Ñ¥¹¥ï¡¼¥ÉÇ§¾Ú¤¬Ìµ¸ú¤Ë¤Ê¤Ã¤Æ¤¤¤ë¤è¤¦¤Ç¤¹¡£OpenSSH ¤ÎºÇ¶á¤Î¥Ğ¡¼¥¸¥ç¥ó¤Ç¥Ñ¥¹¥ï¡¼¥É¤ò»È¤Ã¤Æ¥æ¡¼¥¶¤¬¥í¥°¥¤¥ó¤¹¤ë¤Î¤òËÉ¤° (Â¿Ê¬¸ø³«¸°Ç§¾Ú¤À¤±¤òÂå¤ï¤ê¤Ë»È¤¦) ¤¿¤á¤Ë¤Ï¡¢¥Á¥ã¥ì¥ó¥¸-¥ì¥¹¥İ¥ó¥¹Ç§¾Ú¤òÌµ¸ú¤Ë¤¹¤ë¤«¡¢PAM ÀßÄê¤Ç Unix ¥Ñ¥¹¥ï¡¼¥É¥Õ¥¡¥¤¥ëÇ§¾Ú¤òÀäÂĞ¤Ëµö²Ä¤·¤Ê¤¤¤è¤¦¤Ë¤¹¤ëÉ¬Í×¤¬¤¢¤ê¤Ş¤¹¡£
- .
- ¥Á¥ã¥ì¥ó¥¸-¥ì¥¹¥İ¥ó¥¹Ç§¾Ú¤òÌµ¸ú¤Ë¤¹¤ë¾ì¹ç¡¢¥æ¡¼¥¶¤Ï¥Ñ¥¹¥ï¡¼¥É¤ò»È¤Ã¤Æ¥í¥°¥¤¥ó¤Ç¤­¤Ê¤¯¤Ê¤ê¤Ş¤¹¡£Í­¸ú (¥Ç¥Õ¥©¥ë¥È) ¤Î¤Ş¤Ş¤Ë¤·¤Æ¤ª¤¯¤È¡¢/etc/pam.d/ssh ¤Ë¤¢¤ë PAM ÀßÄê¤òÄ´Àá¤·¤Ê¤¤¸Â¤ê¡¢'PasswordAuthentication no' ¥ª¥×¥·¥ç¥ó¤Ï¸ú²Ì¤ò»ı¤¿¤Ê¤¯¤Ê¤ê¤Ş¤¹¡£
-Description-ko: Á¦±â-ÀÀ´ä ÀÎÁõ¹æ½ÄÀ» ÇØÁ¦ÇÏµµ·Ï ÇÒ±î¿ä?
- ÇöÀçÀÇ OpenSSH ¼­¹ö ¼³Á¤¿¡ ºñ¹Ğ¹øÈ£ ÀÎÁõ¹æ½ÄÀÌ ÇØÁ¦µÇ¾î ÀÖ½À´Ï´Ù. ÃÖ±Ù ¹öÀüÀÇ OpenSSH¿¡¼­ »ç¿ëÀÚµéÀÌ (°ø°³Å° ¹æ½Ä¸¸ Çã¿ëÇÏ±â À§ÇØ¼­ µîÀÇ ÀÌÀ¯·Î) ºñ¹Ğ¹øÈ£·Î ·Î±×ÀÎÇÏÁö ¸øÇÏµµ·Ï ÇÏ½Ã·Á¸é Á¦±â-ÀÀ´ä ÀÎÁõ¹æ½ÄÀ» ÇØÁ¦ÇÏ½ÃµçÁö À¯´Ğ½º password ÆÄÀÏ ÀÎÁõ¹æ½ÄÀ» »ç¿ëÇÏÁö ¸øÇÏµµ·Ï PAM ¼³Á¤À» ÇÏ¼Å¾ß ÇÕ´Ï´Ù.
- .
- Á¦±â-ÀÀ´ä ÀÎÁõ¹æ½ÄÀ» ÇØÁ¦ÇÏ¸é »ç¿ëÀÚµéÀº ºñ¹Ğ¹øÈ£¸¦ ÀÌ¿ëÇÏ¿© ·Î±×ÀÎÇÏÁö ¸øÇÏ°Ô µË´Ï´Ù. (±âº» ¼³Á¤´ë·Î) ÇØÁ¦ÇÏÁö ¾ÊÀ¸½Ã¸é /etc/pam.d/ssh¿¡ ÀÖ´Â PAM ¼³Á¤À» º¯°æÇÏÁö ¾ÊÀ¸½Ç °æ¿ì 'PasswordAuthentication no' ¿É¼ÇÀº ¾Æ¹«·± ¿µÇâÀ» ÁÖÁö ¸øÇÕ´Ï´Ù.
-Description-nb: Skal autentisering med utfordring/svar slås av?
- Det ser ut til at passord-autentisering er slått av i det gjeldende tjeneroppsettet for OpenSSH. For å hindre brukere i å logge inn med passord med nyere versjoner av OpenSSH (kanskje med autentisering med kryptonøkler i stedet), så må autentisering med utfordring-svar slås av, eller det må sjekkes at PAM-oppsettet er satt til ikke å tillate autentisering mot Unix passord-fila.
- .
- Hvis autentisering med utfordring-svar er slått av, så kan brukere ikke logge inn med passord. Hvis det står på (som er standard), så har det ingen virkning å sette «PasswordAuthentication no» med mindre PAM-oppsettet i /etc/pam.d/ssh også justeres.
-Description-nl: Challenge-response-authenticatie deactiveren?
- Zo te zien is wachtwoord-authenticatie momenteel gedeactiveerd in uw OpenSSH-serverconfiguratie. Om te voorkomen dat gebruikers van recente OpenSSH-versies inloggen met behulp van wachtwoorden (en in plaats daarvan enkel publieke-sleutel authenticatie te gebruiken), dient challenge-response-authenticatie gedeactiveerd te worden, of dient u ervoor te zorgen dat uw PAM-configuratie geen Unix 'password'-bestand-authenticatie toe laat.
- .
- Wanneer u challenge-response-authenticatie deactiveert kunnen gebruikers niet meer inloggen met behulp van wachtwoorden. Als u het geactiveerd laat (de standaarwaarde) zal de 'PasswordAuthentication no' optie geen (nuttig) effect hebben tenzij u ook de PAM-configuratie aanpast in /etc/pam.d/ssh.
-Description-no: Skal autentisering med utfordring/svar slås av?
- Det ser ut til at passord-autentisering er slått av i det gjeldende tjeneroppsettet for OpenSSH. For å hindre brukere i å logge inn med passord med nyere versjoner av OpenSSH (kanskje med autentisering med kryptonøkler i stedet), så må autentisering med utfordring-svar slås av, eller det må sjekkes at PAM-oppsettet er satt til ikke å tillate autentisering mot Unix passord-fila.
- .
- Hvis autentisering med utfordring-svar er slått av, så kan brukere ikke logge inn med passord. Hvis det står på (som er standard), så har det ingen virkning å sette «PasswordAuthentication no» med mindre PAM-oppsettet i /etc/pam.d/ssh også justeres.
-Description-pt: Desactivar autenticação por desafio-resposta?
- Autenticação por palavra-chave aparenta estar desactivada na sua configuração actual do servidor OpenSSH. De forma a impedir que os utilizadores se liguem usando palavras-chave (talvez usando apenas autenticação por chave pública) com versões recentes do OpenSSH, tem de desactivar a autenticação por desafio-resposta, ou assegurar-se que a sua configuração do PAM não permite autenticação pelo ficheiro password de Unix.
- .
- Se desactivar autenticação por pedido-resposta, os utilizadores não serão capazes de se ligar usando palavras-chave. Se deixar activado (a resposta por omissão), então a opção 'PasswordAuthentication no' não terá efeito a não ser que também ajuste a configuração do PAM em /etc/pam.d/ssh.
-Description-pt_BR: Desabilitar autenticação desafio-resposta ("challenge-response")?
- A autenticação através de senha parece estar desabilitada em sua configuração atual do servidor OpenSSH. Para que seja possível evitar que usuários se autentiquem utilizando senhas (talvez utilizando somente autenticação através de chaves públicas) em versões recentes do OpenSSH você deve desabilitar a autenticação desafio-resposta ("challenge-response") ou então se certificar que sua configuração PAM não permita autenticação através do arquivos de senhas Unix ("password").
- .
- Caso você desabilite a autenticação desafio-resposta ("challenge-response"), os usuários não poderão se autenticar utilizando suas senhas. Se você deixá-la habilitada (a resposta padrão), então a opção 'PasswordAuthentication no' não terá efeito útil a menos que você também ajuste sua configuração PAM em /etc/pam.d/ssh.
-Description-ru: ïÔËÌÀŞÉÔØ ÁÕÔÅÎÔÉÆÉËÁÃÉÀ ÚÁĞÒÏÓ-ÏÔ×ÅÔ?
- ğÁÒÏÌØÎÁÑ ÁÕÔÅÎÔÉÆÉËÁÃÉÑ, ËÁÖÅÔÓÑ, ÏÔËÌÀŞÅÎÁ × ÔÅËÕİÅÊ ÎÁÓÔÒÏÊËÅ ÓÅÒ×ÅÒÁ OpenSSH. şÔÏÂÙ ÚÁĞÒÅÔÉÔØ ĞÏÌØÚÏ×ÁÔÅÌÑÍ ×ÈÏÄ Ó ÉÓĞÏÌØÚÏ×ÁÎÉÅÍ ĞÁÒÏÌÅÊ (×ÏÚÍÏÖÎÏ, ÉÓĞÏÌØÚÏ×Á× ×ÍÅÓÔÏ ÜÔÏÇÏ ÔÏÌØËÏ ÁÕÔÅÎÔÉÆÉËÁÃÉÀ ĞÏ ĞÕÂÌÉŞÎÏÍÕ ËÌÀŞÕ) × ÎÏ×ÙÈ ×ÅÒÓÉÑÈ OpenSSH, ×Ù ÄÏÌÖÎÙ ÏÔËÌÀŞÉÔØ ÁÕÔÅÎÔÉÆÉËÁÃÉÀ ÚÁĞÒÏÓ-ÏÔ×ÅÔ, ÌÉÂÏ ÕÂÅÄÉÔØÓÑ, ŞÔÏ ×ÁÛÁ ÎÁÓÔÒÏÊËÁ PAM ÎÅ ÒÁÚÒÅÛÁÅÔ ÁÕÔÅÎÔÉÆÉËÁÃÉÀ ĞÏ ÆÁÊÌÕ ĞÁÒÏÌÅÊ Unix.
- .
- åÓÌÉ ×Ù ÚÁĞÒÅÔÉÔÅ ÁÕÔÅÎÔÉÆÉËÁÃÉÀ ÚÁĞÒÏÓ-ÏÔ×ÅÔ, ĞÏÌØÚÏ×ÁÔÅÌÉ ÎÅ ÓÍÏÇÕÔ ×ÏÊÔÉ Ó ÉÓĞÏÌØÚÏ×ÁÎÉÅÍ ĞÁÒÏÌÅÊ. åÓÌÉ ×Ù ÏÓÔÁ×ÉÔÅ Å£ ÒÁÚÒÅÛÅÎÎÏÊ (ÏÔ×ÅÔ ĞÏ ÕÍÏÌŞÁÎÉÀ), ÔÏ ĞÁÒÁÍÅÔÒ 'PasswordAuthentication no' ÎÅ ÂÕÄÅÔ ÉÍÅÔØ ÓÉÌÙ, ÄÏ ÔÅÈ ĞÏÒ, ĞÏËÁ ×Ù ÔÁËÖÅ ÎÅ ÏÔËÏÒÒÅËÔÉÒÕÅÔÅ ÎÁÓÔÒÏÊËÉ PAM × /etc/pam.d/ssh.
-Description-sv: Inaktivera challenge-response-autentisering?
- Lösenordsautentisering verkar vara inaktiverat i din aktuella konfiguration av OpenSSH-servern. För att förhindra att användare loggar in med lösenord (istället kanske endast använder publik nyckelautentisering) med senare versioner av OpenSSH, måste du inaktivera challenge-response-autentisering eller försäkra dig om att din PAM-konfiguration inte tillåter autentisering via Unix lösenordsfil.
- .
- Om du inaktiverar  challenge-response-autentisering så kan användarna inte logga in med lösenord. Om du lämnar det aktiverat (som är standard) så kommer "PasswordAuthentication no" inte att ha någon effekt om du inte justerar din PAM-konfiguration i /etc/pam.d/ssh.
-Description-ta: à®•à¯‡à®³à¯à®µà®¿ à®ªà®¤à®¿à®²à¯ à®‰à®±à¯à®¤à®¿à®ªà¯à®ªà®Ÿà¯à®¤à¯à®¤à®²à¯ˆ à®šà¯†à®¯à®²à®¿à®´à®•à¯à®• à®šà¯†à®¯à¯à®¯à®µà®¾?
- à®‡à®ªà¯à®ªà¯‹à®¤à¯ˆà®¯ à®“à®ªà®©à¯ à®à®¸à¯à®à®¸à¯à®¹à¯†à®šà¯ à®šà¯‡à®µà¯ˆà®¯à®• à®µà®Ÿà®¿à®µà®®à¯ˆà®ªà¯à®ªà®¿à®²à¯ à®•à®Ÿà®µà¯à®šà¯à®šà¯Šà®²à¯ à®‰à®±à¯à®¤à®¿à®ªà¯à®ªà®Ÿà¯à®¤à¯à®¤à®²à¯ˆ à®šà¯†à®¯à®²à®¿à®´à®•à¯à®• à®šà¯†à®¯à¯à®¤à¯à®³à¯à®³à®¤à¯. (à®¤à®¿à®±à®¨à¯à®¤ à®µà®¿à®šà¯ˆà®¯à¯ˆ à®ªà®¯à®©à¯à®ªà®Ÿà¯à®¤à¯à®¤à®¿) à®ªà®¯à®©à®°à¯à®•à®³à¯ à®‰à®³à¯à®¨à¯à®´à¯ˆà®µà®¤à¯ˆ à®¤à®Ÿà¯à®•à¯à®• à®šà®®à¯€à®ªà®¤à¯à®¤à®¿à®¯ à®“à®ªà®©à¯ à®à®¸à¯à®à®¸à¯à®¹à¯†à®šà¯ à®ªà®¤à®¿à®ªà¯à®ªà¯à®•à®³à®¿à®²à¯ à®¨à¯€à®™à¯à®•à®³à¯ à®•à¯‡à®³à¯à®µà®¿ à®ªà®¤à®¿à®²à¯ à®‰à®±à¯à®¤à®¿à®ªà¯à®ªà®Ÿà¯à®¤à¯à®¤à®²à¯ˆ à®šà¯†à®¯à®²à®¿à®´à®•à¯à®• à®šà¯†à®¯à¯à®¯ à®µà¯‡à®£à¯à®Ÿà¯à®®à¯. à®…à®²à¯à®²à®¤à¯ à®‰à®™à¯à®•à®³à¯ à®ªà®¾à®®à¯ à®µà®Ÿà®¿à®µà®®à¯ˆà®ªà¯à®ªà¯ à®¯à¯‚à®©à®¿à®•à¯à®¸à¯ à®•à®Ÿà®µà¯à®šà¯à®šà¯Šà®²à¯ à®•à¯‹à®ªà¯à®ªà¯ à®‰à®±à¯à®¤à®¿à®ªà¯à®ªà®Ÿà¯à®¤à¯à®¤à®²à¯ˆ à®à®±à¯à®•à®¾à®¤à®µà®¾à®±à¯ à®…à®®à¯ˆà®•à¯à®• à®µà¯‡à®£à¯à®Ÿà¯à®®à¯.
- .
- à®¨à¯€à®™à¯à®•à®³à¯ à®•à¯‡à®³à¯à®µà®¿ à®ªà®¤à®¿à®²à¯ à®‰à®±à¯à®¤à®¿à®ªà¯à®ªà®Ÿà¯à®¤à¯à®¤à®²à¯ˆ à®šà¯†à®¯à®²à®¿à®´à®•à¯à®• à®šà¯†à®¯à¯à®¤à®¾à®²à¯ à®ªà®¯à®©à®°à¯à®•à®³à¯ à®•à®Ÿà®µà¯à®šà¯à®šà¯Šà®±à¯à®•à®³à¯ˆ à®ªà®¯à®©à¯ à®ªà®Ÿà¯à®¤à¯à®¤à®¿ à®‰à®³à¯ à®¨à¯à®´à¯ˆà®¯ à®‡à®¯à®²à®¾à®¤à¯. à®…à®¤à¯ˆ à®šà¯†à®¯à®²à¯ à®ªà®Ÿà®šà¯à®šà¯†à®¯à¯à®¤à®¾à®²à¯ (à®•à®Ÿà®µà¯à®šà¯à®šà¯Šà®²à¯ à®‰à®±à¯à®¤à®¿à®ªà¯à®ªà®Ÿà¯à®¤à¯à®¤à®²à¯ à®¤à¯‡à®°à¯à®µà¯ à®‡à®²à¯à®²à¯ˆ) 'PasswordAuthentication no'  à®¤à¯‡à®°à¯à®µà¯ /etc/pam.d/ssh à®‡à®²à¯ à®ªà®¾à®®à¯ à®µà®Ÿà®¿à®µà®®à¯ˆà®ªà¯à®ªà¯ˆ à®šà®°à®¿ à®šà¯†à®¯à¯à®¤à®¾à®²à¯ à®’à®´à®¿à®¯ à®ªà®¯à®©à¯ à®¤à®°à®¾à®¤à¯.
-Description-vi: Táº¯t kháº£ nÄƒng xÃ¡c thá»±c kiá»ƒu yÃªu cáº§u/Ä‘Ã¡p á»©ng khÃ´ng?
- CÃ³ váº» lÃ  kháº£ nÄƒng xÃ¡c thá»±c báº±ng máº­t kháº©u bá»‹ táº¯t trong cáº¥u hÃ¬nh trÃ¬nh phá»¥c vá»¥ OpenSSH hiá»‡n thá»i. Äá»ƒ ngÄƒn cáº£n ngÆ°á»i dÃ¹ng Ä‘Äƒng nháº­p báº±ng máº­t kháº©u (cÃ³ láº½ chá»‰ xÃ¡c thá»±c báº±ng khoÃ¡ cÃ´ng)  vá»›i phiÃªn báº£n OpenSSH gáº§n Ä‘Ã¢y, báº¡n cáº§n pháº£i táº¯t kháº£ nÄƒng xÃ¡c thá»±c kiá»ƒu yÃªu cáº§u/Ä‘Ã¡p á»©ng (challenge-response authentication), khÃ´ng thÃ¬ Ä‘áº£m báº£o cáº¥u hÃ¬nh PAM khÃ´ng cho phÃ©p xÃ¡c thá»±c báº±ng táº­p tin máº­t kháº©u UNIX.
- .
- Náº¿u báº¡n táº¯t kháº£ nÄƒng xÃ¡c thá»±c kiá»ƒu yÃªu cáº§u/Ä‘Ã¡p á»©ng, ngÆ°á»i dÃ¹ng sáº½ khÃ´ng thá»ƒ Ä‘Äƒng nháº­p báº±ng máº­t kháº©u. Äá»ƒ láº¡i hoáº¡t Ä‘á»™ng (tráº£ lá»i máº·c Ä‘á»‹nh) thÃ¬ tÃ¹y chá»n Â« PasswordAuthentication no Â» (xÃ¡c thá»±c báº±ng máº­t kháº©u : khÃ´ng) sáº½ khÃ´ng cÃ³ tÃ¡c Ä‘á»™ng tháº­t, náº¿u báº¡n khÃ´ng Ä‘iá»u chá»‰nh cáº¥u hÃ¬nh PAM trong Â« /etc/pam.d/ssh Â»
