@@ -6,7 +6,7 @@
 # This has to be exported to make some magic below work.
 export DH_OPTIONS
 
-ifeq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+ifeq (,$(filter noopt,$(DEB_BUILD_OPTIONS)))
 OPTFLAGS := -O2
 else
 OPTFLAGS := -O0
@@ -62,6 +62,7 @@ SUPERUSER_PATH := /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/
 confflags += --prefix=/usr --sysconfdir=/etc/ssh --libexecdir=/usr/lib/openssh --mandir=/usr/share/man
 
 # Common build options.
+confflags += --disable-strip
 confflags += --with-mantype=doc
 confflags += --with-4in6
 confflags += --with-privsep-path=/var/run/sshd
@@ -96,7 +97,6 @@ confflags_udeb += --with-default-path=/usr/local/bin:/usr/bin:/bin --with-superu
 # Compiler flags.
 cflags := $(OPTFLAGS) $(PIE_CFLAGS)
 cflags += -DLOGIN_PROGRAM=\"/bin/login\" -DLOGIN_NO_ENDOPT
-cflags += -DSSHD_PAM_SERVICE=\"ssh\"
 cflags += -DSSH_EXTRAVERSION=\"$(SSH_EXTRAVERSION)\"
 cflags_udeb := -Os
 cflags_udeb += -DSSH_EXTRAVERSION=\"$(SSH_EXTRAVERSION)\"
@@ -125,6 +125,7 @@ endif
 
 	$(MAKE) -C build-deb -j 2 ASKPASS_PROGRAM='/usr/bin/ssh-askpass'
 	$(MAKE) -C contrib gnome-ssh-askpass2 CC='gcc $(OPTFLAGS) -g -Wall'
+	$(MAKE) -C debian/tests
 
 	touch build-deb-stamp
 
@@ -145,9 +146,12 @@ clean:
 	dh_testdir
 	rm -f build-deb-stamp build-udeb-stamp
 	rm -rf build-deb build-udeb
+	$(MAKE) -C debian/tests clean
 	$(MAKE) -C contrib clean
 	rm -f config.log
 	rm -f debian/ssh-askpass-gnome.png
+	(cat debian/copyright.head; iconv -f ISO-8859-1 -t UTF-8 LICENCE) \
+		> debian/copyright
 	dh_clean
 
 install: DH_OPTIONS=-a
@@ -174,7 +178,6 @@ install: build
 
 	install -m 755 contrib/ssh-copy-id debian/openssh-client/usr/bin/ssh-copy-id
 	install -m 644 -c contrib/ssh-copy-id.1 debian/openssh-client/usr/share/man/man1/ssh-copy-id.1
-	install -m 644 debian/moduli.5 debian/openssh-client/usr/share/man/man5/moduli.5
 
 	install -s -o root -g root -m 755 contrib/gnome-ssh-askpass2 debian/ssh-askpass-gnome/usr/lib/openssh/gnome-ssh-askpass
 	install -m 644 debian/gnome-ssh-askpass.1 debian/ssh-askpass-gnome/usr/share/man/man1/gnome-ssh-askpass.1
@@ -212,9 +215,7 @@ binary-openssh-client: build install
 	dh_testdir
 	dh_testroot
 	dh_installdebconf
-	dh_installdocs OVERVIEW README README.dns README.tun debian/faq.html
-	(cat debian/copyright.head; iconv -f ISO-8859-1 -t UTF-8 LICENCE) \
-		> debian/openssh-client/usr/share/doc/openssh-client/copyright
+	dh_installdocs OVERVIEW README README.dns README.tun debian/faq.html debian/README.compromised-keys
 	dh_installchangelogs ChangeLog ChangeLog.gssapi
 	install -m644 debian/openssh-client.lintian debian/openssh-client/usr/share/lintian/overrides/openssh-client
 	dh_strip
@@ -241,7 +242,8 @@ binary-openssh-server: build install
 	dh_installdocs
 	mv debian/openssh-server/usr/share/doc/openssh-server debian/openssh-server/usr/share/doc/openssh-client
 	rm -f debian/openssh-server/usr/share/doc/openssh-client/copyright
-	dh_installpam --name ssh
+	install -m644 debian/openssh-server.lintian debian/openssh-server/usr/share/lintian/overrides/openssh-server
+	dh_installpam --name sshd
 	dh_link
 	dh_strip
 	dh_compress
@@ -261,9 +263,11 @@ binary-ssh: DH_OPTIONS=-pssh
 binary-ssh: build install
 	dh_testdir
 	dh_testroot
+	dh_installdirs
 	dh_installdocs
 	mv debian/ssh/usr/share/doc/ssh debian/ssh/usr/share/doc/openssh-client
 	rm -f debian/ssh/usr/share/doc/openssh-client/copyright
+	install -m644 debian/ssh.lintian debian/ssh/usr/share/lintian/overrides/ssh
 	dh_link
 	dh_compress
 	dh_fixperms
@@ -277,8 +281,6 @@ binary-ssh-krb5: build install
 	dh_testdir
 	dh_testroot
 	dh_installdocs
-	(cat debian/copyright.head; iconv -f ISO-8859-1 -t UTF-8 LICENCE) \
-		> debian/ssh-krb5/usr/share/doc/ssh-krb5/copyright
 	dh_installchangelogs ChangeLog ChangeLog.gssapi
 	dh_link
 	dh_compress
@@ -312,7 +314,6 @@ binary-openssh-client-udeb: build install
 	dh_compress
 	dh_fixperms
 	dh_installdeb
-	install -p -o root -g root -m 755 debian/openssh-client-udeb.isinstallable debian/openssh-client-udeb/DEBIAN/isinstallable
 	dh_shlibdeps
 	dh_gencontrol
 	dh_md5sums
@@ -337,11 +338,6 @@ debian/faq.html:
 	wget -O - http://www.openssh.org/faq.html | \
 		sed 's,\(href="\)\(txt/\|[^":]*\.html\),\1http://www.openssh.org/\2,g' \
 		> debian/faq.html
-
-debian/moduli.5:
-	wget -q -O - 'http://www.openbsd.org/cgi-bin/cvsweb/~checkout~/src/share/man/man5/moduli.5?content-type=text/plain' | \
-		sed 's,/etc/moduli,/etc/ssh/moduli,g; s/\$$Mdocdate\$$/$(shell date +'%B %-d %Y')/' \
-		> debian/moduli.5
 
 .PHONY: build clean binary-indep binary-arch binary install
 .PHONY: build-deb build-udeb

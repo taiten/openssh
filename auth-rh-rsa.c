@@ -44,6 +44,9 @@ auth_rhosts_rsa_key_allowed(struct passwd *pw, char *cuser, char *chost,
 {
 	HostStatus host_status;
 
+	if (reject_blacklisted_key(client_host_key, 0) == 1)
+		return 0;
+
 	/* Check if we would accept it using rhosts authentication. */
 	if (!auth_rhosts(pw, cuser))
 		return 0;

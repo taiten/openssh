@@ -1,4 +1,4 @@
-/* $OpenBSD: ssh-add.c,v 1.89 2006/08/03 03:34:42 deraadt Exp $ */
+/* $OpenBSD: ssh-add.c,v 1.90 2007/09/09 11:38:01 sobrado Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -42,6 +42,7 @@
 #include <sys/param.h>
 
 #include <openssl/evp.h>
+#include "openbsd-compat/openssl-compat.h"
 
 #include <fcntl.h>
 #include <pwd.h>
@@ -138,7 +139,7 @@ static int
 add_file(AuthenticationConnection *ac, const char *filename)
 {
 	Key *private;
-	char *comment = NULL;
+	char *comment = NULL, *fp;
 	char msg[1024];
 	int fd, perms_ok, ret = -1;
 
@@ -182,6 +183,14 @@ add_file(AuthenticationConnection *ac, const char *filename)
 			snprintf(msg, sizeof msg,
 			    "Bad passphrase, try again for %.200s: ", comment);
 		}
+	}
+	if (blacklisted_key(private, &fp) == 1) {
+		fprintf(stderr, "Public key %s blacklisted (see "
+		    "ssh-vulnkey(1)); refusing to add it\n", fp);
+		xfree(fp);
+		key_free(private);
+		xfree(comment);
+		return -1;
 	}
 
 	if (ssh_add_identity_constrained(ac, private, comment, lifetime,
@@ -309,7 +318,7 @@ do_file(AuthenticationConnection *ac, int deleting, char *file)
 static void
 usage(void)
 {
-	fprintf(stderr, "Usage: %s [options] [file ...]\n", __progname);
+	fprintf(stderr, "usage: %s [options] [file ...]\n", __progname);
 	fprintf(stderr, "Options:\n");
 	fprintf(stderr, "  -l          List fingerprints of all identities.\n");
 	fprintf(stderr, "  -L          List public key parameters of all identities.\n");

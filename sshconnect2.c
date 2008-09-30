@@ -1,4 +1,4 @@
-/* $OpenBSD: sshconnect2.c,v 1.164 2007/05/17 23:53:41 jolan Exp $ */
+/* $OpenBSD: sshconnect2.c,v 1.166 2008/07/17 08:48:00 djm Exp $ */
 /*
  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
  *
@@ -38,6 +38,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#if defined(HAVE_STRNVIS) && defined(HAVE_VIS_H)
+#include <vis.h>
+#endif
 
 #include "openbsd-compat/sys-queue.h"
 
@@ -165,7 +168,7 @@ ssh_kex2(char *host, struct sockaddr *hostaddr)
 #endif
 
 	if (options.rekey_limit)
-		packet_set_rekey_limit(options.rekey_limit);
+		packet_set_rekey_limit((u_int32_t)options.rekey_limit);
 
 	/* start key exchange */
 	kex = kex_setup(myproposal);
@@ -429,14 +432,22 @@ input_userauth_error(int type, u_int32_t seq, void *ctxt)
 void
 input_userauth_banner(int type, u_int32_t seq, void *ctxt)
 {
-	char *msg, *lang;
+	char *msg, *raw, *lang;
+	u_int len;
 
 	debug3("input_userauth_banner");
-	msg = packet_get_string(NULL);
+	raw = packet_get_string(&len);
 	lang = packet_get_string(NULL);
-	if (options.log_level >= SYSLOG_LEVEL_INFO)
+	if (options.log_level >= SYSLOG_LEVEL_INFO) {
+		if (len > 65536)
+			len = 65536;
+		msg = xmalloc(len * 4 + 1); /* max expansion from strnvis() */
+		strnvis(msg, raw, len * 4 + 1, VIS_SAFE|VIS_OCTAL);
+		msg[len*4] = '\0';
 		fprintf(stderr, "%s", msg);
-	xfree(msg);
+		xfree(msg);
+	}
+	xfree(raw);
 	xfree(lang);
 }
 
@@ -1156,6 +1167,8 @@ pubkey_prepare(Authctxt *authctxt)
 
 	/* list of keys stored in the filesystem */
 	for (i = 0; i < options.num_identity_files; i++) {
+		if (options.identity_files[i] == NULL)
+			continue;
 		key = options.identity_keys[i];
 		if (key && key->type == KEY_RSA1)
 			continue;
@@ -1246,7 +1259,7 @@ userauth_pubkey(Authctxt *authctxt)
 		if (id->key && id->key->type != KEY_RSA1) {
 			debug("Offering public key: %s", id->filename);
 			sent = send_pubkey_test(authctxt, id);
-		} else if (id->key == NULL) {
+		} else if (id->key == NULL && id->filename) {
 			debug("Trying private key: %s", id->filename);
 			id->key = load_identity_file(id->filename);
 			if (id->key != NULL) {
