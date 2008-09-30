@@ -1,3 +1,369 @@
+openssh (1:5.1p1-3) unstable; urgency=low
+
+  * Remove unnecessary ssh-vulnkey output in non-verbose mode when no
+    compromised or unknown keys were found (closes: #496495).
+  * Configure with --disable-strip; dh_strip will deal with stripping
+    binaries and will honour DEB_BUILD_OPTIONS (thanks, Bernhard R. Link;
+    closes: #498681).
+  * Fix handling of zero-length server banners (thanks, Tomas Mraz; closes:
+    #497026).
+
+ -- Colin Watson <cjwatson@debian.org>  Tue, 30 Sep 2008 23:09:58 +0100
+
+openssh (1:5.1p1-2) unstable; urgency=low
+
+  * Look for $SHELL on the path when executing ProxyCommands or
+    LocalCommands (closes: #492728).
+
+ -- Colin Watson <cjwatson@debian.org>  Tue, 29 Jul 2008 15:31:25 +0100
+
+openssh (1:5.1p1-1) unstable; urgency=low
+
+  * New upstream release (closes: #474301). Important changes not previously
+    backported to 4.7p1:
+    - 4.9/4.9p1 (http://www.openssh.com/txt/release-4.9):
+      + Added chroot(2) support for sshd(8), controlled by a new option
+        "ChrootDirectory" (closes: #139047, LP: #24777).
+      + Linked sftp-server(8) into sshd(8). The internal sftp server is used
+        when the command "internal-sftp" is specified in a Subsystem or
+        ForceCommand declaration. When used with ChrootDirectory, the
+        internal sftp server requires no special configuration of files
+        inside the chroot environment.
+      + Added a protocol extension method "posix-rename@openssh.com" for
+        sftp-server(8) to perform POSIX atomic rename() operations; sftp(1)
+        prefers this if available (closes: #308561).
+      + Removed the fixed limit of 100 file handles in sftp-server(8).
+      + ssh(8) will now skip generation of SSH protocol 1 ephemeral server
+        keys when in inetd mode and protocol 2 connections are negotiated.
+        This speeds up protocol 2 connections to inetd-mode servers that
+        also allow Protocol 1.
+      + Accept the PermitRootLogin directive in a sshd_config(5) Match
+        block. Allows for, e.g. permitting root only from the local network.
+      + Reworked sftp(1) argument splitting and escaping to be more
+        internally consistent (i.e. between sftp commands) and more
+        consistent with sh(1). Please note that this will change the
+        interpretation of some quoted strings, especially those with
+        embedded backslash escape sequences.
+      + Support "Banner=none" in sshd_config(5) to disable sending of a
+        pre-login banner (e.g. in a Match block).
+      + ssh(1) ProxyCommands are now executed with $SHELL rather than
+        /bin/sh.
+      + ssh(1)'s ConnectTimeout option is now applied to both the TCP
+        connection and the SSH banner exchange (previously it just covered
+        the TCP connection). This allows callers of ssh(1) to better detect
+        and deal with stuck servers that accept a TCP connection but don't
+        progress the protocol, and also makes ConnectTimeout useful for
+        connections via a ProxyCommand.
+      + scp(1) incorrectly reported "stalled" on slow copies (closes:
+        #140828).
+      + scp(1) date underflow for timestamps before epoch.
+      + ssh(1) used the obsolete SIG DNS RRtype for host keys in DNS,
+        instead of the current standard RRSIG.
+      + Correctly drain ACKs when a sftp(1) upload write fails midway,
+        avoids a fatal() exit from what should be a recoverable condition.
+      + Fixed ssh-keygen(1) selective host key hashing (i.e. "ssh-keygen -HF
+        hostname") to not include any IP address in the data to be hashed.
+      + Make ssh(1) skip listening on the IPv6 wildcard address when a
+        binding address of 0.0.0.0 is used against an old SSH server that
+        does not support the RFC4254 syntax for wildcard bind addresses.
+      + Enable IPV6_V6ONLY socket option on sshd(8) listen socket, as is
+        already done for X11/TCP forwarding sockets (closes: #439661).
+      + Fix FD leak that could hang a ssh(1) connection multiplexing master.
+      + Make ssh(1) -q option documentation consistent with reality.
+      + Fixed sshd(8) PAM support not calling pam_session_close(), or
+        failing to call it with root privileges (closes: #372680).
+      + Fix activation of OpenSSL engine support when requested in configure
+        (LP: #119295).
+      + Cache SELinux status earlier so we know if it's enabled after a
+        chroot (LP: #237557).
+    - 5.1/5.1p1 (http://www.openssh.com/txt/release-5.1):
+      + Introduce experimental SSH Fingerprint ASCII Visualisation to ssh(1)
+        and ssh-keygen(1). Visual fingerprint display is controlled by a new
+        ssh_config(5) option "VisualHostKey". The intent is to render SSH
+        host keys in a visual form that is amenable to easy recall and
+        rejection of changed host keys.
+      + sshd_config(5) now supports CIDR address/masklen matching in "Match
+        address" blocks, with a fallback to classic wildcard matching.
+      + sshd(8) now supports CIDR matching in ~/.ssh/authorized_keys
+        from="..." restrictions, also with a fallback to classic wildcard
+        matching.
+      + Added an extended test mode (-T) to sshd(8) to request that it write
+        its effective configuration to stdout and exit. Extended test mode
+        also supports the specification of connection parameters (username,
+        source address and hostname) to test the application of
+        sshd_config(5) Match rules. 
+      + ssh(1) now prints the number of bytes transferred and the overall
+        connection throughput for SSH protocol 2 sessions when in verbose
+        mode (previously these statistics were displayed for protocol 1
+        connections only).
+      + sftp-server(8) now supports extension methods statvfs@openssh.com
+        and fstatvfs@openssh.com that implement statvfs(2)-like operations.
+      + sftp(1) now has a "df" command to the sftp client that uses the
+        statvfs@openssh.com to produce a df(1)-like display of filesystem
+        space and inode utilisation (requires statvfs@openssh.com support on
+        the server).
+      + Added a MaxSessions option to sshd_config(5) to allow control of the
+        number of multiplexed sessions supported over a single TCP
+        connection. This allows increasing the number of allowed sessions
+        above the previous default of 10, disabling connection multiplexing
+        (MaxSessions=1) or disallowing login/shell/subsystem sessions
+        entirely (MaxSessions=0).
+      + Added a no-more-sessions@openssh.com global request extension that
+        is sent from ssh(1) to sshd(8) when the client knows that it will
+        never request another session (i.e. when session multiplexing is
+        disabled). This allows a server to disallow further session requests
+        and terminate the session in cases where the client has been
+        hijacked.
+      + ssh-keygen(1) now supports the use of the -l option in combination
+        with -F to search for a host in ~/.ssh/known_hosts and display its
+        fingerprint.
+      + ssh-keyscan(1) now defaults to "rsa" (protocol 2) keys, instead of
+        "rsa1" (LP: #129794).
+      + Added an AllowAgentForwarding option to sshd_config(8) to control
+        whether authentication agent forwarding is permitted. Note that this
+        is a loose control, as a client may install their own unofficial
+        forwarder.
+      + ssh(1) and sshd(8): avoid unnecessary malloc/copy/free when
+        receiving network data, resulting in a ~10% speedup.
+      + ssh(1) and sshd(8) will now try additional addresses when connecting
+        to a port forward destination whose DNS name resolves to more than
+        one address. The previous behaviour was to try the only first
+        address and give up if that failed.
+      + ssh(1) and sshd(8) now support signalling that channels are
+        half-closed for writing, through a channel protocol extension
+        notification "eow@openssh.com". This allows propagation of closed
+        file descriptors, so that commands such as "ssh -2 localhost od
+        /bin/ls | true" do not send unnecessary data over the wire.
+      + sshd(8): increased the default size of ssh protocol 1 ephemeral keys
+        from 768 to 1024 bits.
+      + When ssh(1) has been requested to fork after authentication ("ssh
+        -f") with ExitOnForwardFailure enabled, delay the fork until after
+        replies for any -R forwards have been seen. Allows for robust
+        detection of -R forward failure when using -f.
+      + "Match group" blocks in sshd_config(5) now support negation of
+        groups. E.g. "Match group staff,!guests".
+      + sftp(1) and sftp-server(8) now allow chmod-like operations to set
+        set[ug]id/sticky bits.
+      + The MaxAuthTries option is now permitted in sshd_config(5) match
+        blocks.
+      + Multiplexed ssh(1) sessions now support a subset of the ~ escapes
+        that are available to a primary connection.
+      + ssh(1) connection multiplexing will now fall back to creating a new
+        connection in most error cases (closes: #352830).
+      + Make ssh(1) deal more gracefully with channel requests that fail.
+        Previously it would optimistically assume that requests would always
+        succeed, which could cause hangs if they did not (e.g. when the
+        server runs out of file descriptors).
+      + ssh(1) now reports multiplexing errors via the multiplex slave's
+        stderr where possible (subject to LogLevel in the mux master).
+      + Fixed an UMAC alignment problem that manifested on Itanium
+        platforms.
+  * Remove our local version of moduli(5) now that there's one upstream.
+  * Say "GTK+" rather than "GTK" in ssh-askpass-gnome's description.
+  * Add lintian overrides for empty /usr/share/doc/openssh-client
+    directories in openssh-server and ssh (necessary due to being symlink
+    targets).
+  * Merge from Ubuntu:
+    - Add 'status' action to openssh-server init script, requiring lsb-base
+      (>= 3.2-13) (thanks, Dustin Kirkland).
+  * debconf template translations:
+    - Update Korean (thanks, Sunjae Park; closes: #484821).
+
+ -- Colin Watson <cjwatson@debian.org>  Fri, 25 Jul 2008 10:45:08 +0100
+
+openssh (1:4.7p1-13) unstable; urgency=low
+
+  * Add some helpful advice to the end of ssh-vulnkey's output if there are
+    unknown or compromised keys (thanks, Dan Jacobson; closes: #483756).
+  * Check compromised key blacklist in ssh or ssh-add, as well as in the
+    server (LP: #232391). To override the blacklist check in ssh
+    temporarily, use 'ssh -o UseBlacklistedKeys=yes'; there is no override
+    for the blacklist check in ssh-add.
+  * Add cross-references to ssh-vulnkey(1) to ssh(1), ssh-add(1),
+    ssh-keygen(1), and sshd(8) (closes: #484451).
+  * Change openssh-client-udeb's Installer-Menu-Item from 99900 to 99999
+    (thanks, Frans Pop).
+  * Drop openssh-client-udeb isinstallable hack, as main-menu (>= 1.26) now
+    takes care of that (thanks, Frans Pop; closes: #484404).
+  * Update DEB_BUILD_OPTIONS parsing code from policy 3.8.0.
+  * Add documentation on removing openssh-blacklist locally (see #484269).
+  * Clarify documentation of SSHD_OOM_ADJUST, and make setting it to the
+    empty string actually skip adjustment as intended (closes: #487325).
+  * Remove empty /usr/share/applications directory in ssh-askpass-gnome.
+  * debconf template translations:
+    - Update Romanian (thanks, Cătălin Feștilă; closes: #485415).
+
+ -- Colin Watson <cjwatson@debian.org>  Mon, 21 Jul 2008 12:18:28 +0100
+
+openssh (1:4.7p1-12) unstable; urgency=low
+
+  * Fill in CVE identifier for ssh-vulnkey bug fixed in 1:4.7p1-10.
+  * Refactor rejection of blacklisted user keys into a single
+    reject_blacklisted_key function in auth.c (thanks, Dmitry V. Levin).
+  * Fix memory leak of blacklisted host keys (thanks, Dmitry V. Levin).
+  * debconf template translations:
+    - Update Dutch (thanks, Bart Cornelis; closes: #483004).
+    - Update Brazilian Portuguese (thanks, Eder L. Marques; closes:
+      #483142).
+    - Update Slovak (thanks, Ivan Masár; closes: #483517).
+
+ -- Colin Watson <cjwatson@debian.org>  Thu, 29 May 2008 21:41:29 +0100
+
+openssh (1:4.7p1-11) unstable; urgency=low
+
+  * Make init script depend on $syslog, and fix some other dependency
+    glitches (thanks, Petter Reinholdtsen; closes: #481018).
+  * Remove 0 and 6 from Default-Stop in init script (thanks, Kel Modderman;
+    closes: #481151).
+  * Restore OOM killer adjustment for child processes (thanks, Vaclav Ovsik;
+    closes: #480020).
+  * Allow building with heimdal-dev (LP: #125805).
+
+  * Check RSA1 keys without the need for a separate blacklist. Thanks to
+    Simon Tatham for the idea.
+  * Generate two keys with the PID forced to the same value and test that
+    they differ, to defend against recurrences of the recent Debian OpenSSL
+    vulnerability.
+  * Recommend openssh-blacklist from openssh-client (closes: #481187).
+  * Recommend openssh-blacklist-extra from openssh-client and
+    openssh-server.
+  * Make ssh-vulnkey report the file name and line number for each key
+    (thanks, Heiko Schlittermann and Christopher Perry; closes: #481398).
+  * Check for blacklists in /usr/share/ssh/ as well as /etc/ssh/ (see
+    #481283).
+  * Log IP addresses of hosts attempting to use blacklisted keys (closes:
+    #481721).
+  * Incorporate various ssh-vulnkey suggestions from Hugh Daniel:
+    - Add -v (verbose) option, and don't print output for keys that have a
+      blacklist file but that are not listed unless in verbose mode.
+    - Move exit status documentation to a separate section.
+    - Document key status descriptions.
+    - Add key type to output.
+    - Fix error output if ssh-vulnkey fails to read key files, with the
+      exception of host keys unless -a was given.
+    - In verbose mode, output the name of each file examined.
+  * Handle leading IP addresses in ssh-vulnkey input (LP: #230497).
+  * Fix various ssh-vulnkey problems pointed out by Solar Designer:
+    - Fix some buffer handling inconsistencies.
+    - Use xasprintf to build user key file names, avoiding truncation
+      problems.
+    - Drop to the user's UID when reading user keys with -a.
+    - Use EUID rather than UID when run with no file names and without -a.
+    - Reword "Unknown (no blacklist information)" to "Unknown (blacklist
+      file not installed)".
+
+  * Fix typo in ssh/vulnerable_host_keys message (thanks, Esko Arajärvi).
+  * debconf template translations:
+    - Update Finnish (thanks, Esko Arajärvi; closes: #481530).
+    - Update French (thanks, Christian Perrier; closes: #481576).
+    - Update Norwegian Bokmål (thanks, Bjørn Steensrud; closes: #481591).
+    - Update Galician (thanks, Jacobo Tarrio; closes: #481596).
+    - Update Japanese (thanks, Kenshi Muto; closes: #481621).
+    - Update Czech (thanks, Miroslav Kure; closes: #481624).
+    - Update German (thanks, Helge Kreutzmann; closes: #481676).
+    - Update Portuguese (thanks, Ricardo Silva; closes: #481781).
+    - Update Basque (thanks, Piarres Beobide; closes: #481836).
+    - Update Bulgarian (thanks, Damyan Ivanov; closes: #481870).
+    - Update Vietnamese (thanks, Clytie Siddall; closes: #481876).
+    - Update Spanish (thanks, Javier Fernandez-Sanguino Peña; closes:
+      #482341).
+    - Update Turkish (thanks, Mert Dirik; closes: #482548).
+    - Update Russian (thanks, Yuri Kozlov; closes: #482887).
+    - Update Swedish (thanks, Martin Bagge; closes: #482464).
+    - Update Italian (thanks, Luca Monducci; closes: #482808).
+
+ -- Colin Watson <cjwatson@debian.org>  Mon, 26 May 2008 12:21:39 +0100
+
+openssh (1:4.7p1-10) unstable; urgency=low
+
+  * Add a FILES section to ssh-vulnkey(1) (thanks, Hugh Daniel).
+  * CVE-2008-2285: ssh-vulnkey handles options in authorized_keys
+    (LP: #230029), and treats # as introducing a comment even if it is
+    preceded by whitespace.
+
+ -- Colin Watson <cjwatson@debian.org>  Wed, 14 May 2008 12:35:05 +0100
+
+openssh (1:4.7p1-9) unstable; urgency=critical
+
+  * Fill in CVE identifier for security vulnerability fixed in 1:4.7p1-8.
+  * Mitigate OpenSSL security vulnerability (CVE-2008-0166):
+    - Add key blacklisting support. Keys listed in
+      /etc/ssh/blacklist.TYPE-LENGTH will be rejected for authentication by
+      sshd, unless "PermitBlacklistedKeys yes" is set in
+      /etc/ssh/sshd_config.
+    - Add a new program, ssh-vulnkey, which can be used to check keys
+      against these blacklists.
+    - Depend on openssh-blacklist.
+    - Force dependencies on libssl0.9.8 / libcrypto0.9.8-udeb to at least
+      0.9.8g-9.
+    - Automatically regenerate known-compromised host keys, with a
+      critical-priority debconf note. (I regret that there was no time to
+      gather translations.)
+
+ -- Colin Watson <cjwatson@debian.org>  Tue, 13 May 2008 12:33:38 +0100
+
+openssh (1:4.7p1-8) unstable; urgency=high
+
+  * Fill in CVE identifier for security vulnerability fixed in 1:4.7p1-5.
+  * Rename KeepAlive to TCPKeepAlive in sshd_config, cleaning up from old
+    configurations (LP: #211400).
+  * Tweak scp's reporting of filenames in verbose mode to be a bit less
+    confusing with spaces (thanks, Nicolas Valcárcel; LP: #89945).
+  * Backport from 4.9p1:
+    - CVE-2008-1657: Ignore ~/.ssh/rc if a sshd_config ForceCommand is
+      specified.
+    - Add no-user-rc authorized_keys option to disable execution of
+      ~/.ssh/rc.
+  * Backport from Simon Wilkinson's GSSAPI key exchange patch for 5.0p1:
+    - Add code to actually implement GSSAPIStrictAcceptorCheck, which had
+      somehow been omitted from a previous version of this patch (closes:
+      #474246).
+
+ -- Colin Watson <cjwatson@debian.org>  Sun, 06 Apr 2008 12:34:19 +0100
+
+openssh (1:4.7p1-7) unstable; urgency=low
+
+  * Ignore errors writing to oom_adj (closes: #473573).
+
+ -- Colin Watson <cjwatson@debian.org>  Mon, 31 Mar 2008 16:24:44 +0100
+
+openssh (1:4.7p1-6) unstable; urgency=low
+
+  * Disable the Linux kernel's OOM-killer for the sshd parent; tweak
+    SSHD_OOM_ADJUST in /etc/default/ssh to change this (closes: #341767).
+
+ -- Colin Watson <cjwatson@debian.org>  Sun, 30 Mar 2008 21:14:12 +0100
+
+openssh (1:4.7p1-5) unstable; urgency=low
+
+  * Recommends: xauth rather than Suggests: xbase-clients.
+  * Document in ssh(1) that '-S none' disables connection sharing
+    (closes: #471437).
+  * Patch from Red Hat / Fedora:
+    - CVE-2008-1483: Don't use X11 forwarding port which can't be bound on
+      all address families, preventing hijacking of X11 forwarding by
+      unprivileged users when both IPv4 and IPv6 are configured (closes:
+      #463011).
+  * Use printf rather than echo -en (a bashism) in openssh-server.config and
+    openssh-server.preinst.
+  * debconf template translations:
+    - Update Finnish (thanks, Esko Arajärvi; closes: #468563).
+
+ -- Colin Watson <cjwatson@debian.org>  Sat, 22 Mar 2008 12:37:00 +0000
+
+openssh (1:4.7p1-4) unstable; urgency=low
+
+  [ Caleb Case ]
+  * Fix configure detection of getseuserbyname and
+    get_default_context_with_level (closes: #465614, LP: #188136).
+
+  [ Colin Watson ]
+  * Include the autogenerated debian/copyright in the source package.
+  * Move /etc/pam.d/ssh to /etc/pam.d/sshd, allowing us to stop defining
+    SSHD_PAM_SERVICE (closes: #255870).
+
+ -- Colin Watson <cjwatson@debian.org>  Wed, 13 Feb 2008 18:18:52 +0000
+
 openssh (1:4.7p1-3) unstable; urgency=low
 
   * Improve grammar of ssh-askpass-gnome description.

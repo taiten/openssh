@@ -2,10 +2,10 @@
 
 ### BEGIN INIT INFO
 # Provides:		sshd
-# Required-Start:	$network $local_fs $remote_fs
-# Required-Stop:
+# Required-Start:	$remote_fs $syslog
+# Required-Stop:	$remote_fs $syslog
 # Default-Start:	2 3 4 5
-# Default-Stop:		0 1 6
+# Default-Stop:		1
 # Short-Description:	OpenBSD Secure Shell server
 ### END INIT INFO
 
@@ -16,6 +16,7 @@ set -e
 test -x /usr/sbin/sshd || exit 0
 ( /usr/sbin/sshd -\? 2>&1 | grep -q OpenSSH ) 2>/dev/null || exit 0
 
+export SSHD_OOM_ADJUST=-17
 if test -f /etc/default/ssh; then
     . /etc/default/ssh
 fi
@@ -150,8 +151,12 @@ case "$1" in
 	esac
 	;;
 
+  status)
+	status_of_proc -p /var/run/sshd.pid /usr/sbin/sshd sshd && exit 0 || exit $?
+	;;
+
   *)
-	log_action_msg "Usage: /etc/init.d/ssh {start|stop|reload|force-reload|restart|try-restart}"
+	log_action_msg "Usage: /etc/init.d/ssh {start|stop|reload|force-reload|restart|try-restart|status}"
 	exit 1
 esac
 

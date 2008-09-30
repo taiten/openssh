@@ -97,6 +97,32 @@ disable_config_option() {
 }
 
 
+rename_config_option() {
+	oldoption="$1"
+	newoption="$2"
+
+	value="$(get_config_option "$oldoption")"
+	[ "$value" ] || return 0
+
+	perl -le '
+		$oldoption = $ARGV[0]; $newoption = $ARGV[1];
+		while (<STDIN>) {
+			chomp;
+			(my $match = $_) =~ s/\s+/ /g;
+			# TODO: actually only one "=" allowed after option
+			if ($match =~ s/^(\s*)\Q$oldoption\E([[:space:]=]+)/$1$newoption$2/i) {
+				$_ = $match;
+			}
+			print;
+		}' \
+		"$oldoption" "$newoption" \
+		< /etc/ssh/sshd_config > /etc/ssh/sshd_config.dpkg-new
+	chown --reference /etc/ssh/sshd_config /etc/ssh/sshd_config.dpkg-new
+	chmod --reference /etc/ssh/sshd_config /etc/ssh/sshd_config.dpkg-new
+	mv /etc/ssh/sshd_config.dpkg-new /etc/ssh/sshd_config
+}
+
+
 remove_obsolete_gssapi() {
 	disable_config_option GSSAPINoMICAuthentication
 	disable_config_option GSSUseSessionCCache
@@ -154,6 +180,35 @@ create_keys() {
 		"$hostkeys" /etc/ssh/ssh_host_rsa_key -t rsa
 	create_key "Creating SSH2 DSA key; this may take some time ..." \
 		"$hostkeys" /etc/ssh/ssh_host_dsa_key -t dsa
+}
+
+
+vulnerable_host_keys() {
+	# If the admin has explicitly put the vulnerable keys back, we
+	# assume they can look after themselves.
+	db_fget ssh/vulnerable_host_keys seen
+	if [ "$RET" = true ]; then
+		return 0
+	fi
+
+	hostkeys="$(host_keys_required)"
+	vulnerable=
+	for hostkey in $hostkeys; do
+		[ -f "$hostkey" ] || continue
+		if ssh-vulnkey -q "$hostkey"; then
+			vulnerable="${vulnerable:+$vulnerable }$hostkey"
+		fi
+	done
+	if [ "$vulnerable" ]; then
+		db_subst ssh/vulnerable_host_keys HOST_KEYS "$vulnerable"
+		db_input critical ssh/vulnerable_host_keys || true
+		db_go
+		for hostkey in $vulnerable; do
+			mv "$hostkey" "$hostkey.broken" || true
+			mv "$hostkey.pub" "$hostkey.pub.broken" || true
+		done
+		create_keys
+	fi
 }
 
 
@@ -225,6 +280,12 @@ create_sshdconfig() {
 		# Remove obsolete GSSAPI options.
 		if dpkg --compare-versions "$oldversion" lt 1:4.3p2-8; then
 		    remove_obsolete_gssapi
+		fi
+
+		# This option was renamed in 3.8p1, but we never took care
+		# of adjusting the configuration file until now.
+		if dpkg --compare-versions "$oldversion" lt 1:4.7p1-8; then
+		    rename_config_option KeepAlive TCPKeepAlive
 		fi
 
 		return 0
@@ -372,11 +433,25 @@ commit_transfer_conffile () {
 	fi
 }
 
+commit_mv_conffile () {
+	OLDCONFFILE="$1"
+	NEWCONFFILE="$2"
+
+	if [ -e "$OLDCONFFILE.moving" ]; then
+		echo "Preserving user changes to $NEWCONFFILE ..."
+		mv -f "$NEWCONFFILE" "$NEWCONFFILE.dpkg-new"
+		mv -f "$OLDCONFFILE.moving" "$NEWCONFFILE"
+	elif [ -e "$OLDCONFFILE.dpkg-old" ]; then
+		rm -f "$OLDCONFFILE.dpkg-old"
+	fi
+}
+
 
 fix_doc_symlink
 create_sshdconfig
 check_idea_key
 create_keys
+vulnerable_host_keys
 fix_statoverride
 if dpkg --compare-versions "$2" lt 1:4.3p2-3; then
     fix_sshd_shell
@@ -392,6 +467,7 @@ setup_init
 commit_transfer_conffile /etc/default/ssh
 commit_transfer_conffile /etc/init.d/ssh
 commit_transfer_conffile /etc/pam.d/ssh
+commit_mv_conffile /etc/pam.d/ssh /etc/pam.d/sshd
 # Renamed to /etc/ssh/moduli in 2.9.9 (!)
 if dpkg --compare-versions "$2" lt 1:4.7p1-1; then
     rm -f /etc/ssh/primes
