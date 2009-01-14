@@ -1,3 +1,20 @@
+openssh (1:5.1p1-5) unstable; urgency=low
+
+  * Backport from upstream CVS (Markus Friedl):
+    - packet_disconnect() on padding error, too. Should reduce the success
+      probability for the CPNI-957037 Plaintext Recovery Attack to 2^-18.
+  * Check that /var/run/sshd.pid exists and that the process ID listed there
+    corresponds to sshd before running '/etc/init.d/ssh reload' from if-up
+    script; SIGHUP is racy if called at boot before sshd has a chance to
+    install its signal handler, but fortunately the pid file is written
+    after that which lets us avoid the race (closes: #502444).
+  * While the above is a valuable sanity-check, it turns out that it doesn't
+    really fix the bug (thanks to Kevin Price for testing), so for the
+    meantime we'll just use '/etc/init.d/ssh restart', even though it is
+    unfortunately heavyweight.
+
+ -- Colin Watson <cjwatson@debian.org>  Wed, 14 Jan 2009 00:34:08 +0000
+
 openssh (1:5.1p1-4) unstable; urgency=low
 
   * ssh-copy-id: Strip trailing colons from hostname (closes: #226172,
