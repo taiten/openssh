@@ -1,3 +1,22 @@
+openssh (1:5.1p1-6) unstable; urgency=low
+
+  * Open /proc/self/oom_adj with O_RDONLY or O_WRONLY as necessary, rather
+    than O_RDWR.
+  * Disable OOM adjustment for vserver/OpenVZ (thanks, Karl Chen; closes:
+    #511771).
+  * Add ufw integration (thanks, Didier Roche; see
+    https://wiki.ubuntu.com/UbuntuFirewall#Integrating%20UFW%20with%20Packages;
+    LP: #261884).
+  * Add a comment above PermitRootLogin in sshd_config pointing to
+    README.Debian.
+  * Check if delgroup is present in openssh-client.postrm (closes: #530501).
+  * Build with -fPIC on mips/mipsel (thanks, Luk Claes; closes: #531942).
+  * Remove /var/run/sshd from openssh-server package; it will be created at
+    run-time before starting the server.
+  * Use invoke-rc.d in openssh-server's if-up script.
+
+ -- Colin Watson <cjwatson@debian.org>  Fri, 05 Jun 2009 11:56:03 +0100
+
 openssh (1:5.1p1-5) unstable; urgency=low
 
   * Backport from upstream CVS (Markus Friedl):
