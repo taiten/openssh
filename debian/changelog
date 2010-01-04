@@ -1,3 +1,67 @@
+openssh (1:5.2p1-1) unstable; urgency=low
+
+  * New upstream release (closes: #536182). Yes, I know 5.3p1 has been out
+    for a while, but there's no GSSAPI patch available for it yet.
+    - Change the default cipher order to prefer the AES CTR modes and the
+      revised "arcfour256" mode to CBC mode ciphers that are susceptible to
+      CPNI-957037 "Plaintext Recovery Attack Against SSH".
+    - Add countermeasures to mitigate CPNI-957037-style attacks against the
+      SSH protocol's use of CBC-mode ciphers. Upon detection of an invalid
+      packet length or Message Authentication Code, ssh/sshd will continue
+      reading up to the maximum supported packet length rather than
+      immediately terminating the connection. This eliminates most of the
+      known differences in behaviour that leaked information about the
+      plaintext of injected data which formed the basis of this attack
+      (closes: #506115, LP: #379329).
+    - ForceCommand directive now accepts commandline arguments for the
+      internal-sftp server (closes: #524423, LP: #362511).
+    - Add AllowAgentForwarding to available Match keywords list (closes:
+      #540623).
+    - Make ssh(1) send the correct channel number for
+      SSH2_MSG_CHANNEL_SUCCESS and SSH2_MSG_CHANNEL_FAILURE messages to
+      avoid triggering 'Non-public channel' error messages on sshd(8) in
+      openssh-5.1.
+    - Avoid printing 'Non-public channel' warnings in sshd(8), since the
+      ssh(1) has sent incorrect channel numbers since ~2004 (this reverts a
+      behaviour introduced in openssh-5.1; closes: #496017).
+    - Disable nonfunctional ssh(1) ~C escape handler in multiplex slave
+      connections (closes: #507541).
+    - Fix "whitepsace" typo in ssh_config(5) (closes: #514313, LP: #303835).
+  * Update to GSSAPI patch from
+    http://www.sxw.org.uk/computing/patches/openssh-5.2p1-gsskex-all-20090726.patch,
+    including cascading credentials support (LP: #416958).
+  * Use x11.pc when compiling/linking gnome-ssh-askpass2 (closes: #555951).
+  * Moved to bzr.debian.org; add Vcs-Bzr and Vcs-Browser control fields.
+  * Add debian/README.source with instructions on bzr handling.
+  * Make ChrootDirectory work with SELinux (thanks, Russell Coker; closes:
+    #556644).
+  * Initialise sc to NULL in ssh_selinux_getctxbyname (thanks, Václav Ovsík;
+    closes: #498684).
+  * Don't duplicate backslashes when displaying server banner (thanks,
+    Michał Górny; closes: #505378, LP: #425346).
+  * Use hardening-includes for hardening logic (thanks, Kees Cook; closes:
+    #561887).
+  * Update OpenSSH FAQ to revision 1.110.
+  * Remove ssh/new_config, only needed for direct upgrades from potato which
+    are no longer particularly feasible anyway (closes: #420682).
+  * Cope with insserv reordering of init script links.
+  * Remove init script stop link in rc1, as killprocs handles it already.
+  * Adjust short descriptions to avoid relying on previous experience with
+    rsh, based on suggestions from Reuben Thomas (closes: #512198).
+  * Remove manual page references to login.conf, which aren't applicable on
+    non-BSD systems (closes: #154434).
+  * Remove/adjust manual page references to BSD-specific /etc/rc (closes:
+    #513417).
+  * Refer to sshd_config(5) rather than sshd(8) in postinst-written
+    /etc/ssh/sshd_config, and add UsePAM commentary from upstream-shipped
+    configuration file (closes: #415008, although unfortunately this will
+    only be conveniently visible on new installations).
+  * Include URL to OpenBSD's ssl(8) in ssh(1), since I don't see a better
+    source for the same information among Debian's manual pages (closes:
+    #530692, LP: #456660).
+
+ -- Colin Watson <cjwatson@debian.org>  Mon, 04 Jan 2010 13:23:35 +0000
+
 openssh (1:5.1p1-8) unstable; urgency=low
 
   * Build with just -fPIC on mips/mipsel, not -fPIE as well (thanks, LIU Qi;
