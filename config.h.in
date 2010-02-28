@@ -1238,6 +1238,9 @@
 /* Define if X11 doesn't support AF_UNIX sockets on that system */
 #undef NO_X11_UNIX_SOCKETS
 
+/* Adjust Linux out-of-memory killer */
+#undef OOM_ADJUST
+
 /* Define if EVP_DigestUpdate returns void */
 #undef OPENSSL_EVP_DIGESTUPDATE_VOID
 
