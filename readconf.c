@@ -133,6 +133,7 @@ typedef enum {
 	oSendEnv, oControlPath, oControlMaster, oHashKnownHosts,
 	oTunnel, oTunnelDevice, oLocalCommand, oPermitLocalCommand,
 	oVisualHostKey, oUseRoaming, oZeroKnowledgePasswordAuthentication,
+	oProtocolKeepAlives, oSetupTimeOut,
 	oDeprecated, oUnsupported
 } OpCodes;
 
@@ -246,6 +247,8 @@ static struct {
 #else
 	{ "zeroknowledgepasswordauthentication", oUnsupported },
 #endif
+	{ "protocolkeepalives", oProtocolKeepAlives },
+	{ "setuptimeout", oSetupTimeOut },
 
 	{ NULL, oBadOption }
 };
@@ -845,6 +848,8 @@ parse_int:
 		goto parse_flag;
 
 	case oServerAliveInterval:
+	case oProtocolKeepAlives: /* Debian-specific compatibility alias */
+	case oSetupTimeOut:	  /* Debian-specific compatibility alias */
 		intptr = &options->server_alive_interval;
 		goto parse_time;
 
@@ -1233,8 +1238,13 @@ fill_default_options(Options * options)
 		options->rekey_limit = 0;
 	if (options->verify_host_key_dns == -1)
 		options->verify_host_key_dns = 0;
-	if (options->server_alive_interval == -1)
-		options->server_alive_interval = 0;
+	if (options->server_alive_interval == -1) {
+		/* in batch mode, default is 5mins */
+		if (options->batch_mode == 1)
+			options->server_alive_interval = 300;
+		else
+			options->server_alive_interval = 0;
+	}
 	if (options->server_alive_count_max == -1)
 		options->server_alive_count_max = 3;
 	if (options->control_master == -1)
