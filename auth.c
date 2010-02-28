@@ -59,7 +59,6 @@
 #include "servconf.h"
 #include "key.h"
 #include "hostfile.h"
-#include "authfile.h"
 #include "auth.h"
 #include "auth-options.h"
 #include "canohost.h"
@@ -399,38 +398,6 @@ check_key_in_hostfiles(struct passwd *pw, Key *key, const char *host,
 	return host_status;
 }
 
-int
-reject_blacklisted_key(Key *key, int hostkey)
-{
-	char *fp;
-
-	if (blacklisted_key(key, &fp) != 1)
-		return 0;
-
-	if (options.permit_blacklisted_keys) {
-		if (hostkey)
-			error("Host key %s blacklisted (see "
-			    "ssh-vulnkey(1)); continuing anyway", fp);
-		else
-			logit("Public key %s from %s blacklisted (see "
-			    "ssh-vulnkey(1)); continuing anyway",
-			    fp, get_remote_ipaddr());
-		xfree(fp);
-	} else {
-		if (hostkey)
-			error("Host key %s blacklisted (see "
-			    "ssh-vulnkey(1))", fp);
-		else
-			logit("Public key %s from %s blacklisted (see "
-			    "ssh-vulnkey(1))",
-			    fp, get_remote_ipaddr());
-		xfree(fp);
-		return 1;
-	}
-
-	return 0;
-}
-
 
 /*
  * Check a given file for security. This is defined as all components
@@ -516,12 +483,8 @@ auth_openkeyfile(const char *file, struct passwd *pw, int strict_modes)
 	 * Open the file containing the authorized keys
 	 * Fail quietly if file does not exist
 	 */
-	if ((fd = open(file, O_RDONLY|O_NONBLOCK)) == -1) {
-		if (errno != ENOENT)
-			debug("Could not open keyfile '%s': %s", file,
-			   strerror(errno));
+	if ((fd = open(file, O_RDONLY|O_NONBLOCK)) == -1)
 		return NULL;
-	}
 
 	if (fstat(fd, &st) < 0) {
 		close(fd);

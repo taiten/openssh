@@ -1,30 +1,6 @@
 OpenSSH for Debian
 ------------------
 
-Although this package is widely referred to as OpenSSH, it is actually
-a branch of an early version of ssh which has been tidied up by the
-OpenBSD folks.
-
-It has been decided that this version should have the privilege of
-carrying the ``ssh'' name in Debian, since it is the only version of
-ssh that is going to make it into Debian proper, being the only one 
-that complies with the Debian Free Software Guidelines.
-
-If you were expecting to get the non-free version of ssh (1.2.27 or
-whatever) when you installed this package, then you're out of luck, as
-Debian don't ship it.
-
-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-
-BUILD ISSUES
-============
-
-To build the openssh package for woody, set DEB_BUILD_SSH_WOODY=1 in
-your environment. This is necessary due to non-backward-compatible
-changes in PAM support.
-
-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-
 UPGRADE ISSUES
 ==============
 
@@ -45,7 +21,7 @@ PermitRootLogin set to yes
 This is now the default setting (in line with upstream), and people
 who asked for an automatically-generated configuration file when
 upgrading from potato (or on a new install) will have this setting in
-their /etc/ssh/sshd_config file. 
+their /etc/ssh/sshd_config file.
 
 Should you wish to change this setting, edit /etc/ssh/sshd_config, and
 change:
@@ -168,7 +144,7 @@ OTHER ISSUES
 Due to Debian bug #164325, RhostsRSAAuthentication can only be used if ssh
 is SUID.  Until this is fixed, if that is a problem, use:
 
-   dpkg-statoverride 
+   dpkg-statoverride
 
 or if that's also missing, use this:
 
@@ -207,17 +183,17 @@ keys, it does this for you.
 ------------------------
 
 non-free ssh supported the usage of the option -L to use a non privileged
-port for scp. This option will not be supported by scp from openssh. 
+port for scp. This option will not be supported by scp from openssh.
 
-Please use instead scp -o "UsePrivilegedPort=no" as documented in the 
-manpage to scp itself. 
+Please use instead scp -o "UsePrivilegedPort=no" as documented in the
+manpage to scp itself.
 
 Problem logging in because of TCP-Wrappers
 ------------------------------------------
 
 ssh is compiled with support for tcp-wrappers. So if you can no longer
 log into your system, please check that /etc/hosts.allow and /etc/hosts.deny
-are configured so that ssh is not blocked. 
+are configured so that ssh is not blocked.
 
 Kerberos support
 ----------------
@@ -253,9 +229,6 @@ If you do this, note that you will need to stop sshd being started in the
 normal way ('rm -f /etc/rc[2345].d/S16ssh') and that you will need to
 restart this sshd manually on upgrades.
 
---
-Matthew Vernon
-<matthew@debian.org>
-and
-Colin Watson
-<cjwatson@debian.org>
+-- 
+Matthew Vernon <matthew@debian.org>
+Colin Watson <cjwatson@debian.org>

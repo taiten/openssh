@@ -53,13 +53,11 @@ struct Authctxt {
 	int		 valid;		/* user exists and is allowed to login */
 	int		 attempt;
 	int		 failures;
-	int		 server_caused_failure; 
 	int		 force_pwchange;
 	char		*user;		/* username sent by the client */
 	char		*service;
 	struct passwd	*pw;		/* set if 'valid' */
 	char		*style;
-	char		*role;
 	void		*kbdintctxt;
 	void		*jpake_ctx;
 #ifdef BSD_AUTH
@@ -177,8 +175,6 @@ FILE	*auth_openkeyfile(const char *, struct passwd *, int);
 HostStatus
 check_key_in_hostfiles(struct passwd *, Key *, const char *,
     const char *, const char *);
-
-int	reject_blacklisted_key(Key *, int);
 
 /* hostkey handling */
 Key	*get_hostkey_by_index(int);

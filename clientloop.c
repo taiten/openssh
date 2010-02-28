@@ -111,10 +111,6 @@
 #include "msg.h"
 #include "roaming.h"
 
-#ifdef GSSAPI
-#include "ssh-gss.h"
-#endif
-
 /* import options */
 extern Options options;
 
@@ -502,21 +498,16 @@ client_global_request_reply(int type, u_int32_t seq, void *ctxt)
 static void
 server_alive_check(void)
 {
-	if (compat20) {
-		if (packet_inc_alive_timeouts() > options.server_alive_count_max) {
-			logit("Timeout, server not responding.");
-			cleanup_exit(255);
-		}
-		packet_start(SSH2_MSG_GLOBAL_REQUEST);
-		packet_put_cstring("keepalive@openssh.com");
-		packet_put_char(1);     /* boolean: want reply */
-		packet_send();
-		/* Insert an empty placeholder to maintain ordering */
-		client_register_global_confirm(NULL, NULL);
-	} else {
-		packet_send_ignore(0);
-		packet_send();
+	if (packet_inc_alive_timeouts() > options.server_alive_count_max) {
+		logit("Timeout, server not responding.");
+		cleanup_exit(255);
 	}
+	packet_start(SSH2_MSG_GLOBAL_REQUEST);
+	packet_put_cstring("keepalive@openssh.com");
+	packet_put_char(1);     /* boolean: want reply */
+	packet_send();
+	/* Insert an empty placeholder to maintain ordering */
+	client_register_global_confirm(NULL, NULL);
 }
 
 /*
@@ -577,7 +568,7 @@ client_wait_until_can_do_something(fd_set **readsetp, fd_set **writesetp,
 	 * event pending.
 	 */
 
-	if (options.server_alive_interval == 0)
+	if (options.server_alive_interval == 0 || !compat20)
 		tvp = NULL;
 	else {
 		tv.tv_sec = options.server_alive_interval;
@@ -1439,15 +1430,6 @@ client_loop(int have_pty, int escape_char_arg, int ssh2_chan_id)
 		/* Do channel operations unless rekeying in progress. */
 		if (!rekeying) {
 			channel_after_select(readset, writeset);
-
-#ifdef GSSAPI
-			if (options.gss_renewal_rekey &&
-			    ssh_gssapi_credentials_updated(GSS_C_NO_CONTEXT)) {
-				debug("credentials updated - forcing rekey");
-				need_rekeying = 1;
-			}
-#endif
-
 			if (need_rekeying || packet_need_rekeying()) {
 				debug("need rekeying");
 				xxx_kex->done = 0;
@@ -1526,16 +1508,14 @@ client_loop(int have_pty, int escape_char_arg, int ssh2_chan_id)
 		exit_status = 0;
 	}
 
-	if (received_signal) {
-		debug("Killed by signal %d.", (int) received_signal);
-		cleanup_exit((int) received_signal + 128);
-	}
+	if (received_signal)
+		fatal("Killed by signal %d.", (int) received_signal);
 
 	/*
 	 * In interactive mode (with pseudo tty) display a message indicating
 	 * that the connection has been closed.
 	 */
-	if (have_pty && options.log_level > SYSLOG_LEVEL_QUIET) {
+	if (have_pty && options.log_level != SYSLOG_LEVEL_QUIET) {
 		snprintf(buf, sizeof buf,
 		    "Connection to %.64s closed.\r\n", host);
 		buffer_append(&stderr_buffer, buf, strlen(buf));

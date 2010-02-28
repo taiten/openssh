@@ -18,7 +18,7 @@
  */
 
 /*
- * Linux-specific portability code
+ * Linux-specific portability code - just SELinux support at present
  */
 
 #include "includes.h"
@@ -27,29 +27,13 @@
 #include <stdarg.h>
 #include <string.h>
 
-#ifdef OOM_ADJUST
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <unistd.h>
-#endif
-
-#include "log.h"
-
 #ifdef WITH_SELINUX
-#include "key.h"
-#include "hostfile.h"
-#include "auth.h"
-#ifdef HAVE_GETSEUSERBYNAME
-#include "xmalloc.h"
-#endif
+#include "log.h"
 #include "port-linux.h"
 
 #include <selinux/selinux.h>
 #include <selinux/flask.h>
 #include <selinux/get_context_list.h>
-
-extern Authctxt *the_authctxt;
 
 /* Wrapper around is_selinux_enabled() to log its return value once only */
 int
@@ -69,8 +53,8 @@ ssh_selinux_enabled(void)
 static security_context_t
 ssh_selinux_getctxbyname(char *pwname)
 {
-	security_context_t sc = NULL;
-	char *sename = NULL, *role = NULL, *lvl = NULL;
+	security_context_t sc;
+	char *sename = NULL, *lvl = NULL;
 	int r;
 
 #ifdef HAVE_GETSEUSERBYNAME
@@ -80,20 +64,11 @@ ssh_selinux_getctxbyname(char *pwname)
 	sename = pwname;
 	lvl = NULL;
 #endif
-	if (the_authctxt)
-		role = the_authctxt->role;
 
 #ifdef HAVE_GET_DEFAULT_CONTEXT_WITH_LEVEL
-	if (role != NULL && role[0])
-		r = get_default_context_with_rolelevel(sename, role, lvl, NULL,
-						       &sc);
-	else
-		r = get_default_context_with_level(sename, lvl, NULL, &sc);
+	r = get_default_context_with_level(sename, lvl, NULL, &sc);
 #else
-	if (role != NULL && role[0])
-		r = get_default_context_with_role(sename, role, NULL, &sc);
-	else
-		r = get_default_context(sename, NULL, &sc);
+	r = get_default_context(sename, NULL, &sc);
 #endif
 
 	if (r != 0) {
@@ -194,47 +169,3 @@ ssh_selinux_setup_pty(char *pwname, const char *tty)
 	debug3("%s: done", __func__);
 }
 #endif /* WITH_SELINUX */
-
-#ifdef OOM_ADJUST
-/* Get the out-of-memory adjustment file for the current process */
-static int
-oom_adj_open(int oflag)
-{
-	int fd = open("/proc/self/oom_adj", oflag);
-	if (fd < 0)
-		logit("error opening /proc/self/oom_adj: %s", strerror(errno));
-	return fd;
-}
-
-/* Get the current OOM adjustment */
-int
-oom_adj_get(char *buf, size_t maxlen)
-{
-	ssize_t n;
-	int fd = oom_adj_open(O_RDONLY);
-	if (fd < 0)
-		return -1;
-	n = read(fd, buf, maxlen);
-	if (n < 0)
-		logit("error reading /proc/self/oom_adj: %s", strerror(errno));
-	else
-		buf[n] = '\0';
-	close(fd);
-	return n < 0 ? -1 : 0;
-}
-
-/* Set the current OOM adjustment */
-int
-oom_adj_set(const char *buf)
-{
-	ssize_t n;
-	int fd = oom_adj_open(O_WRONLY);
-	if (fd < 0)
-		return -1;
-	n = write(fd, buf, strlen(buf));
-	if (n < 0)
-		logit("error writing /proc/self/oom_adj: %s", strerror(errno));
-	close(fd);
-	return n < 0 ? -1 : 0;
-}
-#endif

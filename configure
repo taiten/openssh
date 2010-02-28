@@ -8369,11 +8369,6 @@ cat >>confdefs.h <<\_ACEOF
 _ACEOF
 
 	fi
-
-cat >>confdefs.h <<\_ACEOF
-#define OOM_ADJUST 1
-_ACEOF
-
 	;;
 mips-sony-bsd|mips-sony-newsos4)
 
@@ -28016,8 +28011,6 @@ fi
 $as_echo "$ac_cv_lib_selinux_setexeccon" >&6; }
 if test $ac_cv_lib_selinux_setexeccon = yes; then
    LIBSELINUX="-lselinux"
-			  LIBS="$LIBS -lselinux"
-
 else
   { { $as_echo "$as_me:$LINENO: error: SELinux support requires libselinux library" >&5
 $as_echo "$as_me: error: SELinux support requires libselinux library" >&2;}

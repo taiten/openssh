@@ -139,7 +139,7 @@ static int
 add_file(AuthenticationConnection *ac, const char *filename)
 {
 	Key *private;
-	char *comment = NULL, *fp;
+	char *comment = NULL;
 	char msg[1024];
 	int fd, perms_ok, ret = -1;
 
@@ -184,14 +184,6 @@ add_file(AuthenticationConnection *ac, const char *filename)
 			    "Bad passphrase, try again for %.200s: ", comment);
 		}
 	}
-	if (blacklisted_key(private, &fp) == 1) {
-		fprintf(stderr, "Public key %s blacklisted (see "
-		    "ssh-vulnkey(1)); refusing to add it\n", fp);
-		xfree(fp);
-		key_free(private);
-		xfree(comment);
-		return -1;
-	}
 
 	if (ssh_add_identity_constrained(ac, private, comment, lifetime,
 	    confirm)) {
@@ -203,6 +195,9 @@ add_file(AuthenticationConnection *ac, const char *filename)
 		if (confirm != 0)
 			fprintf(stderr,
 			    "The user has to confirm each use of the key\n");
+	} else if (ssh_add_identity(ac, private, comment)) {
+		fprintf(stderr, "Identity added: %s (%s)\n", filename, comment);
+		ret = 0;
 	} else {
 		fprintf(stderr, "Could not add identity: %s\n", filename);
 	}

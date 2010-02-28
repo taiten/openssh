@@ -500,11 +500,6 @@ per-host basis in the configuration file.
 .It Fl q
 Quiet mode.
 Causes most warning and diagnostic messages to be suppressed.
-Only fatal errors are displayed.
-If a second
-.Fl q
-is given then even fatal errors are suppressed, except for those produced
-due solely to bad arguments.
 .It Fl R Xo
 .Sm off
 .Oo Ar bind_address : Oc
@@ -559,10 +554,7 @@ argument is
 the listen port will be dynamically allocated on the server and reported
 to the client at run time.
 .It Fl S Ar ctl_path
-Specifies the location of a control socket for connection sharing,
-or the string
-.Dq none
-to disable connection sharing.
+Specifies the location of a control socket for connection sharing.
 Refer to the description of
 .Cm ControlPath
 and
@@ -752,10 +744,6 @@ The
 .Sx HISTORY
 section of
 .Xr ssl 8
-(on non-OpenBSD systems, see
-.nh
-http://www.openbsd.org/cgi\-bin/man.cgi?query=ssl&sektion=8#HISTORY)
-.hy
 contains a brief discussion of the two algorithms.
 .Pp
 The file
@@ -1306,8 +1294,6 @@ The file format and configuration options are described in
 .Xr ssh_config 5 .
 Because of the potential for abuse, this file must have strict permissions:
 read/write for the user, and not accessible by others.
-It may be group-writable provided that the group in question contains only
-the user.
 .Pp
 .It ~/.ssh/environment
 Contains additional definitions for environment variables; see
@@ -1408,10 +1394,8 @@ manual page for more information.
 .Xr sftp 1 ,
 .Xr ssh-add 1 ,
 .Xr ssh-agent 1 ,
-.Xr ssh-argv0 1 ,
 .Xr ssh-keygen 1 ,
 .Xr ssh-keyscan 1 ,
-.Xr ssh-vulnkey 1 ,
 .Xr tun 4 ,
 .Xr hosts.equiv 5 ,
 .Xr ssh_config 5 ,

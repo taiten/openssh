@@ -139,7 +139,7 @@ ssh_proxy_connect(const char *host, u_short port, const char *proxy_command)
 
 		/* Execute the proxy command.  Note that we gave up any
 		   extra privileges above. */
-		execvp(argv[0], argv);
+		execv(argv[0], argv);
 		perror(argv[0]);
 		exit(1);
 	}
@@ -537,7 +537,7 @@ ssh_exchange_identification(int timeout_ms)
 	snprintf(buf, sizeof buf, "SSH-%d.%d-%.100s%s",
 	    compat20 ? PROTOCOL_MAJOR_2 : PROTOCOL_MAJOR_1,
 	    compat20 ? PROTOCOL_MINOR_2 : minor1,
-	    SSH_RELEASE, compat20 ? "\r\n" : "\n");
+	    SSH_VERSION, compat20 ? "\r\n" : "\n");
 	if (roaming_atomicio(vwrite, connection_out, buf, strlen(buf))
 	    != strlen(buf))
 		fatal("write: %.100s", strerror(errno));
@@ -1167,7 +1167,7 @@ ssh_local_cmd(const char *args)
 	pid = fork();
 	if (pid == 0) {
 		debug3("Executing %s -c \"%s\"", shell, args);
-		execlp(shell, shell, "-c", args, (char *)NULL);
+		execl(shell, shell, "-c", args, (char *)NULL);
 		error("Couldn't execute %s -c \"%s\": %s",
 		    shell, args, strerror(errno));
 		_exit(1);

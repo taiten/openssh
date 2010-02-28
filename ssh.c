@@ -389,12 +389,7 @@ main(int ac, char **av)
 			}
 			break;
 		case 'q':
-    		        if (options.log_level == SYSLOG_LEVEL_QUIET) {
-		                options.log_level = SYSLOG_LEVEL_SILENT;
-		        }
-		        else if (options.log_level != SYSLOG_LEVEL_SILENT) {
-		                options.log_level = SYSLOG_LEVEL_QUIET;
-		        }
+			options.log_level = SYSLOG_LEVEL_QUIET;
 			break;
 		case 'e':
 			if (optarg[0] == '^' && optarg[2] == 0 &&
@@ -597,7 +592,7 @@ main(int ac, char **av)
 		tty_flag = 0;
 	/* Do not allocate a tty if stdin is not a tty. */
 	if ((!isatty(fileno(stdin)) || stdin_null_flag) && !force_tty_flag) {
-		if (tty_flag && options.log_level > SYSLOG_LEVEL_QUIET)
+		if (tty_flag)
 			logit("Pseudo-terminal will not be allocated because "
 			    "stdin is not a terminal.");
 		tty_flag = 0;
@@ -1234,7 +1229,7 @@ ssh_session2(void)
 static void
 load_public_identity_files(void)
 {
-	char *filename, *cp, thishost[NI_MAXHOST], *fp;
+	char *filename, *cp, thishost[NI_MAXHOST];
 	char *pwdir = NULL, *pwname = NULL;
 	int i = 0;
 	Key *public;
@@ -1281,22 +1276,6 @@ load_public_identity_files(void)
 		public = key_load_public(filename, NULL);
 		debug("identity file %s type %d", filename,
 		    public ? public->type : -1);
-		if (public && blacklisted_key(public, &fp) == 1) {
-			if (options.use_blacklisted_keys)
-				logit("Public key %s blacklisted (see "
-				    "ssh-vulnkey(1)); continuing anyway", fp);
-			else
-				logit("Public key %s blacklisted (see "
-				    "ssh-vulnkey(1)); refusing to send it",
-				    fp);
-			xfree(fp);
-			if (!options.use_blacklisted_keys) {
-				key_free(public);
-				xfree(filename);
-				filename = NULL;
-				public = NULL;
-			}
-		}
 		xfree(options.identity_files[i]);
 		options.identity_files[i] = filename;
 		options.identity_keys[i] = public;

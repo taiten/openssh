@@ -145,9 +145,6 @@ hostbased_key_allowed(struct passwd *pw, const char *cuser, char *chost,
 	HostStatus host_status;
 	int len;
 
-	if (reject_blacklisted_key(key, 0) == 1)
-		return 0;
-
 	resolvedname = get_canonical_hostname(options.use_dns);
 	ipaddr = get_remote_ipaddr();
 

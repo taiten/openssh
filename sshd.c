@@ -120,10 +120,6 @@
 #include "roaming.h"
 #include "version.h"
 
-#ifdef USE_SECURITY_SESSION_API
-#include <Security/AuthSession.h>
-#endif
-
 #ifdef LIBWRAP
 #include <tcpd.h>
 #include <syslog.h>
@@ -254,11 +250,6 @@ Buffer loginmsg;
 /* Unprivileged user */
 struct passwd *privsep_pw = NULL;
 
-#ifdef OOM_ADJUST
-/* Linux out-of-memory killer adjustment */
-static char oom_adj_save[8];
-#endif
-
 /* Prototypes for various functions defined later in this file. */
 void destroy_sensitive_data(void);
 void demote_sensitive_data(void);
@@ -318,7 +309,6 @@ sighup_restart(void)
 	close_listen_socks();
 	close_startup_pipes();
 	alarm(0);  /* alarm timer persists across exec */
-	signal(SIGHUP, SIG_IGN); /* will be restored after exec */
 	execv(saved_argv[0], saved_argv);
 	logit("RESTART FAILED: av[0]='%.100s', error: %.100s.", saved_argv[0],
 	    strerror(errno));
@@ -426,8 +416,7 @@ sshd_exchange_identification(int sock_in, int sock_out)
 		minor = PROTOCOL_MINOR_1;
 	}
 	snprintf(buf, sizeof buf, "SSH-%d.%d-%.100s%s", major, minor,
-	    options.debian_banner ? SSH_RELEASE : SSH_RELEASE_MINIMUM,
-	    newline);
+	    SSH_VERSION, newline);
 	server_version_string = xstrdup(buf);
 
 	/* Send our protocol version identification. */
@@ -915,31 +904,6 @@ recv_rexec_state(int fd, Buffer *conf)
 	debug3("%s: done", __func__);
 }
 
-#ifdef OOM_ADJUST
-/*
- * If requested in the environment, tell the Linux kernel's out-of-memory
- * killer to avoid sshd. The old state will be restored when forking child
- * processes.
- */
-static void
-oom_adjust_startup(void)
-{
-	const char *oom_adj = getenv("SSHD_OOM_ADJUST");
-
-	if (!oom_adj || !*oom_adj)
-		return;
-	oom_adj_get(oom_adj_save, sizeof(oom_adj_save));
-	oom_adj_set(oom_adj);
-}
-
-static void
-oom_restore(void)
-{
-	if (oom_adj_save[0])
-		oom_adj_set(oom_adj_save);
-}
-#endif
-
 /* Accept a connection from inetd */
 static void
 server_accept_inetd(int *sock_in, int *sock_out)
@@ -1357,12 +1321,7 @@ main(int ac, char **av)
 			/* ignored */
 			break;
 		case 'q':
-		        if (options.log_level == SYSLOG_LEVEL_QUIET) { 
-		                options.log_level = SYSLOG_LEVEL_SILENT; 
-		        } 
-		        else if (options.log_level != SYSLOG_LEVEL_SILENT) { 
-		                options.log_level = SYSLOG_LEVEL_QUIET; 
-		        } 
+			options.log_level = SYSLOG_LEVEL_QUIET;
 			break;
 		case 'b':
 			options.server_key_bits = (int)strtonum(optarg, 256,
@@ -1555,11 +1514,6 @@ main(int ac, char **av)
 			sensitive_data.host_keys[i] = NULL;
 			continue;
 		}
-		if (reject_blacklisted_key(key, 1) == 1) {
-			key_free(key);
-			sensitive_data.host_keys[i] = NULL;
-			continue;
-		}
 		switch (key->type) {
 		case KEY_RSA1:
 			sensitive_data.ssh1_host_key = key;
@@ -1577,13 +1531,10 @@ main(int ac, char **av)
 		logit("Disabling protocol version 1. Could not load host key");
 		options.protocol &= ~SSH_PROTO_1;
 	}
-#ifndef GSSAPI
-	/* The GSSAPI key exchange can run without a host key */
 	if ((options.protocol & SSH_PROTO_2) && !sensitive_data.have_ssh2_key) {
 		logit("Disabling protocol version 2. Could not load host key");
 		options.protocol &= ~SSH_PROTO_2;
 	}
-#endif
 	if (!(options.protocol & (SSH_PROTO_1|SSH_PROTO_2))) {
 		logit("sshd: no hostkeys available -- exiting.");
 		exit(1);
@@ -1707,11 +1658,6 @@ main(int ac, char **av)
 	/* ignore SIGPIPE */
 	signal(SIGPIPE, SIG_IGN);
 
-#ifdef OOM_ADJUST
-	/* Adjust out-of-memory killer */
-	oom_adjust_startup();
-#endif
-
 	/* Get a connection, either from inetd or a listening TCP socket */
 	if (inetd_flag) {
 		server_accept_inetd(&sock_in, &sock_out);
@@ -1749,10 +1695,6 @@ main(int ac, char **av)
 
 	/* This is the child processing a new connection. */
 	setproctitle("%s", "[accepted]");
-
-#ifdef OOM_ADJUST
-	oom_restore();
-#endif
 
 	/*
 	 * Create a new session and process group since the 4.4BSD
@@ -1875,60 +1817,6 @@ main(int ac, char **av)
 
 	/* Log the connection. */
 	verbose("Connection from %.500s port %d", remote_ip, remote_port);
-
-#ifdef USE_SECURITY_SESSION_API
-	/*
-	 * Create a new security session for use by the new user login if
-	 * the current session is the root session or we are not launched
-	 * by inetd (eg: debugging mode or server mode).  We do not
-	 * necessarily need to create a session if we are launched from
-	 * inetd because Panther xinetd will create a session for us.
-	 *
-	 * The only case where this logic will fail is if there is an
-	 * inetd running in a non-root session which is not creating
-	 * new sessions for us.  Then all the users will end up in the
-	 * same session (bad).
-	 *
-	 * When the client exits, the session will be destroyed for us
-	 * automatically.
-	 *
-	 * We must create the session before any credentials are stored
-	 * (including AFS pags, which happens a few lines below).
-	 */
-	{
-		OSStatus err = 0;
-		SecuritySessionId sid = 0;
-		SessionAttributeBits sattrs = 0;
-
-		err = SessionGetInfo(callerSecuritySession, &sid, &sattrs);
-		if (err)
-			error("SessionGetInfo() failed with error %.8X",
-			    (unsigned) err);
-		else
-			debug("Current Session ID is %.8X / Session Attributes are %.8X",
-			    (unsigned) sid, (unsigned) sattrs);
-
-		if (inetd_flag && !(sattrs & sessionIsRoot))
-			debug("Running in inetd mode in a non-root session... "
-			    "assuming inetd created the session for us.");
-		else {
-			debug("Creating new security session...");
-			err = SessionCreate(0, sessionHasTTY | sessionIsRemote);
-			if (err)
-				error("SessionCreate() failed with error %.8X",
-				    (unsigned) err);
-
-			err = SessionGetInfo(callerSecuritySession, &sid, 
-			    &sattrs);
-			if (err)
-				error("SessionGetInfo() failed with error %.8X",
-				    (unsigned) err);
-			else
-				debug("New Session ID is %.8X / Session Attributes are %.8X",
-				    (unsigned) sid, (unsigned) sattrs);
-		}
-	}
-#endif
 
 	/*
 	 * We don't want to listen forever unless the other side
@@ -2307,61 +2195,12 @@ do_ssh2_kex(void)
 
 	myproposal[PROPOSAL_SERVER_HOST_KEY_ALGS] = list_hostkey_types();
 
-#ifdef GSSAPI
-	{
-	char *orig;
-	char *gss = NULL;
-	char *newstr = NULL;
-	orig = myproposal[PROPOSAL_KEX_ALGS];
-
-	/* 
-	 * If we don't have a host key, then there's no point advertising
-	 * the other key exchange algorithms
-	 */
-
-	if (strlen(myproposal[PROPOSAL_SERVER_HOST_KEY_ALGS]) == 0)
-		orig = NULL;
-
-	if (options.gss_keyex)
-		gss = ssh_gssapi_server_mechanisms();
-	else
-		gss = NULL;
-
-	if (gss && orig)
-		xasprintf(&newstr, "%s,%s", gss, orig);
-	else if (gss)
-		newstr = gss;
-	else if (orig)
-		newstr = orig;
-
-	/* 
-	 * If we've got GSSAPI mechanisms, then we've got the 'null' host
-	 * key alg, but we can't tell people about it unless its the only
-  	 * host key algorithm we support
-	 */
-	if (gss && (strlen(myproposal[PROPOSAL_SERVER_HOST_KEY_ALGS])) == 0)
-		myproposal[PROPOSAL_SERVER_HOST_KEY_ALGS] = "null";
-
-	if (newstr)
-		myproposal[PROPOSAL_KEX_ALGS] = newstr;
-	else
-		fatal("No supported key exchange algorithms");
-	}
-#endif
-
 	/* start key exchange */
 	kex = kex_setup(myproposal);
 	kex->kex[KEX_DH_GRP1_SHA1] = kexdh_server;
 	kex->kex[KEX_DH_GRP14_SHA1] = kexdh_server;
 	kex->kex[KEX_DH_GEX_SHA1] = kexgex_server;
 	kex->kex[KEX_DH_GEX_SHA256] = kexgex_server;
-#ifdef GSSAPI
-	if (options.gss_keyex) {
-		kex->kex[KEX_GSS_GRP1_SHA1] = kexgss_server;
-		kex->kex[KEX_GSS_GRP14_SHA1] = kexgss_server;
-		kex->kex[KEX_GSS_GEX_SHA1] = kexgss_server;
-	}
-#endif
 	kex->server = 1;
 	kex->client_version_string=client_version_string;
 	kex->server_version_string=server_version_string;

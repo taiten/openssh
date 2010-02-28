@@ -137,7 +137,9 @@ key in
 .Pa ~/.ssh/id_dsa
 or
 .Pa ~/.ssh/id_rsa .
-Additionally, the system administrator may use this to generate host keys.
+Additionally, the system administrator may use this to generate host keys,
+as seen in
+.Pa /etc/rc .
 .Pp
 Normally this program generates the key and asks for a file in which
 to store the private key.
@@ -280,7 +282,9 @@ new passphrase.
 .It Fl q
 Silence
 .Nm ssh-keygen .
-Used by system administration scripts when creating a new key.
+Used by
+.Pa /etc/rc
+when creating a new key.
 .It Fl R Ar hostname
 Removes all keys belonging to
 .Ar hostname
@@ -447,7 +451,6 @@ The file format is described in
 .Xr ssh 1 ,
 .Xr ssh-add 1 ,
 .Xr ssh-agent 1 ,
-.Xr ssh-vulnkey 1 ,
 .Xr moduli 5 ,
 .Xr sshd 8
 .Rs
