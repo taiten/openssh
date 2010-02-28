@@ -35,6 +35,7 @@ typedef enum {
 }       SyslogFacility;
 
 typedef enum {
+	SYSLOG_LEVEL_SILENT,
 	SYSLOG_LEVEL_QUIET,
 	SYSLOG_LEVEL_FATAL,
 	SYSLOG_LEVEL_ERROR,

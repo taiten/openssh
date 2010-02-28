@@ -721,7 +721,7 @@ muxclient(const char *path)
 	} else
 		debug2("Received exit status from master %d", exitval[0]);
 
-	if (tty_flag && options.log_level != SYSLOG_LEVEL_QUIET)
+	if (tty_flag && options.log_level > SYSLOG_LEVEL_QUIET)
 		fprintf(stderr, "Shared connection to %s closed.\r\n", host);
 
 	exit(exitval[0]);
