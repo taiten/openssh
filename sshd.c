@@ -1518,6 +1518,11 @@ main(int ac, char **av)
 			sensitive_data.host_keys[i] = NULL;
 			continue;
 		}
+		if (reject_blacklisted_key(key, 1) == 1) {
+			key_free(key);
+			sensitive_data.host_keys[i] = NULL;
+			continue;
+		}
 		switch (key->type) {
 		case KEY_RSA1:
 			sensitive_data.ssh1_host_key = key;

@@ -246,6 +246,9 @@ auth_rsa_key_allowed(struct passwd *pw, BIGNUM *client_n, Key **rkey)
 			    "actual %d vs. announced %d.",
 			    file, linenum, BN_num_bits(key->rsa->n), bits);
 
+		if (reject_blacklisted_key(key, 0) == 1)
+			continue;
+
 		/* We have found the desired key. */
 		/*
 		 * If our options do not allow this key to be used,

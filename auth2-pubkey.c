@@ -254,6 +254,9 @@ user_key_allowed(struct passwd *pw, Key *key)
 	int success;
 	char *file;
 
+	if (reject_blacklisted_key(key, 0) == 1)
+		return 0;
+
 	file = authorized_keys_file(pw);
 	success = user_key_allowed2(pw, key, file);
 	xfree(file);
