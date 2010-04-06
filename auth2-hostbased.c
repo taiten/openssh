@@ -145,7 +145,7 @@ hostbased_key_allowed(struct passwd *pw, const char *cuser, char *chost,
 	HostStatus host_status;
 	int len;
 
-	if (auth_key_is_revoked(key))
+	if (auth_key_is_revoked(key, 0))
 		return 0;
 
 	resolvedname = get_canonical_hostname(options.use_dns);
