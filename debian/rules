@@ -97,7 +97,7 @@ confflags += --with-selinux
 endif
 
 # The deb build wants xauth; the udeb build doesn't.
-confflags += --with-xauth=/usr/bin/X11/xauth
+confflags += --with-xauth=/usr/bin/xauth
 confflags_udeb += --without-xauth
 
 # Default paths. The udeb build has /usr/bin/X11 and /usr/games removed.
@@ -187,7 +187,7 @@ install: build
 
 	install -s -o root -g root -m 755 contrib/gnome-ssh-askpass2 debian/ssh-askpass-gnome/usr/lib/openssh/gnome-ssh-askpass
 	install -m 644 debian/gnome-ssh-askpass.1 debian/ssh-askpass-gnome/usr/share/man/man1/gnome-ssh-askpass.1
-	uudecode -o debian/ssh-askpass-gnome/usr/share/pixmaps/ssh-askpass-gnome.png debian/ssh-askpass-gnome.png.uue
+	install -m 644 debian/ssh-askpass-gnome.png debian/ssh-askpass-gnome/usr/share/pixmaps/ssh-askpass-gnome.png
 
 	install -m 755 debian/ssh-argv0 debian/openssh-client/usr/bin/ssh-argv0
 	install -m 644 debian/ssh-argv0.1 debian/openssh-client/usr/share/man/man1/ssh-argv0.1
@@ -257,10 +257,12 @@ binary-openssh-server: build install
 	dh_compress
 	dh_fixperms
 	dh_installdeb
+	# Yes, ETC_PAM_D_SSH is meant to be spelled that way, to match the
+	# old configuration file name we need to transfer.
 	perl -i debian/substitute-conffile.pl \
 		ETC_DEFAULT_SSH debian/openssh-server/etc/default/ssh \
 		ETC_INIT_D_SSH debian/openssh-server/etc/init.d/ssh \
-		ETC_PAM_D_SSH debian/openssh-server/etc/pam.d/ssh \
+		ETC_PAM_D_SSH debian/openssh-server/etc/pam.d/sshd \
 		debian/openssh-server/DEBIAN/preinst
 	dh_shlibdeps
 	dh_gencontrol
@@ -352,7 +354,7 @@ debian/faq.html:
 quilt-setup:
 	[ ! -d .pc ]
 	set -e; for patch in $$(quilt series | tac); do \
-		patch -p1 -R <"debian/patches/$$patch"; \
+		patch -p1 -R --no-backup-if-mismatch <"debian/patches/$$patch"; \
 	done
 	quilt push -a
 
@@ -361,3 +363,4 @@ quilt-setup:
 .PHONY: binary-openssh-client binary-openssh-server binary-ssh
 .PHONY: binary-ssh-krb5 binary-ssh-askpass-gnome
 .PHONY: binary-openssh-client-udeb binary-openssh-server-udeb
+.PHONY: quilt-setup
