@@ -1,3 +1,17 @@
+openssh (1:5.4p1-2) unstable; urgency=low
+
+  * Borrow patch from Fedora to add DNSSEC support: if glibc 2.11 is
+    installed, the host key is published in an SSHFP RR secured with DNSSEC,
+    and VerifyHostKeyDNS=yes, then ssh will no longer prompt for host key
+    verification (closes: #572049).
+  * Convert to dh(1), and use dh_installdocs --link-doc.
+  * Drop lpia support, since Ubuntu no longer supports this architecture.
+  * Use dh_install more effectively.
+  * Add a NEWS.Debian entry about changes in smartcard support relative to
+    previous unofficial builds (closes: #231472).
+
+ -- Colin Watson <cjwatson@debian.org>  Sat, 10 Apr 2010 01:08:59 +0100
+
 openssh (1:5.4p1-1) unstable; urgency=low
 
   * New upstream release (LP: #535029).
