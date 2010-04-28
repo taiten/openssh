@@ -1,3 +1,34 @@
+openssh (1:5.5p1-3) unstable; urgency=low
+
+  * Discard error messages while checking whether rsh, rlogin, and rcp
+    alternatives exist (closes: #579285).
+  * Drop IDEA key check; I don't think it works properly any more due to
+    textual changes in error output, it's only relevant for direct upgrades
+    from truly ancient versions, and it breaks upgrades if
+    /etc/ssh/ssh_host_key can't be loaded (closes: #579570).
+
+ -- Colin Watson <cjwatson@debian.org>  Wed, 28 Apr 2010 22:12:47 +0100
+
+openssh (1:5.5p1-2) unstable; urgency=low
+
+  * Use dh_installinit -n, since our maintainer scripts already handle this
+    more carefully (thanks, Julien Cristau).
+
+ -- Colin Watson <cjwatson@debian.org>  Sat, 17 Apr 2010 12:55:56 +0100
+
+openssh (1:5.5p1-1) unstable; urgency=low
+
+  * New upstream release:
+    - Unbreak sshd_config's AuthorizedKeysFile option for $HOME-relative
+      paths.
+    - Include a language tag when sending a protocol 2 disconnection
+      message.
+    - Make logging of certificates used for user authentication more clear
+      and consistent between CAs specified using TrustedUserCAKeys and
+      authorized_keys.
+
+ -- Colin Watson <cjwatson@debian.org>  Fri, 16 Apr 2010 10:27:30 +0100
+
 openssh (1:5.4p1-2) unstable; urgency=low
 
   * Borrow patch from Fedora to add DNSSEC support: if glibc 2.11 is
