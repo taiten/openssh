@@ -1564,6 +1564,11 @@ main(int ac, char **av)
 			sensitive_data.host_keys[i] = NULL;
 			continue;
 		}
+		if (auth_key_is_revoked(key, 1)) {
+			key_free(key);
+			sensitive_data.host_keys[i] = NULL;
+			continue;
+		}
 		switch (key->type) {
 		case KEY_RSA1:
 			sensitive_data.ssh1_host_key = key;
