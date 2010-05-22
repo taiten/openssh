@@ -173,7 +173,7 @@ char	*authorized_keys_file(struct passwd *);
 char	*authorized_keys_file2(struct passwd *);
 
 FILE	*auth_openkeyfile(const char *, struct passwd *, int);
-int	 auth_key_is_revoked(Key *);
+int	 auth_key_is_revoked(Key *, int);
 
 HostStatus
 check_key_in_hostfiles(struct passwd *, Key *, const char *,
