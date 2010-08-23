@@ -982,6 +982,8 @@ key_type_from_name(char *name)
 		return KEY_RSA_CERT;
 	} else if (strcmp(name, "ssh-dss-cert-v00@openssh.com") == 0) {
 		return KEY_DSA_CERT;
+	} else if (strcmp(name, "null") == 0) {
+		return KEY_NULL;
 	}
 	debug2("key_type_from_name: unknown key type '%s'", name);
 	return KEY_UNSPEC;

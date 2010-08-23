@@ -37,6 +37,7 @@ enum types {
 	KEY_DSA,
 	KEY_RSA_CERT,
 	KEY_DSA_CERT,
+	KEY_NULL,
 	KEY_UNSPEC
 };
 enum fp_type {
