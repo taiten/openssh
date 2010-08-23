@@ -79,9 +79,9 @@ usage(void)
 	exit(1);
 }
 
-void
+static void
 describe_key(const char *filename, u_long linenum, const char *msg,
-    const Key *key, const char *comment, int min_verbosity)
+    Key *key, const char *comment, int min_verbosity)
 {
 	char *fp;
 
@@ -97,9 +97,9 @@ describe_key(const char *filename, u_long linenum, const char *msg,
 	xfree(fp);
 }
 
-int
+static int
 do_key(const char *filename, u_long linenum,
-    const Key *key, const char *comment)
+    Key *key, const char *comment)
 {
 	Key *public;
 	int blacklist_status;
@@ -130,7 +130,7 @@ do_key(const char *filename, u_long linenum,
 	return ret;
 }
 
-int
+static int
 do_filename(const char *filename, int quiet_open)
 {
 	FILE *f;
@@ -254,7 +254,7 @@ do_filename(const char *filename, int quiet_open)
 	return ret;
 }
 
-int
+static int
 do_host(int quiet_open)
 {
 	int i;
@@ -271,7 +271,7 @@ do_host(int quiet_open)
 	return ret;
 }
 
-int
+static int
 do_user(const char *dir)
 {
 	int i;

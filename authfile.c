@@ -1,4 +1,4 @@
-/* $OpenBSD: authfile.c,v 1.80 2010/03/04 10:36:03 djm Exp $ */
+/* $OpenBSD: authfile.c,v 1.82 2010/08/04 05:49:22 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -694,6 +694,66 @@ key_load_public(const char *filename, char **commentp)
 	return NULL;
 }
 
+/* Load the certificate associated with the named private key */
+Key *
+key_load_cert(const char *filename)
+{
+	Key *pub;
+	char *file;
+
+	pub = key_new(KEY_UNSPEC);
+	xasprintf(&file, "%s-cert.pub", filename);
+	if (key_try_load_public(pub, file, NULL) == 1) {
+		xfree(file);
+		return pub;
+	}
+	xfree(file);
+	key_free(pub);
+	return NULL;
+}
+
+/* Load private key and certificate */
+Key *
+key_load_private_cert(int type, const char *filename, const char *passphrase,
+    int *perm_ok)
+{
+	Key *key, *pub;
+
+	switch (type) {
+	case KEY_RSA:
+	case KEY_DSA:
+		break;
+	default:
+		error("%s: unsupported key type", __func__);
+		return NULL;
+	}
+
+	if ((key = key_load_private_type(type, filename, 
+	    passphrase, NULL, perm_ok)) == NULL)
+		return NULL;
+
+	if ((pub = key_load_cert(filename)) == NULL) {
+		key_free(key);
+		return NULL;
+	}
+
+	/* Make sure the private key matches the certificate */
+	if (key_equal_public(key, pub) == 0) {
+		error("%s: certificate does not match private key %s",
+		    __func__, filename);
+	} else if (key_to_certified(key, key_cert_is_legacy(pub)) != 0) {
+		error("%s: key_to_certified failed", __func__);
+	} else {
+		key_cert_copy(pub, key);
+		key_free(pub);
+		return key;
+	}
+
+	key_free(key);
+	key_free(pub);
+	return NULL;
+}
+
 /*
  * Returns 1 if the specified "key" is listed in the file "filename",
  * 0 if the key is not listed or -1 on error.
@@ -757,7 +817,7 @@ key_in_file(Key *key, const char *filename, int strict_type)
 
 /* Scan a blacklist of known-vulnerable keys in blacklist_file. */
 static int
-blacklisted_key_in_file(const Key *key, const char *blacklist_file, char **fp)
+blacklisted_key_in_file(Key *key, const char *blacklist_file, char **fp)
 {
 	int fd = -1;
 	char *dgst_hex = NULL;
@@ -862,7 +922,7 @@ out:
  * its fingerprint is returned in *fp, unless fp is NULL.
  */
 int
-blacklisted_key(const Key *key, char **fp)
+blacklisted_key(Key *key, char **fp)
 {
 	Key *public;
 	char *blacklist_file;
