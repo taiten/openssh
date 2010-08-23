@@ -123,6 +123,7 @@ typedef enum {
 	oGlobalKnownHostsFile2, oUserKnownHostsFile2, oPubkeyAuthentication,
 	oKbdInteractiveAuthentication, oKbdInteractiveDevices, oHostKeyAlias,
 	oDynamicForward, oPreferredAuthentications, oHostbasedAuthentication,
+	oUseBlacklistedKeys,
 	oHostKeyAlgorithms, oBindAddress, oPKCS11Provider,
 	oClearAllForwardings, oNoHostAuthenticationForLocalhost,
 	oEnableSSHKeysign, oRekeyLimit, oVerifyHostKeyDNS, oConnectTimeout,
@@ -152,6 +153,7 @@ static struct {
 	{ "passwordauthentication", oPasswordAuthentication },
 	{ "kbdinteractiveauthentication", oKbdInteractiveAuthentication },
 	{ "kbdinteractivedevices", oKbdInteractiveDevices },
+	{ "useblacklistedkeys", oUseBlacklistedKeys },
 	{ "rsaauthentication", oRSAAuthentication },
 	{ "pubkeyauthentication", oPubkeyAuthentication },
 	{ "dsaauthentication", oPubkeyAuthentication },		    /* alias */
@@ -459,6 +461,10 @@ parse_flag:
 
 	case oChallengeResponseAuthentication:
 		intptr = &options->challenge_response_authentication;
+		goto parse_flag;
+
+	case oUseBlacklistedKeys:
+		intptr = &options->use_blacklisted_keys;
 		goto parse_flag;
 
 	case oGssAuthentication:
@@ -1050,6 +1056,7 @@ initialize_options(Options * options)
 	options->kbd_interactive_devices = NULL;
 	options->rhosts_rsa_authentication = -1;
 	options->hostbased_authentication = -1;
+	options->use_blacklisted_keys = -1;
 	options->batch_mode = -1;
 	options->check_host_ip = -1;
 	options->strict_host_key_checking = -1;
@@ -1152,6 +1159,8 @@ fill_default_options(Options * options)
 		options->rhosts_rsa_authentication = 0;
 	if (options->hostbased_authentication == -1)
 		options->hostbased_authentication = 0;
+	if (options->use_blacklisted_keys == -1)
+		options->use_blacklisted_keys = 0;
 	if (options->batch_mode == -1)
 		options->batch_mode = 0;
 	if (options->check_host_ip == -1)
