@@ -136,6 +136,7 @@ initialize_server_options(ServerOptions *options)
 	options->revoked_keys_file = NULL;
 	options->trusted_user_ca_keys = NULL;
 	options->authorized_principals_file = NULL;
+	options->debian_banner = -1;
 }
 
 void
@@ -278,6 +279,8 @@ fill_default_server_options(ServerOptions *options)
 		options->permit_tun = SSH_TUNMODE_NO;
 	if (options->zero_knowledge_password_authentication == -1)
 		options->zero_knowledge_password_authentication = 0;
+	if (options->debian_banner == -1)
+		options->debian_banner = 1;
 
 	/* Turn privilege separation on by default */
 	if (use_privsep == -1)
@@ -326,6 +329,7 @@ typedef enum {
 	sUsePrivilegeSeparation, sAllowAgentForwarding,
 	sZeroKnowledgePasswordAuthentication, sHostCertificate,
 	sRevokedKeys, sTrustedUserCAKeys, sAuthorizedPrincipalsFile,
+	sDebianBanner,
 	sDeprecated, sUnsupported
 } ServerOpCodes;
 
@@ -459,6 +463,7 @@ static struct {
 	{ "revokedkeys", sRevokedKeys, SSHCFG_ALL },
 	{ "trustedusercakeys", sTrustedUserCAKeys, SSHCFG_ALL },
 	{ "authorizedprincipalsfile", sAuthorizedPrincipalsFile, SSHCFG_ALL },
+	{ "debianbanner", sDebianBanner, SSHCFG_GLOBAL },
 	{ NULL, sBadOption, 0 }
 };
 
@@ -1391,6 +1396,10 @@ process_server_config_line(ServerOptions *options, char *line,
 	case sRevokedKeys:
 		charptr = &options->revoked_keys_file;
 		goto parse_filename;
+
+	case sDebianBanner:
+		intptr = &options->debian_banner;
+		goto parse_int;
 
 	case sDeprecated:
 		logit("%s line %d: Deprecated option %s",
