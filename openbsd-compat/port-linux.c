@@ -29,6 +29,12 @@
 #include <string.h>
 #include <stdio.h>
 
+#ifdef WITH_SELINUX
+#include "key.h"
+#include "hostfile.h"
+#include "auth.h"
+#endif
+
 #include "log.h"
 #include "xmalloc.h"
 #include "port-linux.h"
@@ -37,6 +43,8 @@
 #include <selinux/selinux.h>
 #include <selinux/flask.h>
 #include <selinux/get_context_list.h>
+
+extern Authctxt *the_authctxt;
 
 /* Wrapper around is_selinux_enabled() to log its return value once only */
 int
@@ -56,8 +64,8 @@ ssh_selinux_enabled(void)
 static security_context_t
 ssh_selinux_getctxbyname(char *pwname)
 {
-	security_context_t sc;
-	char *sename = NULL, *lvl = NULL;
+	security_context_t sc = NULL;
+	char *sename = NULL, *role = NULL, *lvl = NULL;
 	int r;
 
 #ifdef HAVE_GETSEUSERBYNAME
@@ -67,11 +75,20 @@ ssh_selinux_getctxbyname(char *pwname)
 	sename = pwname;
 	lvl = NULL;
 #endif
+	if (the_authctxt)
+		role = the_authctxt->role;
 
 #ifdef HAVE_GET_DEFAULT_CONTEXT_WITH_LEVEL
-	r = get_default_context_with_level(sename, lvl, NULL, &sc);
+	if (role != NULL && role[0])
+		r = get_default_context_with_rolelevel(sename, role, lvl, NULL,
+						       &sc);
+	else
+		r = get_default_context_with_level(sename, lvl, NULL, &sc);
 #else
-	r = get_default_context(sename, NULL, &sc);
+	if (role != NULL && role[0])
+		r = get_default_context_with_role(sename, role, NULL, &sc);
+	else
+		r = get_default_context(sename, NULL, &sc);
 #endif
 
 	if (r != 0) {
