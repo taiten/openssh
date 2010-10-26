@@ -1688,7 +1688,10 @@ dump_config(ServerOptions *o)
 #endif
 #ifdef GSSAPI
 	dump_cfg_fmtint(sGssAuthentication, o->gss_authentication);
+	dump_cfg_fmtint(sGssKeyEx, o->gss_keyex);
 	dump_cfg_fmtint(sGssCleanupCreds, o->gss_cleanup_creds);
+	dump_cfg_fmtint(sGssStrictAcceptor, o->gss_strict_acceptor);
+	dump_cfg_fmtint(sGssStoreRekey, o->gss_store_rekey);
 #endif
 #ifdef JPAKE
 	dump_cfg_fmtint(sZeroKnowledgePasswordAuthentication,
