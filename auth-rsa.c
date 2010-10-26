@@ -94,7 +94,7 @@ auth_rsa_verify_response(Key *key, BIGNUM *challenge, u_char response[16])
 	MD5_CTX md;
 	int len;
 
-	if (auth_key_is_revoked(key))
+	if (auth_key_is_revoked(key, 0))
 		return 0;
 
 	/* don't allow short keys */
