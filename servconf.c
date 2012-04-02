@@ -142,6 +142,7 @@ initialize_server_options(ServerOptions *options)
 	options->authorized_principals_file = NULL;
 	options->ip_qos_interactive = -1;
 	options->ip_qos_bulk = -1;
+	options->debian_banner = -1;
 }
 
 void
@@ -289,6 +290,8 @@ fill_default_server_options(ServerOptions *options)
 		options->ip_qos_interactive = IPTOS_LOWDELAY;
 	if (options->ip_qos_bulk == -1)
 		options->ip_qos_bulk = IPTOS_THROUGHPUT;
+	if (options->debian_banner == -1)
+		options->debian_banner = 1;
 
 	/* Turn privilege separation on by default */
 	if (use_privsep == -1)
@@ -338,6 +341,7 @@ typedef enum {
 	sZeroKnowledgePasswordAuthentication, sHostCertificate,
 	sRevokedKeys, sTrustedUserCAKeys, sAuthorizedPrincipalsFile,
 	sKexAlgorithms, sIPQoS,
+	sDebianBanner,
 	sDeprecated, sUnsupported
 } ServerOpCodes;
 
@@ -473,6 +477,7 @@ static struct {
 	{ "authorizedprincipalsfile", sAuthorizedPrincipalsFile, SSHCFG_ALL },
 	{ "kexalgorithms", sKexAlgorithms, SSHCFG_GLOBAL },
 	{ "ipqos", sIPQoS, SSHCFG_ALL },
+	{ "debianbanner", sDebianBanner, SSHCFG_GLOBAL },
 	{ NULL, sBadOption, 0 }
 };
 
@@ -1435,6 +1440,10 @@ process_server_config_line(ServerOptions *options, char *line,
 			options->ip_qos_bulk = value2;
 		}
 		break;
+
+	case sDebianBanner:
+		intptr = &options->debian_banner;
+		goto parse_int;
 
 	case sDeprecated:
 		logit("%s line %d: Deprecated option %s",
