@@ -1,6 +1,7 @@
-/* $OpenBSD: ssh-sandbox.h,v 1.1 2011/06/23 09:34:13 djm Exp $ */
+/*	$OpenBSD: strnlen.c,v 1.3 2010/06/02 12:58:12 millert Exp $	*/
+
 /*
- * Copyright (c) 2011 Damien Miller <djm@mindrot.org>
+ * Copyright (c) 2010 Todd C. Miller <Todd.Miller@courtesan.com>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -15,24 +16,22 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-typedef struct Sandbox Sandbox;
+/* OPENBSD ORIGINAL: lib/libc/string/strnlen.c */
 
-struct Sandbox {
-	const char	*name;
-	int		(*probe)(void);
-	void		*(*init)(void);
-	void	    	(*child)(void *);
-	void		(*parent_finish)(void *);
-	void	    	(*parent_preauth)(void *, pid_t);
-};
+#include "config.h"
+#ifndef HAVE_STRNLEN
+#include <sys/types.h>
 
-void *ssh_sandbox_init(void);
-void ssh_sandbox_child(void *);
-void ssh_sandbox_parent_finish(void *);
-void ssh_sandbox_parent_preauth(void *, pid_t);
+#include <string.h>
 
-extern Sandbox ssh_sandbox_systrace;
-extern Sandbox ssh_sandbox_darwin;
-extern Sandbox ssh_sandbox_seccomp_filter;
-extern Sandbox ssh_sandbox_rlimit;
-extern Sandbox ssh_sandbox_null;
+size_t
+strnlen(const char *str, size_t maxlen)
+{
+	const char *cp;
+
+	for (cp = str; maxlen != 0 && *cp != '\0'; cp++, maxlen--)
+		;
+
+	return (size_t)(cp - str);
+}
+#endif
