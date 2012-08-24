@@ -166,6 +166,8 @@ typedef struct {
 
 	int	num_permitted_opens;
 
+	int	debian_banner;
+
 	char   *chroot_directory;
 	char   *revoked_keys_file;
 	char   *trusted_user_ca_keys;
