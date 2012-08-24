@@ -1,3 +1,14 @@
+openssh (1:6.0p1-3) unstable; urgency=low
+
+  * debconf template translations:
+    - Add Indonesian (thanks, Andika Triwidada; closes: #681670).
+  * Call restorecon on copied ~/.ssh/authorized_keys if possible, since some
+    SELinux policies require this (closes: #658675).
+  * Add ncurses-term to openssh-server's Recommends, since it's often needed
+    to support unusual terminal emulators on clients (closes: #675362).
+
+ -- Colin Watson <cjwatson@debian.org>  Fri, 24 Aug 2012 06:55:36 +0100
+
 openssh (1:6.0p1-2) unstable; urgency=low
 
   * Tighten libssl1.0.0 and libcrypto1.0.0-udeb dependencies to the current
