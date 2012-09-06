@@ -381,8 +381,7 @@ check_key_in_hostfiles(struct passwd *pw, Key *key, const char *host,
 		user_hostfile = tilde_expand_filename(userfile, pw->pw_uid);
 		if (options.strict_modes &&
 		    (stat(user_hostfile, &st) == 0) &&
-		    ((st.st_uid != 0 && st.st_uid != pw->pw_uid) ||
-		    (st.st_mode & 022) != 0)) {
+		    !secure_permissions(&st, pw->pw_uid)) {
 			logit("Authentication refused for %.100s: "
 			    "bad owner or modes for %.200s",
 			    pw->pw_name, user_hostfile);
@@ -443,8 +442,7 @@ secure_filename(FILE *f, const char *file, struct passwd *pw,
 
 	/* check the open file to avoid races */
 	if (fstat(fileno(f), &st) < 0 ||
-	    (st.st_uid != 0 && st.st_uid != uid) ||
-	    (st.st_mode & 022) != 0) {
+	    !secure_permissions(&st, uid)) {
 		snprintf(err, errlen, "bad ownership or modes for file %s",
 		    buf);
 		return -1;
@@ -459,8 +457,7 @@ secure_filename(FILE *f, const char *file, struct passwd *pw,
 		strlcpy(buf, cp, sizeof(buf));
 
 		if (stat(buf, &st) < 0 ||
-		    (st.st_uid != 0 && st.st_uid != uid) ||
-		    (st.st_mode & 022) != 0) {
+		    !secure_permissions(&st, uid)) {
 			snprintf(err, errlen,
 			    "bad ownership or modes for directory %s", buf);
 			return -1;
