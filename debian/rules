@@ -12,6 +12,13 @@ else
   RUN_TESTS :=
 endif
 
+ifeq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+  PARALLEL :=
+else
+  PARALLEL := \
+	-j$(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+endif
+
 DEB_HOST_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
 DEB_BUILD_GNU_TYPE ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
 
@@ -37,7 +44,7 @@ endif
 # Change the version string to include the Debian version
 SSH_EXTRAVERSION := Debian-$(shell dpkg-parsechangelog | sed -n -e '/^Version:/s/Version: //p' | sed -e 's/[^-]*-//')
 
-DISTRIBUTOR := $(shell dpkg-vendor --derives-from Ubuntu 2>/dev/null && echo Ubuntu)
+DISTRIBUTOR := $(shell if dpkg-vendor --derives-from Ubuntu 2>/dev/null; then echo Ubuntu; else echo Debian; fi)
 ifeq ($(DISTRIBUTOR),Ubuntu)
 DEFAULT_PATH := /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/bin/X11:/usr/games
 else
@@ -77,6 +84,9 @@ confflags += --with-ssl-engine
 ifeq ($(DEB_HOST_ARCH_OS),linux)
 confflags += --with-selinux
 endif
+ifeq ($(DISTRIBUTOR),Ubuntu)
+confflags += --with-consolekit
+endif
 
 # The deb build wants xauth; the udeb build doesn't.
 confflags += --with-xauth=/usr/bin/xauth
@@ -105,6 +115,16 @@ confflags_udeb += --with-ldflags='-Wl,--as-needed'
 %:
 	dh $@
 
+DISTRIBUTOR_REPLACE := \
+	debian/openssh-server.if-up \
+	debian/openssh-server.ssh.init \
+	debian/openssh-server.postinst \
+	debian/openssh-server.prerm \
+	debian/ssh-krb5.postinst
+
+debian/%: debian/%.in
+	sed 's/@DISTRIBUTOR@/$(DISTRIBUTOR)/g' $< >$@
+
 override_dh_auto_configure:
 	dh_auto_configure -Bbuild-deb -- $(confflags)
 	dh_auto_configure -Bbuild-udeb -- $(confflags_udeb)
@@ -118,8 +138,8 @@ override_dh_auto_build:
 	perl -pi -e 's/ +-lnsl//' build-udeb/config.status
 	cd build-udeb && ./config.status
 
-	$(MAKE) -C build-deb -j 2 ASKPASS_PROGRAM='/usr/bin/ssh-askpass'
-	$(MAKE) -C build-udeb -j 2 ASKPASS_PROGRAM='/usr/bin/ssh-askpass' ssh scp sftp sshd ssh-keygen
+	$(MAKE) -C build-deb $(PARALLEL) ASKPASS_PROGRAM='/usr/bin/ssh-askpass'
+	$(MAKE) -C build-udeb $(PARALLEL) ASKPASS_PROGRAM='/usr/bin/ssh-askpass' ssh scp sftp sshd ssh-keygen
 
 	$(MAKE) -C contrib gnome-ssh-askpass2 CC='$(CC) $(default_cflags) -Wall -Wl,--as-needed $(default_ldflags)' PKG_CONFIG=$(PKG_CONFIG)
 
@@ -137,10 +157,14 @@ endif
 	(cat debian/copyright.head; iconv -f ISO-8859-1 -t UTF-8 LICENCE) \
 		> debian/copyright
 
+override_dh_clean:
+	dh_clean
+	rm -f $(DISTRIBUTOR_REPLACE)
+
 override_dh_auto_install:
 	$(MAKE) -C build-deb DESTDIR=`pwd`/debian/tmp install-nokeys
 
-override_dh_install:
+override_dh_install: $(DISTRIBUTOR_REPLACE)
 	rm -f debian/tmp/etc/ssh/sshd_config
 
 	dh_install -Nopenssh-client-udeb -Nopenssh-server-udeb --fail-missing
@@ -158,6 +182,11 @@ override_dh_install:
 		debian/openssh-client/etc/ssh/moduli \
 		debian/openssh-client/etc/ssh/ssh_config
 
+	# dh_apport would be neater, but at the time of writing it isn't in
+	# unstable yet.
+	install -p -m 644 debian/openssh-client.apport debian/openssh-client/usr/share/apport/package-hooks/openssh-client.py
+	install -p -m 644 debian/openssh-server.apport debian/openssh-server/usr/share/apport/package-hooks/openssh-server.py
+
 override_dh_installdocs:
 	dh_installdocs -Nopenssh-server -Nssh
 	dh_installdocs -popenssh-server -pssh --link-doc=openssh-client
@@ -166,6 +195,12 @@ override_dh_installdocs:
 
 override_dh_installinit:
 	dh_installinit -n --name ssh
+ifeq ($(DISTRIBUTOR),Ubuntu)
+	# We need to keep the init script as well as the Upstart job for
+	# now, for the benefit of people running sshd in chroots.
+	install -D -o root -g root debian/openssh-server.ssh.init debian/openssh-server/etc/init.d/ssh
+	install -D -o root -g root -m 644 debian/openssh-server.ssh.default debian/openssh-server/etc/default/ssh
+endif
 
 override_dh_installpam:
 	dh_installpam --name sshd
@@ -179,7 +214,7 @@ override_dh_shlibdeps:
 	dh_shlibdeps
 	debian/adjust-openssl-dependencies
 
-override_dh_installdeb:
+override_dh_installdeb: $(DISTRIBUTOR_REPLACE)
 	dh_installdeb
 	perl -i debian/substitute-conffile.pl \
 		ETC_SSH_MODULI debian/openssh-client/etc/ssh/moduli \
@@ -195,6 +230,9 @@ override_dh_installdeb:
 
 override_dh_gencontrol:
 	dh_gencontrol -- -V'openssh-server:Recommends=$(server_recommends)'
+
+override_dh_builddeb:
+	dh_builddeb -Zxz
 
 debian/faq.html:
 	wget -O - http://www.openssh.org/faq.html | \

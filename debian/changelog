@@ -1,3 +1,20 @@
+openssh (1:6.1p1-2) experimental; urgency=low
+
+  * Use xz compression for binary packages.
+  * Merge from Ubuntu:
+    - Add support for registering ConsoleKit sessions on login.  (This is
+      currently enabled only when building for Ubuntu.)
+    - Drop openssh-blacklist and openssh-blacklist-extra to Suggests.  It's
+      been long enough since the relevant vulnerability that we shouldn't
+      need these installed by default nowadays.
+    - Add an Upstart job (not currently used by default in Debian).
+    - Add mention of ssh-keygen in ssh connect warning (Scott Moser).
+    - Install apport hooks.
+  * Only build with -j if DEB_BUILD_OPTIONS=parallel=* is used (closes:
+    #694282).
+
+ -- Colin Watson <cjwatson@debian.org>  Mon, 26 Nov 2012 16:39:07 +0000
+
 openssh (1:6.1p1-1) experimental; urgency=low
 
   * New upstream release (http://www.openssh.com/txt/release-6.1).
