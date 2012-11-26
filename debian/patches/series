@@ -17,12 +17,16 @@ syslog-level-silent.patch
 quieter-signals.patch
 helpful-wait-terminate.patch
 
+# ConsoleKit
+consolekit.patch
+
 # Miscellaneous bug fixes
 user-group-modes.patch
 scp-quoting.patch
 shell-path.patch
 dnssec-sshfp.patch
 auth-log-verbosity.patch
+mention-ssh-keygen-on-keychange.patch
 
 # Versioning
 package-versioning.patch
@@ -36,6 +40,7 @@ lintian-symlink-pickiness.patch
 openbsd-docs.patch
 ssh-argv0.patch
 doc-hash-tab-completion.patch
+doc-upstart.patch
 
 # Debian-specific configuration
 gnome-ssh-askpass2-icon.patch
