@@ -172,6 +172,7 @@ typedef struct {
 	char   *authorized_principals_file;
 
 	char   *version_addendum;	/* Appended to SSH banner */
+	int	debian_banner;
 }       ServerOptions;
 
 /* Information about the incoming connection as used by Match */
