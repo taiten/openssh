@@ -1,3 +1,13 @@
+openssh (1:6.1p1-3) experimental; urgency=low
+
+  * Give ssh and ssh-krb5 versioned dependencies on openssh-client and
+    openssh-server, to try to reduce confusion when people run 'apt-get
+    install ssh' or similar and expect that to upgrade everything relevant.
+  * CVE-2010-5107: Improve DoS resistance by changing default of MaxStartups
+    to 10:30:100 (closes: #700102).
+
+ -- Colin Watson <cjwatson@debian.org>  Fri, 08 Feb 2013 21:07:31 +0000
+
 openssh (1:6.1p1-2) experimental; urgency=low
 
   * Use xz compression for binary packages.
