@@ -1,4 +1,4 @@
-/* $Id: platform.c,v 1.18 2011/01/11 06:02:25 djm Exp $ */
+/* $Id: platform.c,v 1.19 2013/03/12 00:31:05 dtucker Exp $ */
 
 /*
  * Copyright (c) 2006 Darren Tucker.  All rights reserved.
