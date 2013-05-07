@@ -75,6 +75,8 @@ enum monitor_reqtype {
 
 	MONITOR_REQ_AUTHROLE = 300,
 
+	MONITOR_REQ_CONSOLEKIT_REGISTER = 400, MONITOR_ANS_CONSOLEKIT_REGISTER = 401,
+
 };
 
 struct mm_master;
