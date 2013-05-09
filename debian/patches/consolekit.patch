@@ -1,7 +1,7 @@
 Description: Add support for registering ConsoleKit sessions on login
 Author: Colin Watson <cjwatson@ubuntu.com>
 Bug: https://bugzilla.mindrot.org/show_bug.cgi?id=1450
-Last-Updated: 2013-05-07
+Last-Updated: 2013-05-09
 
 Index: b/Makefile.in
 ===================================================================
@@ -228,7 +228,7 @@ Index: b/consolekit.c
 ===================================================================
 --- /dev/null
 +++ b/consolekit.c
-@@ -0,0 +1,239 @@
+@@ -0,0 +1,240 @@
 +/*
 + * Copyright (c) 2008 Colin Watson.  All rights reserved.
 + *
@@ -277,6 +277,7 @@ Index: b/consolekit.c
 +
 +#include <ck-connector.h>
 +
++#include "openbsd-compat/sys-queue.h"
 +#include "xmalloc.h"
 +#include "channels.h"
 +#include "key.h"
@@ -552,10 +553,11 @@ Index: b/monitor.c
  
  	for (;;)
  		monitor_read(pmonitor, mon_dispatch, NULL);
-@@ -2232,6 +2248,34 @@
- 	buffer_put_int(m, major);
- 	buffer_put_string(m, hash.value, hash.length);
+@@ -2472,3 +2488,31 @@
+ }
  
+ #endif /* JPAKE */
++
 +#ifdef USE_CONSOLEKIT
 +int
 +mm_answer_consolekit_register(int sock, Buffer *m)
@@ -583,10 +585,6 @@ Index: b/monitor.c
 +	return (0);
 +}
 +#endif /* USE_CONSOLEKIT */
-+
- 	mm_request_send(socket, MONITOR_ANS_GSSSIGN, m);
- 
- 	gss_release_buffer(&minor, &hash);
 Index: b/monitor.h
 ===================================================================
 --- a/monitor.h
@@ -604,10 +602,10 @@ Index: b/monitor_wrap.c
 ===================================================================
 --- a/monitor_wrap.c
 +++ b/monitor_wrap.c
-@@ -1311,6 +1311,37 @@
- mm_ssh_gssapi_sign(Gssctxt *ctx, gss_buffer_desc *data, gss_buffer_desc *hash)
- {
- 	Buffer m;
+@@ -1514,3 +1514,34 @@
+ 	return success;
+ }
+ #endif /* JPAKE */
 +
 +#ifdef USE_CONSOLEKIT
 +char *
@@ -639,9 +637,6 @@ Index: b/monitor_wrap.c
 +	return (cookie);
 +}
 +#endif /* USE_CONSOLEKIT */
- 	OM_uint32 major;
- 	u_int len;
- 
 Index: b/monitor_wrap.h
 ===================================================================
 --- a/monitor_wrap.h
