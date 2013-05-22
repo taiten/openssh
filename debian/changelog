@@ -1,3 +1,58 @@
+openssh (1:6.2p2-3) unstable; urgency=low
+
+  * If the running init daemon is Upstart, then, on the first upgrade to
+    this version, check whether sysvinit is still managing sshd; if so,
+    manually stop it so that it can be restarted under upstart.  We do this
+    near the end of the postinst, so it shouldn't result in any appreciable
+    extra window where sshd is not running during upgrade.
+
+ -- Colin Watson <cjwatson@debian.org>  Wed, 22 May 2013 17:42:10 +0100
+
+openssh (1:6.2p2-2) unstable; urgency=low
+
+  * Change start condition of Upstart job to be just the standard "runlevel
+    [2345]", rather than "filesystem or runlevel [2345]"; the latter makes
+    it unreasonably difficult to ensure that urandom starts before ssh, and
+    is not really necessary since one of static-network-up and failsafe-boot
+    is guaranteed to happen and will trigger entry to the default runlevel,
+    and we don't care about ssh starting before the network (LP: #1098299).
+  * Drop conffile handling for direct upgrades from pre-split ssh package;
+    this was originally added in 1:4.3p2-7 / 1:4.3p2-8, and contained a
+    truly ghastly hack around a misbehaviour in sarge's dpkg.  Since this is
+    now four Debian releases ago, we can afford to drop this and simplify
+    the packaging.
+  * Remove ssh/use_old_init_script, which was a workaround for a very old
+    bug in /etc/init.d/ssh.  If anyone has ignored this for >10 years then
+    they aren't going to be convinced now (closes: #214182).
+  * Remove support for upgrading directly from ssh-nonfree.
+  * Remove lots of maintainer script support for direct upgrades from
+    pre-etch (three releases before current stable).
+  * Add #DEBHELPER# tokens to openssh-client.postinst and
+    openssh-server.postinst.
+  * Replace old manual conffile handling code with dpkg-maintscript-helper,
+    via dh_installdeb.
+  * Switch to new unified layout for Upstart jobs as documented in
+    https://wiki.ubuntu.com/UpstartCompatibleInitScripts: the init script
+    checks for a running Upstart, and we now let dh_installinit handle most
+    of the heavy lifting in maintainer scripts.  Ubuntu users should be
+    essentially unaffected except that sshd may no longer start
+    automatically in chroots if the running Upstart predates 0.9.0; but the
+    main goal is simply not to break when openssh-server is installed in a
+    chroot.
+  * Remove the check for vulnerable host keys; this was first added five
+    years ago, and everyone should have upgraded through a version that
+    applied these checks by now.  The ssh-vulnkey tool and the blacklisting
+    support in sshd are still here, at least for the moment.
+  * This removes the last of our uses of debconf (closes: #221531).
+  * Use the pam_loginuid session module (thanks, Laurent Bigonville; closes:
+    #677440, LP: #1067779).
+  * Bracket our session stack with calls to pam_selinux close/open (thanks,
+    Laurent Bigonville; closes: #679458).
+  * Fix dh_builddeb invocation so that we really use xz compression for
+    binary packages, as intended since 1:6.1p1-2.
+
+ -- Colin Watson <cjwatson@debian.org>  Wed, 22 May 2013 09:07:42 +0100
+
 openssh (1:6.2p2-1) unstable; urgency=low
 
   * New upstream release (http://www.openssh.com/txt/release-6.2p2):
