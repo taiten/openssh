@@ -233,7 +233,7 @@ rsa_key_allowed_in_file(struct passwd *pw, char *file,
 			    file, linenum, BN_num_bits(key->rsa->n), bits);
 
 		/* Never accept a revoked key */
-		if (auth_key_is_revoked(key))
+		if (auth_key_is_revoked(key, 0))
 			break;
 
 		/* We have found the desired key. */
