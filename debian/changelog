@@ -1,3 +1,37 @@
+openssh (1:6.5p1-1) unstable; urgency=medium
+
+  * New upstream release (http://www.openssh.com/txt/release-6.5,
+    LP: #1275068):
+    - ssh(1): Add support for client-side hostname canonicalisation using a
+      set of DNS suffixes and rules in ssh_config(5).  This allows
+      unqualified names to be canonicalised to fully-qualified domain names
+      to eliminate ambiguity when looking up keys in known_hosts or checking
+      host certificate names (closes: #115286).
+  * Switch to git; adjust Vcs-* fields.
+  * Convert to git-dpm, and drop source package documentation associated
+    with the old bzr/quilt patch handling workflow.
+  * Drop ssh-vulnkey and the associated ssh/ssh-add/sshd integration code,
+    leaving only basic configuration file compatibility, since it has been
+    nearly six years since the original vulnerability and this code is not
+    likely to be of much value any more (closes: #481853, #570651).  See
+    https://lists.debian.org/debian-devel/2013/09/msg00240.html for my full
+    reasoning.
+  * Add OpenPGP signature checking configuration to watch file (thanks,
+    Daniel Kahn Gillmor; closes: #732441).
+  * Add the pam_keyinit session module, to create a new session keyring on
+    login (closes: #734816).
+  * Incorporate default path changes from shadow 1:4.0.18.1-8, removing
+    /usr/bin/X11 (closes: #644521).
+  * Generate ED25519 host keys on fresh installations.  Upgraders who wish
+    to add such host keys should manually add 'HostKey
+    /etc/ssh/ssh_host_ed25519_key' to /etc/ssh/sshd_config and run
+    'ssh-keygen -q -f /etc/ssh/ssh_host_ed25519_key -N "" -t ed25519'.
+  * Drop long-obsolete "SSH now uses protocol 2 by default" section from
+    README.Debian.
+  * Add systemd support (thanks, Sven Joachim; closes: #676830).
+
+ -- Colin Watson <cjwatson@debian.org>  Mon, 10 Feb 2014 14:58:26 +0000
+
 openssh (1:6.4p1-2) unstable; urgency=high
 
   * Increase ServerKeyBits value in package-generated sshd_config to 1024
