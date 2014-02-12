@@ -1,3 +1,32 @@
+openssh (1:6.5p1-3) unstable; urgency=medium
+
+  * Clarify socket activation mode in README.Debian, as suggested by Uoti
+    Urpala.
+  * Stop claiming that "Protocol 2" is a Debian-specific default; this has
+    been upstream's default since 5.4p1.
+  * Avoid stdout noise from which(1) on purge of openssh-client.
+  * Fix sysvinit->systemd transition code to cope with still-running
+    sysvinit jobs being considered active by systemd (thanks, Uoti Urpala
+    and Michael Biebl).
+  * Bump guard version for sysvinit->systemd transition to 1:6.5p1-3; we may
+    have got it wrong before, and it's fairly harmless to repeat it.
+  * Remove tests for whether /dev/null is a character device from the
+    Upstart job and the systemd service files; it's there to avoid a
+    confusing failure mode in daemon(), but with modern init systems we use
+    the -D option to suppress daemonisation anyway.
+  * Refer to /usr/share/common-licenses/GPL-2 in debian/copyright (for the
+    Debian patch) rather than plain GPL.
+  * Drop some very old Conflicts and Replaces (ssh (<< 1:3.8.1p1-9),
+    rsh-client (<< 0.16.1-1), ssh-krb5 (<< 1:4.3p2-7), ssh-nonfree (<< 2),
+    and openssh-client (<< 1:3.8.1p1-11)).  These all relate to pre-etch
+    versions, for which we no longer have maintainer script code, and per
+    policy they would have to become Breaks nowadays anyway.
+  * Policy version 3.9.5.
+  * Drop unnecessary -1 in zlib1g Build-Depends version.
+  * Tweak dh_systemd_enable invocations to avoid lots of error noise.
+
+ -- Colin Watson <cjwatson@debian.org>  Wed, 12 Feb 2014 13:10:08 +0000
+
 openssh (1:6.5p1-2) unstable; urgency=medium
 
   * Only enable ssh.service for systemd, not both ssh.service and
