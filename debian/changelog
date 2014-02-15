@@ -1,3 +1,17 @@
+openssh (1:6.5p1-4) unstable; urgency=medium
+
+  * Configure --without-hardening on hppa, to work around
+    http://gcc.gnu.org/bugzilla/show_bug.cgi?id=60155 (closes: #738798).
+  * Amend "Running sshd from inittab" instructions in README.Debian to
+    recommend 'update-rc.d ssh disable', rather than manual removal of rc*.d
+    symlinks that won't work with dependency-based sysv-rc.
+  * Remove code related to non-dependency-based sysv-rc ordering, since that
+    is no longer supported.
+  * Apply patch from https://bugzilla.mindrot.org/show_bug.cgi?id=2200 to
+    fix getsockname errors when using "ssh -W" (closes: #738693).
+
+ -- Colin Watson <cjwatson@debian.org>  Sat, 15 Feb 2014 02:19:36 +0000
+
 openssh (1:6.5p1-3) unstable; urgency=medium
 
   * Clarify socket activation mode in README.Debian, as suggested by Uoti
