@@ -1,3 +1,16 @@
+openssh (1:6.6p1-7) unstable; urgency=medium
+
+  * Make sure that DEB_HOST_ARCH is set, even when invoking debian/rules
+    directly.
+  * Use dh-exec to simplify override_dh_install target.
+  * Remove several unnecessary entries in debian/*.dirs.
+  * Pass noupdate to the second call to pam_motd, not the first (thanks, Ken
+    T Takusagawa; closes: #757059).
+  * Debconf translations:
+    - Turkish (thanks, Mert Dirik; closes: #756757).
+
+ -- Colin Watson <cjwatson@debian.org>  Tue, 05 Aug 2014 09:10:04 +0100
+
 openssh (1:6.6p1-6) unstable; urgency=medium
 
   * Upgrade to debhelper v9.
