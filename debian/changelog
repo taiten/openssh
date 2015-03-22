@@ -1,3 +1,15 @@
+openssh (1:6.7p1-5) unstable; urgency=medium
+
+  * Revert change from previous upload, which causes far more trouble than
+    it is worth (closes: #780797):
+    - Send/accept only specific known LC_* variables, rather than using a
+      wildcard.
+  * Add a NEWS.Debian entry documenting this reversion, as it is too
+    difficult to undo the sshd_config change automatically without
+    compounding the problem of (arguably) overwriting user configuration.
+
+ -- Colin Watson <cjwatson@debian.org>  Sun, 22 Mar 2015 23:20:56 +0000
+
 openssh (1:6.7p1-4) unstable; urgency=medium
 
   * Send/accept only specific known LC_* variables, rather than using a
