@@ -1,4 +1,4 @@
-From 581424965d2d722a991c3247d4c0bb5950cb4fc5 Mon Sep 17 00:00:00 2001
+From 88ebb6a4a95f2f9ded930587c33f08cff0fc1db4 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@debian.org>
 Date: Sun, 9 Feb 2014 16:10:18 +0000
 Subject: Various Debian-specific configuration changes
@@ -22,22 +22,23 @@ debian/openssh-server.postinst.
 
 Author: Russ Allbery <rra@debian.org>
 Forwarded: not-needed
-Last-Update: 2015-03-22
+Last-Update: 2015-08-19
 
 Patch-Name: debian-config.patch
 ---
  readconf.c    |  2 +-
+ ssh.1         | 21 +++++++++++++++++++++
  ssh_config    |  7 ++++++-
  ssh_config.5  | 19 ++++++++++++++++++-
- sshd_config   |  1 +
+ sshd_config   |  3 ++-
  sshd_config.5 | 25 +++++++++++++++++++++++++
- 5 files changed, 51 insertions(+), 3 deletions(-)
+ 6 files changed, 73 insertions(+), 4 deletions(-)
 
 diff --git a/readconf.c b/readconf.c
-index 0648867..29338b6 100644
+index 5f6c37f..f0769b5 100644
 --- a/readconf.c
 +++ b/readconf.c
-@@ -1681,7 +1681,7 @@ fill_default_options(Options * options)
+@@ -1748,7 +1748,7 @@ fill_default_options(Options * options)
  	if (options->forward_x11 == -1)
  		options->forward_x11 = 0;
  	if (options->forward_x11_trusted == -1)
@@ -46,6 +47,44 @@ index 0648867..29338b6 100644
  	if (options->forward_x11_timeout == -1)
  		options->forward_x11_timeout = 1200;
  	if (options->exit_on_forward_failure == -1)
+diff --git a/ssh.1 b/ssh.1
+index 2178863..e2cce49 100644
+--- a/ssh.1
++++ b/ssh.1
+@@ -670,12 +670,33 @@ option and the
+ directive in
+ .Xr ssh_config 5
+ for more information.
++.Pp
++(Debian-specific: X11 forwarding is not subjected to X11 SECURITY extension
++restrictions by default, because too many programs currently crash in this
++mode.
++Set the
++.Cm ForwardX11Trusted
++option to
++.Dq no
++to restore the upstream behaviour.
++This may change in future depending on client-side improvements.)
+ .It Fl x
+ Disables X11 forwarding.
+ .It Fl Y
+ Enables trusted X11 forwarding.
+ Trusted X11 forwardings are not subjected to the X11 SECURITY extension
+ controls.
++.Pp
++(Debian-specific: This option does nothing in the default configuration: it
++is equivalent to
++.Dq Cm ForwardX11Trusted No yes ,
++which is the default as described above.
++Set the
++.Cm ForwardX11Trusted
++option to
++.Dq no
++to restore the upstream behaviour.
++This may change in future depending on client-side improvements.)
+ .It Fl y
+ Send log information using the
+ .Xr syslog 3
 diff --git a/ssh_config b/ssh_config
 index 228e5ab..c9386aa 100644
 --- a/ssh_config
@@ -71,10 +110,10 @@ index 228e5ab..c9386aa 100644
 +    GSSAPIAuthentication yes
 +    GSSAPIDelegateCredentials no
 diff --git a/ssh_config.5 b/ssh_config.5
-index a1005ba..da3c177 100644
+index acd581b..844d1a0 100644
 --- a/ssh_config.5
 +++ b/ssh_config.5
-@@ -71,6 +71,22 @@ Since the first obtained value for each parameter is used, more
+@@ -74,6 +74,22 @@ Since the first obtained value for each parameter is used, more
  host-specific declarations should be given near the beginning of the
  file, and general defaults at the end.
  .Pp
@@ -97,7 +136,7 @@ index a1005ba..da3c177 100644
  The configuration file has the following format:
  .Pp
  Empty lines and lines starting with
-@@ -673,7 +689,8 @@ token used for the session will be set to expire after 20 minutes.
+@@ -716,7 +732,8 @@ token used for the session will be set to expire after 20 minutes.
  Remote clients will be refused access after this time.
  .Pp
  The default is
@@ -108,19 +147,21 @@ index a1005ba..da3c177 100644
  See the X11 SECURITY extension specification for full details on
  the restrictions imposed on untrusted clients.
 diff --git a/sshd_config b/sshd_config
-index d9b8594..4db32f5 100644
+index 1dfd0f1..23a338f 100644
 --- a/sshd_config
 +++ b/sshd_config
-@@ -41,6 +41,7 @@
+@@ -41,7 +41,8 @@
  # Authentication:
  
  #LoginGraceTime 2m
+-#PermitRootLogin no
 +# See /usr/share/doc/openssh-server/README.Debian.gz.
- #PermitRootLogin yes
++#PermitRootLogin without-password
  #StrictModes yes
  #MaxAuthTries 6
+ #MaxSessions 10
 diff --git a/sshd_config.5 b/sshd_config.5
-index 7396b23..7aa7b47 100644
+index 355b445..eb6bff8 100644
 --- a/sshd_config.5
 +++ b/sshd_config.5
 @@ -57,6 +57,31 @@ Arguments may optionally be enclosed in double quotes
