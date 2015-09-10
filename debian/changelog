@@ -1,3 +1,15 @@
+openssh (1:6.9p1-2) unstable; urgency=medium
+
+  [ Colin Watson ]
+  * mention-ssh-keygen-on-keychange.patch: Move example ssh-keygen
+    invocation onto a separate line to make it easier to copy and paste
+    (LP: #1491532).
+
+  [ Tyler Hicks ]
+  * Build with audit support on Linux (closes: #797727, LP: #1478087).
+
+ -- Colin Watson <cjwatson@debian.org>  Thu, 10 Sep 2015 12:26:11 +0100
+
 openssh (1:6.9p1-1) unstable; urgency=medium
 
   * New upstream release (http://www.openssh.com/txt/release-6.8):
