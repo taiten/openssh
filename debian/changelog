@@ -1,3 +1,15 @@
+openssh (1:6.9p1-3) unstable; urgency=medium
+
+  * ssh_config(5): Fix markup errors in description of GSSAPITrustDns
+    (closes: #799271).
+  * Fix dh_install and dh_fixperms overrides to work properly with an
+    architecture-independent-only build (closes: #806090).
+  * Do much less work in architecture-independent-only builds.
+  * Drop ConsoleKit session registration patch; it was only ever enabled for
+    Ubuntu, which no longer needs it (LP: #1334916, #1502045).
+
+ -- Colin Watson <cjwatson@debian.org>  Tue, 24 Nov 2015 22:48:53 +0000
+
 openssh (1:6.9p1-2) unstable; urgency=medium
 
   [ Colin Watson ]
