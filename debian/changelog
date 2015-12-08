@@ -1,3 +1,18 @@
+openssh (1:7.1p1-2) unstable; urgency=medium
+
+  * Really enable conch interoperability tests under autopkgtest.
+  * Drop SSH1 keepalive patch.  Now that SSH1 is disabled at compile-time,
+    it's been rejected upstream and there isn't much point carrying it any
+    more.
+  * Add NEWS.Debian documenting cryptographic changes in OpenSSH 7.0
+    (closes: #806962).
+  * Add an openssh-client-ssh1 binary package for people who need to connect
+    to outdated SSH1-only servers (closes: #807107).
+  * Update "Subsystem sftp" path in example sshd_config (closes: #691004,
+    LP: #1437005).
+
+ -- Colin Watson <cjwatson@debian.org>  Tue, 08 Dec 2015 15:33:08 +0000
+
 openssh (1:7.1p1-1) unstable; urgency=medium
 
   * New upstream release (http://www.openssh.com/txt/release-7.0, closes:
