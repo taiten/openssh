@@ -1,3 +1,19 @@
+openssh (1:7.1p1-6) unstable; urgency=medium
+
+  [ Colin Watson ]
+  * Remove explicit "XS-Testsuite: autopkgtest" from debian/control;
+    dpkg-source now figures that out automatically based on the existence of
+    debian/tests/control.
+  * Allow authenticating as root using gssapi-keyex even with
+    "PermitRootLogin prohibit-password" (closes: #809695).
+  * Shuffle PROPOSAL_KEX_ALGS mangling for GSSAPI key exchange a little
+    later in ssh_kex2 so that it's actually effective (closes: #809696).
+
+  [ Michael Biebl ]
+  * Don't call sd_notify when sshd is re-execed (closes: #809035).
+
+ -- Colin Watson <cjwatson@debian.org>  Mon, 04 Jan 2016 15:09:10 +0000
+
 openssh (1:7.1p1-5) unstable; urgency=medium
 
   [ Michael Biebl ]
