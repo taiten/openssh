@@ -1,3 +1,22 @@
+openssh (1:7.2p2-8) unstable; urgency=medium
+
+  [ Colin Watson ]
+  * Stop enabling ssh-session-cleanup.service by default; instead, ship it
+    as an example and add a section to README.Debian.  libpam-systemd >= 230
+    and "UsePAM yes" should take care of the original problem for most
+    systemd users (thanks, Michael Biebl; closes: #832155).
+
+  [ Martin Pitt ]
+  * Add debian/agent-launch: Helper script for conditionally starting the SSH
+    agent in the user session. Use it in ssh-agent.user-session.upstart.
+  * Add systemd user unit for graphical sessions that use systemd. Override
+    the corresponding upstart job in that case (closes: #832445).
+  * debian/openssh-server.if-up: Don't block on a finished reload of
+    openssh.service, to avoid deadlocking with restarting networking.
+    (closes: #832557, LP: #1584393)
+
+ -- Colin Watson <cjwatson@debian.org>  Fri, 29 Jul 2016 02:51:32 +0100
+
 openssh (1:7.2p2-7) unstable; urgency=medium
 
   * Don't stop the ssh-session-cleanup service on upgrade (closes: #832155).
