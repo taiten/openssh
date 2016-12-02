@@ -1,3 +1,17 @@
+openssh (1:7.3p1-4) unstable; urgency=medium
+
+  * Adjust Build-Depends further to avoid considering libssl-dev >= 1.1.0~
+    as sufficient.
+  * Move build directories under debian/.
+  * Remove the non-upstream .gitignore file and add the relevant entries to
+    debian/.gitignore, in order to make the source tree more
+    dgit-compatible.
+  * Build all upstream regression test binaries using the new
+    "regress-binaries" target.
+  * Fix and enable PuTTY interoperability tests under autopkgtest.
+
+ -- Colin Watson <cjwatson@debian.org>  Fri, 02 Dec 2016 20:49:30 +0000
+
 openssh (1:7.3p1-3) unstable; urgency=medium
 
   * Avoid building with OpenSSL 1.1 for now (see #828475).
