@@ -146,19 +146,14 @@ override_dh_auto_build-arch:
 	$(MAKE) -C debian/build-deb-ssh1 $(PARALLEL) SSH_PROGRAM='/usr/bin/ssh1' ASKPASS_PROGRAM='/usr/bin/ssh-askpass' ssh scp ssh-keygen
 	$(MAKE) -C debian/build-udeb $(PARALLEL) ASKPASS_PROGRAM='/usr/bin/ssh-askpass' ssh scp sftp sshd ssh-keygen
 
-	$(MAKE) -C contrib gnome-ssh-askpass2 CC='$(CC) $(CPPFLAGS) $(CFLAGS) -Wall -Wl,--as-needed $(LDFLAGS)' PKG_CONFIG=$(PKG_CONFIG)
+	$(MAKE) -C contrib gnome-ssh-askpass3 CC='$(CC) $(CPPFLAGS) $(CFLAGS) -Wall -Wl,--as-needed $(LDFLAGS)' PKG_CONFIG=$(PKG_CONFIG)
 
 override_dh_auto_build-indep:
 
 override_dh_auto_test-arch:
 ifeq ($(RUN_TESTS),yes)
 	$(MAKE) -C debian/build-deb regress-prep
-	$(MAKE) -C debian/build-deb $(PARALLEL) \
-		regress/unittests/sshbuf/test_sshbuf \
-		regress/unittests/sshkey/test_sshkey \
-		regress/unittests/bitmap/test_bitmap \
-		regress/unittests/hostkeys/test_hostkeys \
-		regress/unittests/kex/test_kex
+	$(MAKE) -C debian/build-deb $(PARALLEL) regress-binaries
 	$(MAKE) -C debian/build-deb/regress \
 		.OBJDIR="$(CURDIR)/debian/build-deb/regress" \
 		.CURDIR="$(CURDIR)/regress" \
