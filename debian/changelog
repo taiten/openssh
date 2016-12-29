@@ -1,3 +1,12 @@
+openssh (1:7.4p1-2) unstable; urgency=medium
+
+  * Attempt to hack around regress/forwarding.sh test failure in some
+    environments.
+  * Avoid calling into Kerberos libraries from ssh_gssapi_server_mechanisms
+    in the privsep monitor.
+
+ -- Colin Watson <cjwatson@debian.org>  Thu, 29 Dec 2016 12:02:12 +0000
+
 openssh (1:7.4p1-1) unstable; urgency=medium
 
   * New upstream release (http://www.openssh.com/txt/release-7.4):
