@@ -19,18 +19,15 @@ openssh-tests ALL = (ALL:ALL) NOPASSWD: ALL
 EOF
 	chmod 440 /etc/sudoers.d/openssh-tests
 	mkdir -p "$TMP"
-	chown openssh-tests:openssh-tests "$TMP"
+	cp -a . "$TMP/tree"
+	chown -R openssh-tests:openssh-tests "$TMP"
 	sudo -u openssh-tests env TMP="$TMP" "$0" "$@"
 	exit "$?"
 fi
 
 # Don't use "make tests"; we want to test the installed version.
 
-cp -a . "$TMP/tree"
 cd "$TMP/tree"
-
-# Attempt to hack around test failure in some environments.
-sed -i 's/^base=33/base=34/' regress/forwarding.sh
 
 # We aren't actually going to use most of this build, but we need a basic
 # build tree in place in order to be able to build the regression tests.
@@ -48,17 +45,26 @@ make regress-binaries
 
 SRCDIR="$(pwd)"
 BUILDDIR="$SRCDIR"
+ret=0
 make -C regress \
 	.OBJDIR="$BUILDDIR/regress" \
 	.CURDIR="$SRCDIR/regress" \
 	BUILDDIR="$BUILDDIR" \
 	OBJ="$BUILDDIR/regress" \
 	SUDO=sudo \
-	TEST_SHELL=sh \
+	TEST_SHELL='sh -x' \
 	TEST_SSH_SFTPSERVER=/usr/lib/openssh/sftp-server \
 	TEST_SSH_PLINK=plink \
 	TEST_SSH_PUTTYGEN=puttygen \
 	TEST_SSH_CONCH=conch \
 	TEST_SSH_IPV6=yes \
 	TEST_SSH_ECC=yes \
-	tests interop-tests </dev/zero
+	tests interop-tests </dev/zero || ret="$?"
+if [ "$ret" -ne 0 ]; then
+	for log in failed-regress.log failed-ssh.log failed-sshd.log; do
+		if [ -e "$BUILDDIR/regress/$log" ]; then
+			tail -v -n+0 "$BUILDDIR/regress/$log"
+		fi
+	done
+fi
+exit "$ret"
