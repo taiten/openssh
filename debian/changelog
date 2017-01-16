@@ -1,3 +1,16 @@
+openssh (1:7.4p1-6) unstable; urgency=medium
+
+  * Remove temporary file on exit from postinst (closes: #850275).
+  * Remove LOGIN_PROGRAM and LOGIN_NO_ENDOPT definitions, since UseLogin is
+    gone.
+  * Document sshd_config changes that may be needed following the removal of
+    protocol 1 support from sshd (closes: #851573).
+  * Remove ssh_host_dsa_key from HostKey default (closes: #850614).
+  * Fix rekeying failure with GSSAPI key exchange (thanks, Harald Barth;
+    closes: #819361, LP: #1608965).
+
+ -- Colin Watson <cjwatson@debian.org>  Mon, 16 Jan 2017 15:11:10 +0000
+
 openssh (1:7.4p1-5) unstable; urgency=medium
 
   * Create mux socket for regression tests in a temporary directory.
