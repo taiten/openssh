@@ -1,3 +1,15 @@
+openssh (1:7.4p1-7) unstable; urgency=medium
+
+  * Don't set "PermitRootLogin yes" on fresh installations (regression
+    introduced in 1:7.4p1-1; closes: #852781).
+  * Restore reading authorized_keys2 by default.  Upstream seems to intend
+    to gradually phase this out, so don't assume that this will remain the
+    default forever.  However, we were late in adopting the upstream
+    sshd_config changes, so it makes sense to extend the grace period
+    (closes: #852320).
+
+ -- Colin Watson <cjwatson@debian.org>  Sun, 05 Mar 2017 02:12:42 +0000
+
 openssh (1:7.4p1-6) unstable; urgency=medium
 
   * Remove temporary file on exit from postinst (closes: #850275).
