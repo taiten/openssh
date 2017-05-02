@@ -1,3 +1,15 @@
+openssh (1:7.5p1-3) experimental; urgency=medium
+
+  * Fix debian/adjust-openssl-dependencies to account for preferring
+    libssl1.0-dev.
+  * Adjust OpenSSL dependencies for openssh-client-ssh1 too.
+  * Fix purge failure when /etc/ssh has already somehow been removed
+    (LP: #1682817).
+  * Ensure that /etc/ssh exists before trying to create /etc/ssh/sshd_config
+    (LP: #1685022).
+
+ -- Colin Watson <cjwatson@debian.org>  Tue, 02 May 2017 13:51:27 +0100
+
 openssh (1:7.5p1-2) experimental; urgency=medium
 
   * Add missing header on Linux/s390.
