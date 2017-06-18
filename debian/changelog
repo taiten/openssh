@@ -1,3 +1,10 @@
+openssh (1:7.5p1-5) unstable; urgency=medium
+
+  * Upload to unstable.
+  * Fix syntax error in debian/copyright.
+
+ -- Colin Watson <cjwatson@debian.org>  Sun, 18 Jun 2017 12:08:42 +0100
+
 openssh (1:7.5p1-4) experimental; urgency=medium
 
   * Drop README.Debian section on privilege separation, as it's no longer
@@ -111,6 +118,13 @@ openssh (1:7.5p1-1) experimental; urgency=medium
       contain non-printable characters where the codeset in use is ASCII.
 
  -- Colin Watson <cjwatson@debian.org>  Sun, 02 Apr 2017 02:58:01 +0100
+
+openssh (1:7.4p1-11) unstable; urgency=medium
+
+  * Fix incoming compression statistics (thanks, Russell Coker; closes:
+    #797964).
+
+ -- Colin Watson <cjwatson@debian.org>  Tue, 06 Jun 2017 15:03:48 +0100
 
 openssh (1:7.4p1-10) unstable; urgency=medium
 
