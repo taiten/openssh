@@ -1,3 +1,11 @@
+openssh (1:7.5p1-9) unstable; urgency=medium
+
+  * Run debian/tests/regress with "set -x".
+  * Run haveged without "-w 1024", as setting the low water mark doesn't
+    seem possible in all autopkgtest virtualisation environments.
+
+ -- Colin Watson <cjwatson@debian.org>  Thu, 31 Aug 2017 13:23:04 +0100
+
 openssh (1:7.5p1-8) unstable; urgency=medium
 
   * Drop openssh-client-ssh1, now built by a separate source package.
