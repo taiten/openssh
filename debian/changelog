@@ -1,3 +1,23 @@
+openssh (1:7.6p1-3) unstable; urgency=medium
+
+  [ Colin Watson ]
+  * Remove the decade-old ssh-krb5 transitional package; upgrades of
+    openssh-server will preserve existing configuration, and new
+    installations should just enable GSSAPIAuthentication and
+    GSSAPIKeyExchange in sshd_config (closes: #878626).
+  * Support the "noudeb" build profile.
+  * Fix putty-transfer regression test.
+
+  [ Anders Kaseorg ]
+  * debian/systemd/ssh-agent.service: Add missing dbus dependency.
+
+  [ Jason Duerstock ]
+  * Add a "pkg.openssh.nognome" build profile, which disables building the
+    ssh-askpass-gnome binary package and avoids the build-dependency on
+    libgtk-3-dev (closes: #883819).
+
+ -- Colin Watson <cjwatson@debian.org>  Tue, 16 Jan 2018 17:41:08 +0000
+
 openssh (1:7.6p1-2) unstable; urgency=medium
 
   * Apply upstream patch to fix PermitOpen argument handling.
