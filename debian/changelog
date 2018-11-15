@@ -1,3 +1,27 @@
+openssh (1:7.9p1-3) unstable; urgency=medium
+
+  * Be more specific about what files to install in openssh-tests, to avoid
+    installing a symlink into the build tree.
+  * Re-export debian/upstream/signing-key.asc without extra signatures.
+  * Restore direct test dependencies on openssl, putty-tools, and
+    python-twisted-conch; these are really only indirect dependencies via
+    openssh-tests, but including them means that this package will be
+    retested when they change.
+
+ -- Colin Watson <cjwatson@debian.org>  Thu, 15 Nov 2018 01:30:56 +0000
+
+openssh (1:7.9p1-2) unstable; urgency=medium
+
+  * Add GitLab CI configuration.
+  * Make the autopkgtest create /run/sshd if it doesn't already exist.
+  * Drop "set -x" verbosity from the autopkgtest; I think we can do without
+    this in most cases nowadays.
+  * Add an openssh-tests binary package containing enough files to run the
+    upstream regression tests.  This allows autopkgtest to run more
+    efficiently, as it doesn't have to build part of the source tree again.
+
+ -- Colin Watson <cjwatson@debian.org>  Wed, 14 Nov 2018 15:55:48 +0000
+
 openssh (1:7.9p1-1) unstable; urgency=medium
 
   * New upstream release (https://www.openssh.com/txt/release-7.9):
