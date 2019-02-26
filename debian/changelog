@@ -1,3 +1,15 @@
+openssh (1:7.9p1-7) unstable; urgency=medium
+
+  * Recommend "default-logind | logind | libpam-systemd" rather than just
+    libpam-systemd (closes: #923199).  (I've retained libpam-systemd as an
+    alternative for a while to avoid backporting accidents, although it can
+    be removed later.)
+  * Pass "--exec /usr/sbin/sshd" to start-stop-daemon on stop as well as
+    start and pass "--chuid 0:0" on start, to avoid problems with non-root
+    groups leaking into the ownership of /run/sshd.pid (closes: #922365).
+
+ -- Colin Watson <cjwatson@debian.org>  Tue, 26 Feb 2019 15:13:23 +0000
+
 openssh (1:7.9p1-6) unstable; urgency=medium
 
   * CVE-2019-6109: Apply upstream patches to sanitize scp filenames via
