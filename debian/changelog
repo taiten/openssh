@@ -1,3 +1,10 @@
+openssh (1:8.0p1-5) unstable; urgency=medium
+
+  [ Lorenzo Puliti ]
+  * Add a runscript for runit (closes: #933999).
+
+ -- Colin Watson <cjwatson@debian.org>  Tue, 27 Aug 2019 15:18:54 +0100
+
 openssh (1:8.0p1-4) unstable; urgency=medium
 
   * Use debhelper-compat instead of debian/compat.
