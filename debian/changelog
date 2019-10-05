@@ -1,3 +1,15 @@
+openssh (1:8.0p1-7) unstable; urgency=medium
+
+  [ Daniel Kahn Gillmor ]
+  * runit: Correct typo in comment.
+
+  [ Colin Watson ]
+  * Apply upstream patch to deny (non-fatally) shmget/shmat/shmdt in preauth
+    privsep child, coping with changes in OpenSSL 1.1.1d that broke OpenSSH
+    on Linux kernels before 3.19 (closes: #941663).
+
+ -- Colin Watson <cjwatson@debian.org>  Sat, 05 Oct 2019 22:41:11 +0100
+
 openssh (1:8.0p1-6) unstable; urgency=medium
 
   * Only run dh_runit on openssh-server (closes: #935936).
