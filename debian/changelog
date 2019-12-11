@@ -1,3 +1,14 @@
+openssh (1:8.1p1-2) unstable; urgency=medium
+
+  * Drop "Allow flock and ipc syscall for s390 architecture" patch for now;
+    upstream has security concerns with it and it doesn't currently seem to
+    be needed.
+  * Mark openssh-sftp-server, openssh-tests, ssh, and ssh-askpass-gnome as
+    Multi-Arch: foreign; none of them provide any architecture-dependent
+    interfaces.
+
+ -- Colin Watson <cjwatson@debian.org>  Wed, 11 Dec 2019 23:53:49 +0000
+
 openssh (1:8.1p1-1) unstable; urgency=medium
 
   * New upstream release (https://www.openssh.com/txt/release-8.1):
