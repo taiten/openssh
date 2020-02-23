@@ -1,3 +1,18 @@
+openssh (1:8.2p1-3) unstable; urgency=medium
+
+  * Reupload with -sa to work around confusion with 1:8.2p1-1 being in NEW.
+
+ -- Colin Watson <cjwatson@debian.org>  Sun, 23 Feb 2020 13:30:01 +0000
+
+openssh (1:8.2p1-2) unstable; urgency=medium
+
+  * Move ssh-sk-helper into openssh-client rather than shipping it in a
+    separate package.  The extra library dependencies are pretty small, so
+    it doesn't seem worth bloating the Packages file.  Suggested by Bastian
+    Blank.
+
+ -- Colin Watson <cjwatson@debian.org>  Sun, 23 Feb 2020 11:31:31 +0000
+
 openssh (1:8.2p1-1) unstable; urgency=medium
 
   * New upstream release (https://www.openssh.com/txt/release-8.2, closes:
