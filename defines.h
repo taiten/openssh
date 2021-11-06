@@ -134,6 +134,12 @@ enum
 # endif
 #endif /* HOST_NAME_MAX */
 
+#ifndef MAXHOSTNAMELEN
+# if defined(_POSIX_HOST_NAME_MAX)
+#  define MAXHOSTNAMELEN _POSIX_HOST_NAME_MAX
+# endif
+#endif /* MAXHOSTNAMELEN */
+
 #if defined(HAVE_DECL_MAXSYMLINKS) && HAVE_DECL_MAXSYMLINKS == 0
 # define MAXSYMLINKS 5
 #endif
@@ -302,6 +308,12 @@ typedef long long intmax_t;
 
 #ifndef HAVE_UINTMAX_T
 typedef unsigned long long uintmax_t;
+#endif
+
+#if SIZEOF_TIME_T == SIZEOF_LONG_LONG_INT
+# define SSH_TIME_T_MAX LLONG_MAX
+#else
+# define SSH_TIME_T_MAX INT_MAX
 #endif
 
 #ifndef HAVE_U_CHAR
@@ -894,4 +906,11 @@ struct winsize {
 # define USE_SYSTEM_GLOB
 #endif
 
+/*
+ * sntrup761 uses variable length arrays and c99-style declarations after code,
+ * so only enable if the compiler supports them.
+ */
+#if defined(VARIABLE_LENGTH_ARRAYS) && defined(VARIABLE_DECLARATION_AFTER_CODE)
+# define USE_SNTRUP761X25519 1
+#endif
 #endif /* _DEFINES_H */
