@@ -1,3 +1,10 @@
+openssh (1:8.7p1-2) unstable; urgency=medium
+
+  * Backport from upstream:
+    - Avoid NULL deref in -Y find-principals (closes: #999593).
+
+ -- Colin Watson <cjwatson@debian.org>  Sat, 13 Nov 2021 13:40:50 +0000
+
 openssh (1:8.7p1-1) unstable; urgency=medium
 
   * debian/upstream/signing-key.asc: Update from upstream.
