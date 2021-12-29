@@ -1,3 +1,23 @@
+openssh (1:8.7p1-3) unstable; urgency=medium
+
+  * Include unit test binaries in openssh-tests even if building with
+    DEB_BUILD_OPTIONS=nocheck.
+  * Install built version of sshd_config, with corrected PATH and PidFile.
+  * Upgrade to debhelper v13.
+  * debian/copyright: Use HTTPS in Source field.
+  * Update renamed Lintian tag name in Lintian override.
+  * debian/watch: Upgrade to version 4.
+  * Clarify instructions for using socket activation to avoid accidental
+    attempts to start the non-socket-activated service that can result in
+    systems without a running sshd (closes: #1001320).
+  * Remove maintainer script code for upgrades from before Debian 9.
+  * Make the sysvinit script provide "ssh" as well as "sshd".
+  * Set Rules-Requires-Root: no.
+  * Use dh_installalternatives.
+  * Simplify some debhelper overrides slightly.
+
+ -- Colin Watson <cjwatson@debian.org>  Wed, 29 Dec 2021 01:12:00 +0000
+
 openssh (1:8.7p1-2) unstable; urgency=medium
 
   * Backport from upstream:
@@ -310,7 +330,7 @@ openssh (1:8.4p1-1) unstable; urgency=medium
       generating a FIDO resident key.
     - ssh-keygen(1): the format of the attestation information optionally
       recorded when a FIDO key is generated has changed. It now includes the
-      authenticator data needed to validate attestation signatures. 
+      authenticator data needed to validate attestation signatures.
     - The API between OpenSSH and the FIDO token middleware has changed and
       the SSH_SK_VERSION_MAJOR version has been incremented as a result.
       Third-party middleware libraries must support the current API version
