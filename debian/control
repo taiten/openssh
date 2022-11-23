@@ -1,7 +1,8 @@
 Source: openssh
 Section: net
 Priority: standard
-Maintainer: Debian OpenSSH Maintainers <debian-ssh@lists.debian.org>
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+XSBC-Original-Maintainer: Debian OpenSSH Maintainers <debian-ssh@lists.debian.org>
 Build-Depends: debhelper (>= 13.1~),
                debhelper-compat (= 13),
                dh-exec,
