@@ -1,3 +1,11 @@
+openssh (1:8.9p1-3ubuntu0.1) jammy; urgency=medium
+
+  * d/p/fix-poll-spin.patch: Fix poll(2) spin when a channel's output
+    fd closes without data in the channel buffer.
+    (LP: #1986521)
+
+ -- Bryce Harrington <bryce@canonical.com>  Tue, 22 Nov 2022 23:38:19 -0800
+
 openssh (1:8.9p1-3) unstable; urgency=medium
 
   * Allow ppoll_time64 in seccomp filter (closes: #1006445).
