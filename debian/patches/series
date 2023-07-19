@@ -27,3 +27,6 @@ conch-ssh-rsa.patch
 improve-zero-call-used-regs-detection.patch
 sandbox-ppoll_time64.patch
 fix-poll-spin.patch
+CVE-2023-38408-1.patch
+CVE-2023-38408-2.patch
+CVE-2023-38408-3.patch
