@@ -1,3 +1,17 @@
+openssh (1:8.9p1-3ubuntu0.3) jammy-security; urgency=medium
+
+  * SECURITY UPDATE: remote code execution relating to PKCS#11 providers
+    - debian/patches/CVE-2023-38408-1.patch: terminate process if requested
+      to load a PKCS#11 provider that isn't a PKCS#11 provider in
+      ssh-pkcs11.c.
+    - debian/patches/CVE-2023-38408-2.patch: disallow remote addition of
+      FIDO/PKCS11 provider in ssh-agent.1, ssh-agent.c.
+    - debian/patches/CVE-2023-38408-3.patch: ensure FIDO/PKCS11 libraries
+      contain expected symbols in misc.c, misc.h, ssh-pkcs11.c, ssh-sk.c.
+    - CVE-2023-38408
+
+ -- Marc Deslauriers <marc.deslauriers@ubuntu.com>  Wed, 19 Jul 2023 15:41:52 -0400
+
 openssh (1:8.9p1-3ubuntu0.1) jammy; urgency=medium
 
   * d/p/fix-poll-spin.patch: Fix poll(2) spin when a channel's output
