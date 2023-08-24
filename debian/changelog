@@ -1,3 +1,12 @@
+openssh (1:8.9p1-3ubuntu0.4) jammy; urgency=medium
+
+  * d/p/fix-authorized-principals-command.patch: Fix the situation where
+    sshd ignores AuthorizedPrincipalsCommand if AuthorizedKeysCommand
+    is also set by checking if the value pointed to by the pointer
+    'charptr' is NULL. (LP: #2031942)
+
+ -- Michal Maloszewski <michal.maloszewski@canonical.com>  Thu, 24 Aug 2023 15:40:24 +0200
+
 openssh (1:8.9p1-3ubuntu0.3) jammy-security; urgency=medium
 
   * SECURITY UPDATE: remote code execution relating to PKCS#11 providers
