@@ -31,3 +31,5 @@ CVE-2023-38408-1.patch
 CVE-2023-38408-2.patch
 CVE-2023-38408-3.patch
 fix-authorized-principals-command.patch
+CVE-2023-48795.patch
+CVE-2023-28531.patch
