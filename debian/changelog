@@ -1,3 +1,16 @@
+openssh (1:8.9p1-3ubuntu0.5) jammy-security; urgency=medium
+
+  * SECURITY UPDATE: Prefix truncation attack on BPP
+    - debian/patches/CVE-2023-48795.patch: implement "strict key exchange"
+      in PROTOCOL, kex.c, kex.h, packet.c, sshconnect2.c, sshd.c.
+    - CVE-2023-48795
+  * SECURITY UPDATE: smartcard constraints not added to agent
+    - debian/patches/CVE-2023-28531.patch: include destination constraints
+      for smartcard keys too in authfd.c.
+    - CVE-2023-28531
+
+ -- Marc Deslauriers <marc.deslauriers@ubuntu.com>  Mon, 18 Dec 2023 11:28:16 -0500
+
 openssh (1:8.9p1-3ubuntu0.4) jammy; urgency=medium
 
   * d/p/fix-authorized-principals-command.patch: Fix the situation where
