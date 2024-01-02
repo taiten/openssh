@@ -1,3 +1,16 @@
+openssh (1:8.9p1-3ubuntu0.6) jammy-security; urgency=medium
+
+  * SECURITY UPDATE: incomplete PKCS#11 destination constraints
+    - debian/patches/CVE-2023-51384.patch: apply destination constraints to
+      all p11 keys in ssh-agent.c.
+    - CVE-2023-51384
+  * SECURITY UPDATE: command injection via shell metacharacters
+    - debian/patches/CVE-2023-51385.patch: ban user/hostnames with most
+      shell metacharacters in ssh.c.
+    - CVE-2023-51385
+
+ -- Marc Deslauriers <marc.deslauriers@ubuntu.com>  Tue, 02 Jan 2024 11:54:04 -0500
+
 openssh (1:8.9p1-3ubuntu0.5) jammy-security; urgency=medium
 
   * SECURITY UPDATE: Prefix truncation attack on BPP
