@@ -16,12 +16,20 @@ have it merged into the main openssh package rather than having separate
 -krb5 packages (as we used to have).  It seems to have a generally good
 security history.
 
+2024-03-13 update:
+Upstream commit dbb339f015c33d63484261d140c84ad875a9e548 ("prepare for
+multiple names for authmethods") changed the Authmethod structure to
+incorporate a new element "synonym", and also changed the signature of the
+userauth_gssapi function to have an extra method parameter. These changes need
+to be replicated to the gsskeyex patch.
+This fixes LP: #2053146
+
 Author: Simon Wilkinson <simon@sxw.org.uk>
 Author: Colin Watson <cjwatson@debian.org>
 Author: Jakub Jelen <jjelen@redhat.com>
 Origin: other, https://github.com/openssh-gsskex/openssh-gsskex/pull/23
 Bug: https://bugzilla.mindrot.org/show_bug.cgi?id=1242
-Last-Updated: 2022-02-23
+Last-Updated: 2024-03-13
 
 Patch-Name: gssapi.patch
 ---
@@ -265,7 +273,7 @@ index 2062609d9..4566d425c 100644
 + * The 'gssapi_keyex' userauth mechanism.
 + */
 +static int
-+userauth_gsskeyex(struct ssh *ssh)
++userauth_gsskeyex(struct ssh *ssh, const char *method)
 +{
 +	Authctxt *authctxt = ssh->authctxt;
 +	int r, authenticated = 0;
@@ -326,12 +334,13 @@ index 2062609d9..4566d425c 100644
  	else
  		logit("GSSAPI MIC check failed");
  
-@@ -327,6 +371,12 @@ input_gssapi_mic(int type, u_int32_t plen, struct ssh *ssh)
+@@ -327,6 +371,13 @@ input_gssapi_mic(int type, u_int32_t plen, struct ssh *ssh)
  	return 0;
  }
  
 +Authmethod method_gsskeyex = {
 +	"gssapi-keyex",
++	NULL,
 +	userauth_gsskeyex,
 +	&options.gss_authentication
 +};
