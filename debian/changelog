@@ -1,3 +1,14 @@
+openssh (1:8.9p1-3ubuntu0.7) jammy; urgency=medium
+
+  * d/p/gssapi.patch: fix method_gsskeyex structure and
+    userauth_gsskeyex function regarding changes introduced in upstream
+    commit dbb339f015c33d63484261d140c84ad875a9e548 ("prepare for
+    multiple names for authmethods") (LP: #2053146)
+  * d/t/{ssh-gssapi,util}: ssh-gssapi DEP8 test for gssapi-with-mic
+    and gssapi-keyex authentication methods
+
+ -- Andreas Hasenack <andreas@canonical.com>  Fri, 15 Mar 2024 17:28:22 -0300
+
 openssh (1:8.9p1-3ubuntu0.6) jammy-security; urgency=medium
 
   * SECURITY UPDATE: incomplete PKCS#11 destination constraints
