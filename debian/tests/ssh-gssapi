@@ -14,7 +14,9 @@ service_principal="host/${myhostname}"
 source debian/tests/util
 
 cleanup() {
-    if [ $? -ne 0 ]; then
+    result=$?
+    set +e
+    if [ ${result} -ne 0 ]; then
         echo "## Something failed"
         echo
         echo "## klist"
